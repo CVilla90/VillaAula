@@ -86,7 +86,16 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
   accents. Signature = the hero headline is a live fill-in-the-blank exercise ("English that
   finally ⟦clicks⟧" → types in, turns teal + check) plus a product preview card. Four-levels
   section maps to the real §9 grammar spine. **Pending Carlos's brand approval.**
-- ⏭ **On approval:** run autonomously (loop) through Phase 1 (Unit 1 learner runtime) per §3.
+- ✅ Landing approved by Carlos; running autonomously via `/loop` (dynamic mode) to finish
+  through Phase 1.
+- ✅ **Phase 1 — data layer done:** `src/lib/types.ts` (content schema §7),
+  `src/lib/grading.ts` (`normalize` + `gradeQuestion` for all 4 types),
+  `src/content/level1.ts` (original Unit 1 — 5 lessons: to-be / numbers+age /
+  greetings+pronouns / colors / people+jobs; exercises use MCQ, open, true/false, match
+  + 2 short readings; `courses` + `getCourse(slug)` helpers). `tsc --noEmit` clean.
+- ⏭ **Phase 1 — next:** exercise UI (4 question-type widgets + grader wiring), routes
+  (`/levels` real, `/level/[slug]` intro+syllabus, `/level/[slug]/unit/[u]/lesson/[slug]`
+  player), expandable grammar note, `localStorage` progress, then polish.
 - ⚠️ Next.js 16 is newer than the agent's training; see repo `AGENTS.md` (it points to
   `node_modules/next/dist/docs/`). Only stable App Router basics used so far.
 
