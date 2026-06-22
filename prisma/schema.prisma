@@ -1,0 +1,49 @@
+// WISHUB data — Phase 3 platform spine.
+// Content (courses/units/lessons/questions) still lives in typed TS files
+// (src/content/*) for now; only users + their progress are persisted here.
+// Ships on Replit with its default Postgres (DATABASE_URL provided by Replit).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// A learner or admin. Supports BOTH auth paths on one row:
+///  - manual account  → username + passwordHash (email optional, no verification)
+///  - Google account   → googleId + email (username optional)
+/// Either column may be null; both are unique so accounts can be linked by email later.
+model User {
+  id           String     @id @default(cuid())
+  username     String?    @unique
+  email        String?    @unique
+  /// Display name used in greetings and on the diploma; editable by the learner.
+  name         String?
+  /// bcrypt hash for manual accounts; null for Google-only accounts.
+  passwordHash String?
+  /// Google "sub" claim for OAuth accounts; null for manual-only accounts.
+  googleId     String?    @unique
+  image        String?
+  /// admin | teacher | student | guest. Admin is also enforced via ADMIN_EMAILS env.
+  role         String     @default("student")
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  progress     Progress[]
+}
+
+/// One row per completed unit of progress. `key` mirrors the localStorage keys
+/// exactly ("courseSlug/unitSlug/lessonSlug", "final:slug", "course:slug"), so the
+/// localStorage → DB migration is a straight insert of the existing key set.
+model Progress {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  key         String
+  completedAt DateTime @default(now())
+
+  @@unique([userId, key])
+  @@index([userId])
+}

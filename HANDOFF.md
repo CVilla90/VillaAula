@@ -89,9 +89,34 @@ spine & harden L1→diploma → (3) real edge-tts audio → (4) Level 2.
   - **Open answers: press Enter to check** (was click-only).
   - Landing copy: dropped the soon-to-be-false "No account needed" / "No sign-up" lines.
   - ✅ `tsc`, `eslint`, and `next build` all green.
-- ⏭ **Next iter:** finish any remaining UI/UX nits, then begin step 2 — Prisma schema +
-  Replit Postgres + dual auth (manual signup + Google) + server-persisted progress/diploma,
-  with graceful fallback when env (DATABASE_URL / GOOGLE_*) is absent so local dev still runs.
+- ✅ **Iter 2 — platform spine foundation (step 2, part 1):**
+  - **Two version decisions forced by brand-new tooling (both deliberate, for a feature
+    that can't be live-tested in the loop):**
+    1. **Auth = first-party, NOT NextAuth.** Next 16 renamed `middleware.ts`→`proxy.ts` and
+       made `cookies()` async; its own auth guide now recommends a `jose` JWT-in-httpOnly-cookie
+       + Server Actions + bcrypt pattern. NextAuth v5 (beta) on Next 16 is an untestable gamble,
+       so we use the documented first-party pattern. Google OAuth will be a plain
+       authorization-code flow with `fetch` (no fragile lib).
+    2. **Prisma pinned to v6 (6.19.3).** Prisma 7 dropped `url` from the schema datasource
+       (requires driver adapters + `prisma.config.ts`) — newer than training, more moving parts.
+       v6 is stable, matches Carlos's Atina setup, works on Replit.
+  - Deps added: `jose`, `bcryptjs`, `@prisma/client`/`prisma` v6 (+ `@types/bcryptjs`).
+  - `prisma/schema.prisma`: **User** (one row supports BOTH manual `username`+`passwordHash`
+    AND Google `googleId`+`email`; both unique+nullable so accounts link by email later;
+    `role`) + **Progress** (`@@unique([userId, key])`, `key` mirrors the localStorage keys
+    exactly so migration is a straight insert). Client generated.
+  - `src/lib/db.ts`: lazy Prisma singleton (never constructed without `DATABASE_URL`, which
+    would throw) + `dbConfigured()`.
+  - `src/lib/auth/`: `session.ts` (jose sign/verify, async `cookies()`, `authConfigured()` =
+    DB **and** `AUTH_SECRET`), `password.ts` (bcrypt), `users.ts` (DAL `getCurrentUser()` +
+    `ADMIN_EMAILS` allowlist). All inert when env is absent → local dev runs unchanged.
+  - `.env.example` (DATABASE_URL, AUTH_SECRET, NEXT_PUBLIC_APP_URL, GOOGLE_*, ADMIN_EMAILS);
+    `.gitignore` un-ignores `.env.example`. `package.json`: `postinstall: prisma generate` +
+    `db:push`/`db:migrate`/`db:studio`. ✅ `tsc` + `next build` green.
+- ⏭ **Next iter:** signup/login Server Actions + `/api/auth/google` + `/api/auth/google/callback`
+  route handlers, auth UI (`/login`, `/signup`), a session-aware nav (real Log in / avatar /
+  log out), then server-persisted progress (server actions + a unified progress hook that uses
+  the DB when signed in, else localStorage) and the diploma name from the account.
 
 ### 2026-06-22 — Session 2 (Phase 2 learner path)
 - ✅ **Level 1 expanded to Units 1–4:** added `src/content/level1-phase2.ts` with original
