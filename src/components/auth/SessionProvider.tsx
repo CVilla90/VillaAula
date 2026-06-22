@@ -6,9 +6,15 @@ import { createContext, useContext } from "react";
 export interface SessionUser {
   signedIn: boolean;
   name: string | null;
+  /** Whether accounts are configured at all (DB + AUTH_SECRET present). */
+  authEnabled: boolean;
 }
 
-const SessionContext = createContext<SessionUser>({ signedIn: false, name: null });
+const SessionContext = createContext<SessionUser>({
+  signedIn: false,
+  name: null,
+  authEnabled: false,
+});
 
 export function SessionProvider({
   value,

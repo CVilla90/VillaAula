@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCourse } from "@/content/level1";
 import Syllabus from "@/components/Syllabus";
+import SaveProgressNudge from "@/components/auth/SaveProgressNudge";
 
 export default async function LevelPage({
   params,
@@ -27,6 +28,7 @@ export default async function LevelPage({
         {course.title}
       </h1>
       <p className="mt-4 leading-relaxed text-muted">{course.intro}</p>
+      <SaveProgressNudge />
       <Syllabus course={course} />
     </main>
   );

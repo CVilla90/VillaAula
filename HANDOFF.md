@@ -151,9 +151,21 @@ spine & harden L1→diploma → (3) real edge-tts audio → (4) Level 2.
     with env" would show a stale logged-out nav — not a normal flow.
   - ⚠️ Still **untested live** (no DB/creds in loop). Carlos on Replit: set env (DATABASE_URL,
     AUTH_SECRET, NEXT_PUBLIC_APP_URL, optionally GOOGLE_*) → `npm run db:push` → deploy.
-- ⏭ **Next iter:** finish step 2 by **hardening the full L1→diploma path** (re-read every flow,
-  fix edge cases, confirm progress/diploma gating with both auth states), then move to step 3
-  (real edge-tts audio assets) and step 4 (Level 2 content) as budget allows.
+- ✅ **Iter 5 — end-to-end hardening (step 2 complete):**
+  - Re-read the whole L1 flow: lesson route, final-test route, `/levels`, level hub, conclusion.
+    All use async `params` + `notFound()` correctly; nav links/targets are consistent.
+  - Verified **no progress-key collisions** (all unit slugs `1–4`, all lesson slugs unique) and
+    the gating logic: lesson "complete" = all questions attempted (lenient by design), but the
+    **diploma still requires passing the 12-question final at ≥10**, so it stays meaningful.
+  - Added **`SaveProgressNudge`**: a subtle guest-only banner (shown only when accounts are
+    enabled) on the level hub + conclusion, linking to `/login`/`/signup` with `next` set to the
+    current path. Extended the session context with `authEnabled`.
+  - Added **§17 — a Replit go-live runbook** so Carlos can flip auth/DB on.
+  - ✅ `tsc` + `eslint` + `next build` green.
+- ⏭ **Next iter:** **step 3 — real edge-tts audio.** Generate persistent MP3s (reuse BoardCraft's
+  `edge-tts` pipeline) for the audio/read-aloud blocks, drop them in `public/`, set `mediaUrl`
+  on those Content blocks (the player already prefers `<audio>` when `mediaUrl` exists). Then
+  step 4 (Level 2 content) as budget allows.
 
 ### 2026-06-22 — Session 2 (Phase 2 learner path)
 - ✅ **Level 1 expanded to Units 1–4:** added `src/content/level1-phase2.ts` with original
@@ -529,4 +541,30 @@ screenshots live in `reference/`.
   UACH project. Don't mix branding or claims across those lines.
 - **Frontend quality is the product.** When trading off, favor learner UX polish.
 - **Keep this HANDOFF current** — append to §2 Status Log every session.
-```
+
+---
+
+## 17. DEPLOY / AUTH SETUP RUNBOOK (Replit) — for Carlos
+
+Dual auth + server-persisted progress is **built but untested live** (the loop has no DB or
+OAuth creds). To turn it on:
+
+1. **Add Postgres** on Replit (built-in PostgreSQL) → it sets `DATABASE_URL` automatically.
+2. **Set Secrets** (Replit "Secrets" = env vars):
+   - `AUTH_SECRET` — `openssl rand -base64 32`, paste the output.
+   - `NEXT_PUBLIC_APP_URL` — the deploy URL, e.g. `https://wishub.<user>.replit.app`.
+   - `ADMIN_EMAILS` — `cavilla@uach.mx` (default).
+   - *(optional)* `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` for Google sign-in.
+3. **Create the tables**: `npm run db:push` (idempotent; no migrations folder needed yet).
+4. **(optional) Google OAuth**: at <https://console.cloud.google.com/apis/credentials> create
+   an OAuth 2.0 **Web** client. The Authorized redirect URI must be **exactly**
+   `<NEXT_PUBLIC_APP_URL>/api/auth/google/callback`. Without these secrets the
+   "Continue with Google" button just hides; username/password still works.
+5. **Deploy** (Autoscale). `postinstall` runs `prisma generate`. Keep the Secrets present at
+   build time (Replit does) so the cookie-reading layout renders dynamically.
+6. **Smoke test live**: sign up (username+password) → redirect to `/levels` → finish a lesson →
+   reload → progress persists → (if configured) try Google → pass the final check → download
+   the diploma. Check Replit logs if anything misbehaves.
+
+Without any of this, the app still runs in **guest/localStorage mode** (no accounts), so
+local dev and a no-DB deploy both keep working.

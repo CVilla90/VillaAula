@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCourse } from "@/content/level1";
 import DiplomaPanel from "@/components/DiplomaPanel";
+import SaveProgressNudge from "@/components/auth/SaveProgressNudge";
 
 export default async function ConclusionPage({
   params,
@@ -31,6 +32,7 @@ export default async function ConclusionPage({
         Review your completion status and download your diploma when the full
         level is complete.
       </p>
+      <SaveProgressNudge />
       <DiplomaPanel course={course} />
     </main>
   );
