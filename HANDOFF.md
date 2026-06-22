@@ -23,7 +23,9 @@
   All four `/loop` steps (UI/UX → platform spine → audio → Level 2) are complete; build+lint green.
   **Next action (Carlos):** follow **§17** to turn on auth/DB on Replit (Postgres + secrets +
   `npm run db:push`) and smoke-test live — the auth/OAuth/DB runtime is the one thing the loop
-  couldn't test. Then optional round-2 dev (Level 2 audio, expand L2 to 4 units, admin authoring).
+  couldn't test. **The forward plan is now §18 (ROADMAP)** — speaking exercises (reuse
+  AudioReviewer), AI-first authoring, tightened login-gating, real Level 2–4 curricula (pending
+  Carlos's `s2`/`s3`/`s4` uploads), mobile/PWA, and the `CVilla90` repo.
 - **Deadline pressure:** Carlos starts the first formal class **today (2026-06-22)**.
   Goal = something real and usable for Level 1, even if rough. Dirty hardcoding is OK.
 
@@ -345,6 +347,9 @@ without rework because the data shapes are fixed up front.
   accents, optional accepted-answers/synonyms list, optional case sensitivity flag).
   Gemini semantic grading is a **Phase 3+** fallback, behind a per-question flag. No API
   keys needed now.
+  > **Update (2026-06-22):** AI is no longer *permanently* deferred. The §18 roadmap brings
+  > **Gemini** in for **speaking grading (§18.C)** and **AI-first content authoring (§18.D)** —
+  > a future phase needing `GEMINI_API_KEY`. Text MCQ/open/T-F/match stay deterministic.
 - **Audio:** `edge-tts` (free, no key), **pre-generated at authoring time** → stored MP3.
   **Speed knob** for beginners = HTML5 `audio.playbackRate` (modern browsers preserve
   pitch) and/or pre-rendered slow track via edge-tts `rate`. (Deferred to Phase 2.)
@@ -433,8 +438,10 @@ Course (a level, 1–4)
 - `multiple_choice`: `{ options: {id,text}[], correctIds: string[], shuffle:bool }`
 - `true_false`: `{ correct: boolean }`
 - `match`: `{ pairs: {left, right}[], shuffleRight:bool }`
+- *(planned)* `speaking`: `{ target: string, acceptedAnswers: string[], maxSeconds, level }` — learner
+  records audio; AI transcribes + grades (lenient at L1). See §18.C.
 
-Keeping the four types in one `Question` table via JSON `config` avoids schema churn.
+Keeping the types in one `Question` table via JSON `config` avoids schema churn.
 For the MVP TS-file version, model these as TS types/interfaces with the same shape.
 
 ---
@@ -514,7 +521,15 @@ video/lesson tool. **Reuse its audio pipeline for WISHUB:**
 - **Integration options for WISHUB:** (a) call edge-tts from Node via a port like
   `msedge-tts`/`node-edge-tts`, or (b) batch-generate MP3s with BoardCraft's Python scripts
   at authoring time and drop the files into WISHUB storage/`public/`. Either way audio is
-  pre-generated, not runtime.
+  pre-generated, not runtime. **(DONE in this repo:** `tools/generate_audio.py` does exactly (b).)
+
+**AudioReviewer** (`C:\Users\carlo\code\Brainstorm\AudioReviewer`) — Carlos's ~2025 **ESL speaking /
+pronunciation** app (A1–C2). Stack: React+TS+Tailwind+shadcn front · Express + **Google Gemini** +
+Drizzle + Postgres back · Multer audio uploads. **Reuse for WISHUB speaking exercises (§18.C):**
+- `server/services/gemini.ts` — level-appropriate question generation + pronunciation analysis.
+- the **audio-recorder** component (browser MediaRecorder) and `shared/schema.ts`.
+- Port *concepts* to WISHUB's Next 16 + Prisma stack (don't copy Drizzle/Express). Brings in a
+  `GEMINI_API_KEY` (AI was deferred in the MVP — see §4).
 
 ---
 
@@ -534,22 +549,34 @@ video/lesson tool. **Reuse its audio pipeline for WISHUB:**
 
 ## 12. ADMIN & ACCESS RULES
 
-- **Super-admin:** `cavilla@uach.mx`, set via an env allowlist (survives DB resets).
+- **Super-admin:** Carlos — `ADMIN_EMAILS="cavilla@uach.mx,carlosavillah90@gmail.com"` (env
+  allowlist, survives DB resets).
 - **Roles:** `admin` | `teacher` | `student` | `guest`.
-- **Guests:** controlled per course by `Course.acceptsGuests` (admin toggle).
-- Admin can **create / edit / remove** courses, units, lessons, content blocks, questions
-  (Phase 3 authoring UI).
+- **Login REQUIRED to save progress, save exam grades, and get a diploma** (decision 2026-06-22,
+  see §18.E). The diploma name is the **account name** — no free-text input. Guests may try
+  lessons but nothing persists and no diploma.
+- **Google OAuth is open to ALL Google accounts** (no domain restriction) — the friend can use any
+  personal Gmail.
+- Admin can **create / edit / remove** courses/units/lessons/content/questions — but the intended
+  primary path is **AI-first generation**, with manual CRUD as the rare fallback (see §18.D).
 
 ---
 
 ## 13. OPEN DECISIONS / PENDING ON CARLOS
 
-- [ ] **Design vibe** — confirm "Warm & encouraging + subtle gamification" or pick another.
-- [ ] **Domains** — buy `wishub.mx` (+ `wishub.io`); run final trademark check.
-- [ ] **Deploy target** — Vercel vs Replit Autoscale (decide before Phase 3 deploy).
-- [ ] **Auth provider** — Google only, or also allow a guest/anon path for non-`@uach.mx`
-      friends (the friend may not have a uach.mx account).
-- [ ] **Object storage** choice for audio/images (Supabase / R2 / Replit) — Phase 2/3.
+**Resolved:** design vibe (warm coral, approved) · deploy target (**Replit + its Postgres**) ·
+auth (**dual: manual + Google open to all accounts**) · audio (edge-tts, pre-generated to
+`public/`).
+
+**Pending on Carlos (blocks the §18 roadmap):**
+- [ ] **Upload real curricula** to `WISHUB/reference/` as `s2` / `s3` / `s4` (Levels 2/3/4) —
+      current Level 2 is a provisional CEFR inference (§18.A).
+- [ ] **Create the personal GitHub repo `CVilla90/…`** and do the first push (§18.H).
+- [ ] **Go live on Replit** per §17 (Postgres + secrets + `db:push`), then smoke-test auth.
+- [ ] **`GEMINI_API_KEY`** when speaking grading / AI-first authoring start (§18.C/D).
+- [ ] Confirm guest UX once login-gating tightens (§18.E): can guests preview lessons at all?
+- [ ] (lower priority) Domains `wishub.mx`/`wishub.io` + trademark check; object storage choice
+      (Supabase / R2 / Replit) if audio/images outgrow `public/`.
 
 ---
 
@@ -616,3 +643,77 @@ OAuth creds). To turn it on:
 
 Without any of this, the app still runs in **guest/localStorage mode** (no accounts), so
 local dev and a no-DB deploy both keep working.
+
+---
+
+## 18. ROADMAP — post-loop directions (planned 2026-06-22, Carlos)
+
+> Captured for a future session. **No build started on these yet.** Several are **blocked on
+> Carlos** (curriculum uploads, repo, Gemini key). Items A–B come first — they reshape content.
+
+### A. Real curricula replace the inferred content (⛔ blocks Level 2–4 content work)
+- **Level 2 as shipped is PROVISIONAL** — it was built from a *generic CEFR A2 inference*, NOT
+  Carlos's actual program (the loop never had his Level 2 source). Treat current `level2.ts` as a
+  placeholder to be realigned, not the truth.
+- **Carlos uploads his real programs** to `WISHUB/reference/` as **`s2`** (Level 2), **`s3`**
+  (Level 3), **`s4`** (Level 4) — same role/format as `s1u1…s1u4` for Level 1. **§9 copyright
+  still applies**: follow the program's grammar/skill spine, write 100% original prompts/readings.
+- When `s2` lands → rebuild/realign Level 2 to match it. Then author **Levels 3 & 4** from `s3`/`s4`.
+
+### B. Level calibration — difficulty must match the level
+- **Level 1 = very basic** across every skill. Example: a **speaking** exercise at L1 asks for a
+  **single word or a short sentence** only; readings/prompts stay short. Complexity scales up by
+  level. Audit Level 1 (and realigned Level 2) against this once curricula arrive.
+
+### C. Speaking exercises + AI grading — reuse **AudioReviewer**
+- New **`speaking` question type**: the prompt asks the learner to *say* a target; they record via
+  the browser **MediaRecorder**; audio → server → **AI (Gemini)** transcribes + grades, with
+  optional pronunciation feedback. For L1, grade **leniently**: transcribe → reuse the existing
+  `normalize`/`gradeOpen` against accepted answers. Expectations scale with level.
+- **Reuse `Brainstorm/AudioReviewer`** (Carlos's ~2025 ESL pronunciation app; A1–C2, React+TS+
+  Tailwind+shadcn front / Express + **Gemini** + Drizzle + Postgres back). Mine its
+  `server/services/gemini.ts` (level-appropriate question generation + pronunciation analysis), its
+  audio-recorder component, and `shared/schema.ts`. **Port concepts** to WISHUB's Next 16 + Prisma
+  stack — don't copy Drizzle/Express directly.
+- ⚠️ This **reintroduces AI/Gemini**, which the MVP deferred (see §4). Needs `GEMINI_API_KEY`.
+  Use the latest Gemini model.
+
+### D. AI-first content authoring (the platform's authoring philosophy)
+- WISHUB is **AI-first for content**: Carlos (admin) will generate **~99% of content via an AI
+  agent**, hand-editing only rarely. So the planned "admin authoring UI" (§3 Phase 3.16) is
+  **reframed**: the *primary* path is **AI generation** — admin gives a topic / level / program
+  excerpt → an AI agent emits a `Course`/`Unit`/`Lesson`/`Question[]` that matches `lib/types.ts`
+  → admin reviews & approves → persist to DB. Manual CRUD is the **rare fallback**.
+- Learners are always **human**. The §7 content schema is the AI's output contract. Same Gemini
+  dependency as (C).
+
+### E. Auth gating tightened (decision 2026-06-22 — supersedes the guest-friendly model)
+- **Login is REQUIRED to: save progress, save exam grades, and generate a diploma.**
+- The **diploma name comes from the authenticated account** — **remove the free-text name input**
+  in `DiplomaPanel` (so anonymous users can't print diplomas under arbitrary names).
+- Guests may still *try* lessons, but **nothing persists and no diploma** — nudge them to log in
+  (the `SaveProgressNudge` exists; extend the gate to the diploma + grades). This updates §4/§12.
+- **Persist real exam grades** (score per attempt), not just a pass/fail completion key — extend
+  the data model (e.g. an `Attempt`/`ExamResult` row with score, or a score field on the final-test
+  progress).
+
+### F. Admin & Google OAuth
+- Admin = Carlos: **`ADMIN_EMAILS="cavilla@uach.mx,carlosavillah90@gmail.com"`**.
+- **Google OAuth open to all Google accounts** (no domain restriction — current code has no `hd`
+  param, so already open; just confirm). The friend can use any personal Gmail.
+
+### G. Mobile-first + PWA
+- Treat **mobile-first** as a guardrail — verify the learner flow holds on small screens.
+- Eventually ship a **PWA**: web app manifest + service worker, installable, offline caching of
+  lessons/audio. Milestone after content + auth are live.
+
+### H. Repo / ownership
+- Personal project → **personal GitHub `CVilla90`** (Carlos to create the repo). Strictly
+  **personal** — not Creai, not UACH. **Don't push until the repo exists.**
+
+### Suggested order once unblocked
+1. Carlos uploads `s2`/`s3`/`s4` + creates the `CVilla90` repo (+ first push).
+2. Realign Level 2 to `s2`; recalibrate Level 1 to "very basic" (B).
+3. Auth gating tightened (E) — small, no new deps, high value, unblocks trustworthy diplomas.
+4. Gemini integration → speaking exercises (C), then AI-first authoring (D).
+5. Levels 3 & 4 content (from `s3`/`s4`), then mobile/PWA polish (G).
