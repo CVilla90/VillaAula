@@ -40,3 +40,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# audio generation venv (throwaway; see tools/generate_audio.py)
+tools/.ttsenv/

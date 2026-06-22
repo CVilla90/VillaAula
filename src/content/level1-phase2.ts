@@ -172,6 +172,7 @@ export const phase2Units: Unit[] = [
                 transcript:
                   "Mia is reading a story. Ben is writing in his notebook. Two students are talking quietly.",
                 voice: "en-US-AvaMultilingualNeural",
+                mediaUrl: "/audio/u2-l3-a1.mp3",
               },
             },
             {
@@ -472,6 +473,7 @@ export const phase2Units: Unit[] = [
                 transcript:
                   "I wake up at seven. I eat breakfast at home. I study English in the evening.",
                 voice: "en-US-AndrewNeural",
+                mediaUrl: "/audio/u3-l2-a1.mp3",
               },
             },
             {
@@ -1002,6 +1004,7 @@ export const phase2Units: Unit[] = [
                 transcript:
                   "I can cook breakfast, but I can't bake bread. My sister can play guitar, and my brother can draw animals.",
                 voice: "en-US-AriaNeural",
+                mediaUrl: "/audio/u4-l5-a1.mp3",
               },
             },
             {

@@ -162,10 +162,17 @@ spine & harden L1→diploma → (3) real edge-tts audio → (4) Level 2.
     current path. Extended the session context with `authEnabled`.
   - Added **§17 — a Replit go-live runbook** so Carlos can flip auth/DB on.
   - ✅ `tsc` + `eslint` + `next build` green.
-- ⏭ **Next iter:** **step 3 — real edge-tts audio.** Generate persistent MP3s (reuse BoardCraft's
-  `edge-tts` pipeline) for the audio/read-aloud blocks, drop them in `public/`, set `mediaUrl`
-  on those Content blocks (the player already prefers `<audio>` when `mediaUrl` exists). Then
-  step 4 (Level 2 content) as budget allows.
+- ✅ **Iter 6 — real edge-tts audio (step 3 done):**
+  - `tools/generate_audio.py`: edge-tts generator (BoardCraft approach, HANDOFF §10). Run via a
+    **throwaway venv** `tools/.ttsenv/` (gitignored) made from `py -3` — deliberately NOT the
+    CreAI venv that `python` resolves to (worlds-stay-separate). `CLIPS` mirrors the audio blocks.
+  - Generated 3 MP3s → `public/audio/{u2-l3-a1,u3-l2-a1,u4-l5-a1}.mp3` (~28–48 KB), at **normal
+    rate** (the player owns speed: defaults to 0.75x, plus 1x/1.15x). Set `mediaUrl` on those
+    Content blocks, so `AudioBlock` now plays real `<audio>` instead of the speechSynthesis fallback.
+  - ✅ `tsc` + `next build` green. To regenerate: see the docstring in `tools/generate_audio.py`.
+- ⏭ **Next iter:** **step 4 — Level 2 content.** Author Level 2 as a new `Course` (the §9 spine
+  continues past A2, or a themed beginner+ track) following the same data shapes; add it to
+  `courses`, light up Level 2 on `/levels` + the landing. Keep content 100% original (§9).
 
 ### 2026-06-22 — Session 2 (Phase 2 learner path)
 - ✅ **Level 1 expanded to Units 1–4:** added `src/content/level1-phase2.ts` with original
