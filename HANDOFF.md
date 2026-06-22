@@ -113,10 +113,27 @@ spine & harden L1→diploma → (3) real edge-tts audio → (4) Level 2.
   - `.env.example` (DATABASE_URL, AUTH_SECRET, NEXT_PUBLIC_APP_URL, GOOGLE_*, ADMIN_EMAILS);
     `.gitignore` un-ignores `.env.example`. `package.json`: `postinstall: prisma generate` +
     `db:push`/`db:migrate`/`db:studio`. ✅ `tsc` + `next build` green.
-- ⏭ **Next iter:** signup/login Server Actions + `/api/auth/google` + `/api/auth/google/callback`
-  route handlers, auth UI (`/login`, `/signup`), a session-aware nav (real Log in / avatar /
-  log out), then server-persisted progress (server actions + a unified progress hook that uses
-  the DB when signed in, else localStorage) and the diploma name from the account.
+- ✅ **Iter 3 — dual auth surface (step 2, part 2):**
+  - **Server Actions** (`src/lib/auth/actions.ts`): `signupAction` (username 3–32 + password ≥8,
+    optional name/email; admin role auto-set from `ADMIN_EMAILS`; P2002 → "taken"),
+    `loginAction` (by username OR email; uniform error message), `logoutAction`. Redirects use
+    `safeNext` (same-origin only) and fire outside try/catch.
+  - **Google OAuth** (plain `fetch`, no lib): `GET /api/auth/google` sets a short-lived
+    `wishub_oauth` state cookie and redirects to consent; `GET /api/auth/google/callback`
+    verifies state, exchanges the code, reads `/userinfo`, upserts (by googleId → link by email
+    → create), and sets the session cookie on the `NextResponse`. `session.ts` refactored to
+    share `signSessionToken`/`SESSION_COOKIE`/`sessionCookieOptions` between both paths.
+  - **UI**: `/login` + `/signup` (`AuthForm` client comp via `useActionState`; `AuthShell`
+    chrome). Shows "Continue with Google" only when configured; when auth is unconfigured it
+    shows a friendly "accounts coming soon — progress saves on this device" card. OAuth error
+    codes surface as friendly copy. Landing "Log in" now → `/login`.
+  - ✅ `tsc` + `next build` green; routes `/login`, `/signup`, `/api/auth/google[/callback]`.
+  - ⚠️ **Untested live** (no DB/creds in the loop): the signup/login/OAuth *runtime* needs
+    Carlos to set env on Replit + `npm run db:push`. Logic is conventional + reviewed.
+- ⏭ **Next iter (the heart of "save his progress"):** server-persisted progress — a `Progress`
+  server action layer + a unified `useProgress` hook (DB when signed in, else localStorage) with
+  a one-time localStorage→DB merge on login; diploma learner-name defaults from the account;
+  session-aware nav (name/avatar + Log out). Then harden the full L1→diploma path end to end.
 
 ### 2026-06-22 — Session 2 (Phase 2 learner path)
 - ✅ **Level 1 expanded to Units 1–4:** added `src/content/level1-phase2.ts` with original
