@@ -201,8 +201,19 @@ spine & harden L1→diploma → (3) real edge-tts audio → (4) Level 2.
     emails aren't verified (by design — no email provider), linking Google↔manual by email is
     trusted at this small scale. Revisit if WISHUB ever opens to strangers.
   - ✅ `tsc` + `eslint` + `next build` green.
-- ⏭ **Next iter:** add **Level 2 audio** (one listening block per unit: add the Content blocks,
-  rerun `tools/generate_audio.py` with the new CLIPS, set `mediaUrl`) for parity with Level 1.
+- ✅ **Iter 9 — Level 2 audio (parity with Level 1).** Added a listening block + comprehension
+  question to Level 2 Unit 1 (*was/were*, `l2-u1-a1`) and Unit 2 (*going to*, `l2-u2-a1`),
+  extended `tools/generate_audio.py` CLIPS, generated both MP3s into `public/audio/`. Now 5
+  generated clips total. ✅ `tsc` + `next build` green.
+- 🏁 **Loop wound down here (2026-06-22).** All four planned steps + round-2 (review, audio
+  parity) are done and committed. Stopping autonomous iteration so the next big items get
+  explicit scope. **Open menu for next session / Carlos:**
+  1. **Go live** — the real unblock: follow **§17** on Replit (Postgres + secrets + `db:push`),
+     then smoke-test the auth/OAuth/progress runtime (the one thing untested in the loop).
+  2. **Admin authoring UI** (Phase 3, §3.16) — CRUD on courses/units/lessons/questions so content
+     isn't code-only. Largest remaining feature; worth scoping deliberately.
+  3. **Expand Level 2 to 4 units** for full parity with Level 1.
+  4. **Polish round 2** — a second visual sweep over the new auth pages + Level 2.
 
 ### 2026-06-22 — Session 2 (Phase 2 learner path)
 - ✅ **Level 1 expanded to Units 1–4:** added `src/content/level1-phase2.ts` with original

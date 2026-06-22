@@ -44,6 +44,29 @@ export const level2: Course = {
             title: "Practice: was / were",
             items: [
               {
+                kind: "content",
+                content: {
+                  id: "l2-u1-a1",
+                  type: "audio",
+                  title: "Listen: last weekend",
+                  transcript:
+                    "Last weekend was great. We were at the beach on Saturday, and the weather was warm and sunny.",
+                  voice: "en-US-AndrewNeural",
+                  mediaUrl: "/audio/l2-u1-a1.mp3",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "l2-u1-l1-q0",
+                  type: "open",
+                  prompt: "From the audio: the weather was warm and ___.",
+                  points: 1,
+                  config: { acceptedAnswers: ["sunny"], charLimit: 10 },
+                  explanation: "“…warm and **sunny**.”",
+                },
+              },
+              {
                 kind: "question",
                 question: {
                   id: "l2-u1-l1-q1",
@@ -357,6 +380,29 @@ export const level2: Course = {
             id: "l2-u2-l1-ex",
             title: "Practice: going to",
             items: [
+              {
+                kind: "content",
+                content: {
+                  id: "l2-u2-a1",
+                  type: "audio",
+                  title: "Listen: my plan",
+                  transcript:
+                    "Next month I'm going to start a new class. My sister is going to help me, and we're going to practice every evening.",
+                  voice: "en-US-AriaNeural",
+                  mediaUrl: "/audio/l2-u2-a1.mp3",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "l2-u2-l1-q0",
+                  type: "open",
+                  prompt: "From the audio: they're going to practice every ___.",
+                  points: 1,
+                  config: { acceptedAnswers: ["evening"], charLimit: 12 },
+                  explanation: "“…practice every **evening**.”",
+                },
+              },
               {
                 kind: "question",
                 question: {

@@ -42,6 +42,19 @@ CLIPS = [
         "text": "I can cook breakfast, but I can't bake bread. "
         "My sister can play guitar, and my brother can draw animals.",
     },
+    # Level 2
+    {
+        "id": "l2-u1-a1",
+        "voice": "en-US-AndrewNeural",
+        "text": "Last weekend was great. We were at the beach on Saturday, "
+        "and the weather was warm and sunny.",
+    },
+    {
+        "id": "l2-u2-a1",
+        "voice": "en-US-AriaNeural",
+        "text": "Next month I'm going to start a new class. My sister is going to "
+        "help me, and we're going to practice every evening.",
+    },
 ]
 
 
