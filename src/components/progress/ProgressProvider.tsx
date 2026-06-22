@@ -42,13 +42,13 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     async function load() {
       if (signedIn) {
         // First sign-in: fold any guest (localStorage) progress into the account.
+        // mergeProgressKeys returns the full key set, so no extra fetch is needed.
         const local = Object.keys(getLocalCompleted());
         try {
-          if (local.length) {
-            await mergeProgressKeys(local);
-            clearLocalCompleted();
-          }
-          const keys = await getProgressKeys();
+          const keys = local.length
+            ? await mergeProgressKeys(local)
+            : await getProgressKeys();
+          if (local.length) clearLocalCompleted();
           if (!cancelled) setCompleted(keysToRecord(keys));
         } catch {
           // DB hiccup — fall back to whatever is local so the UI still works.

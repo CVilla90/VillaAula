@@ -38,6 +38,9 @@ export async function GET(request: Request) {
   const prisma = getPrisma();
 
   // Find by Google id first, then link an existing account by email, else create.
+  // NOTE: linking by email assumes the manual signup's email is trustworthy. We
+  // don't verify emails (by design — no email provider yet), so at this small scale
+  // that's an accepted trade-off; revisit if WISHUB ever opens to strangers.
   let user = await prisma.user.findUnique({ where: { googleId: profile.sub } });
   if (!user && email) {
     user = await prisma.user.findUnique({ where: { email } });

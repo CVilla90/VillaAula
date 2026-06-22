@@ -190,6 +190,20 @@ spine & harden L1→diploma → (3) real edge-tts audio → (4) Level 2.
   - the **admin authoring UI** (Phase 3 item §3.16) so content isn't code-only,
   - a focused correctness review of the auth/OAuth/progress code before/after the first deploy.
 
+### 2026-06-22 — Session 3, round 2 (post-plan enhancements)
+- ✅ **Iter 8 — correctness review of the untested platform code.** Re-read auth actions,
+  session, both Google routes, progress actions/provider, DAL. **No hard bugs** — the flows
+  (signup/login/logout, OAuth state+exchange+upsert, cookie setting on Server Action vs Route
+  Handler responses, redirect-outside-try-catch, guarded DB access) are correct. Two changes:
+  - `ProgressProvider` first-login load did 2 DB round-trips (merge then fetch); now uses
+    `mergeProgressKeys`'s return directly → 1 round-trip.
+  - Documented the **email-linking trade-off** in the OAuth callback: because manual signup
+    emails aren't verified (by design — no email provider), linking Google↔manual by email is
+    trusted at this small scale. Revisit if WISHUB ever opens to strangers.
+  - ✅ `tsc` + `eslint` + `next build` green.
+- ⏭ **Next iter:** add **Level 2 audio** (one listening block per unit: add the Content blocks,
+  rerun `tools/generate_audio.py` with the new CLIPS, set `mediaUrl`) for parity with Level 1.
+
 ### 2026-06-22 — Session 2 (Phase 2 learner path)
 - ✅ **Level 1 expanded to Units 1–4:** added `src/content/level1-phase2.ts` with original
   beginner ESL lessons for articles, demonstratives, present continuous, possessives,
