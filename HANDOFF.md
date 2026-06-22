@@ -566,15 +566,15 @@ Drizzle + Postgres back · Multer audio uploads. **Reuse for WISHUB speaking exe
 
 **Resolved:** design vibe (warm coral, approved) · deploy target (**Replit + its Postgres**) ·
 auth (**dual: manual + Google open to all accounts**) · audio (edge-tts, pre-generated to
-`public/`).
+`public/`) · **guests may audit the full course but get no saved progress and no diploma**.
 
 **Pending on Carlos (blocks the §18 roadmap):**
 - [ ] **Upload real curricula** to `WISHUB/reference/` as `s2` / `s3` / `s4` (Levels 2/3/4) —
       current Level 2 is a provisional CEFR inference (§18.A).
 - [ ] **Create the personal GitHub repo `CVilla90/…`** and do the first push (§18.H).
 - [ ] **Go live on Replit** per §17 (Postgres + secrets + `db:push`), then smoke-test auth.
-- [ ] **`GEMINI_API_KEY`** when speaking grading / AI-first authoring start (§18.C/D).
-- [ ] Confirm guest UX once login-gating tightens (§18.E): can guests preview lessons at all?
+- [ ] **`GEMINI_API_KEY`** — Carlos will provide it; needed when speaking grading / AI-first
+      authoring start (§18.C/D).
 - [ ] (lower priority) Domains `wishub.mx`/`wishub.io` + trademark check; object storage choice
       (Supabase / R2 / Replit) if audio/images outgrow `public/`.
 
@@ -691,8 +691,9 @@ local dev and a no-DB deploy both keep working.
 - **Login is REQUIRED to: save progress, save exam grades, and generate a diploma.**
 - The **diploma name comes from the authenticated account** — **remove the free-text name input**
   in `DiplomaPanel` (so anonymous users can't print diplomas under arbitrary names).
-- Guests may still *try* lessons, but **nothing persists and no diploma** — nudge them to log in
-  (the `SaveProgressNudge` exists; extend the gate to the diploma + grades). This updates §4/§12.
+- **Guests are welcome to *audit* the full course** — read/try every lesson — but **nothing
+  persists and no diploma** (confirmed 2026-06-22). Nudge them to log in to save (the
+  `SaveProgressNudge` exists; extend the gate to the diploma + grades). This updates §4/§12.
 - **Persist real exam grades** (score per attempt), not just a pass/fail completion key — extend
   the data model (e.g. an `Attempt`/`ExamResult` row with score, or a score field on the final-test
   progress).
@@ -710,6 +711,24 @@ local dev and a no-DB deploy both keep working.
 ### H. Repo / ownership
 - Personal project → **personal GitHub `CVilla90`** (Carlos to create the repo). Strictly
   **personal** — not Creai, not UACH. **Don't push until the repo exists.**
+
+### I. Content bank — reusable, re-organizable resources (nice-to-have, later phase)
+- **Goal:** as LMS admin, browse *every* resource (descriptions, readings, audio, speaking prompts,
+  questions) across all levels in one UI; **reorganize** them within lessons / units / levels
+  (move/drag); and **reuse** one resource (e.g. a Level 1 reading) inside another course (Level 2)
+  **without duplicating it**.
+- **DB model:** this finally realizes the **original §7 relational design** that the MVP inlined
+  into TS files. Detach into first-class tables — `Content` and `Question` are standalone reusable
+  rows; **`ExerciseItem` becomes a join** (`exerciseId`, `position`, `refType:'content'|'question'`,
+  `refId`). One resource row → referenced by many `ExerciseItem`s across courses.
+- **Preserve the "original semantic":** each resource keeps **provenance** (e.g. `originLessonId` /
+  tags / canonical topic), and the UI shows "used in: L1·U1·to-be, L2·U3·…" so an admin/professor
+  sees where it came from and everywhere it's reused. Editing a shared resource should **warn it
+  affects all usages** (or support copy-on-edit / versioning).
+- **Builds on:** the TS→Postgres content migration (§3 Phase 3.14) is the prerequisite; AI-first
+  authoring (§18.D) generates *into* this bank; the admin UI (§18.D) browses/reorganizes it.
+- **Priority: LOW** — Carlos likely won't use it himself ("a feature I'll probably never use").
+  Plan only; build only if WISHUB grows into a multi-course / multi-author LMS.
 
 ### Suggested order once unblocked
 1. Carlos uploads `s2`/`s3`/`s4` + creates the `CVilla90` repo (+ first push).
