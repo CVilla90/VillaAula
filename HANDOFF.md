@@ -16,8 +16,9 @@
 - **Owner context:** This is one of Carlos's **personal** projects (like HolIA/Atina,
   MUSAI, Cátedra). It is **not** Creai work and **not** an official UACH project. Keep
   those worlds separate (see his `user_identity` memory).
-- **Status:** Branding locked (2026-06-21). Architecture + stack + data model decided.
-  **Next action:** scaffold the Next.js app and build the Unit 1 learner experience.
+- **Status:** **Phase 0 + Phase 1 DONE (2026-06-21).** Branding locked & landing approved;
+  Next.js app built; full Unit 1 learner runtime works end-to-end; production build green.
+  **Next action:** Phase 2 — audio (edge-tts), Units 2–4, final test + diploma (see §3).
 - **Deadline pressure:** Carlos starts the first formal class **tomorrow (2026-06-22)**.
   Goal = something real and usable for Unit 1, even if rough. Dirty hardcoding is OK.
 
@@ -105,8 +106,14 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
   (localStorage completion + `useCompleted` hook). LessonPlayer marks completion on finish;
   landing CTAs now point to `/level/1`. `tsc` clean; `/levels` & `/level/1` → 200.
   **End-to-end flow works:** landing → level → syllabus → lesson → complete → next, persisted.
-- ⏭ **Phase 1 — final:** production `next build` check + small polish, then mark Phase 1 DONE
-  and stop the loop.
+- ✅ **Phase 1 COMPLETE (build green):** added `app/not-found.tsx`; `npm run build` succeeds
+  (Compiled ✓, TypeScript ✓; routes `/`, `/_not-found`, `/levels`, `/level/[slug]`,
+  `/level/[slug]/unit/[unit]/lesson/[lesson]`). Unit 1 learner runtime works end-to-end and
+  is committed. **`/loop` stopped here — target reached.**
+- ▶ **Run it:** `npm run dev` → http://localhost:3000 (landing → Start Level 1 → syllabus →
+  lessons → complete, progress saved in localStorage).
+- ⏭ **Phase 2 (next session):** audio (edge-tts speed knob), Units 2–4, final test +
+  Conclusion + downloadable diploma — see §3.
 - ⚠️ Next.js 16 is newer than the agent's training; see repo `AGENTS.md` (it points to
   `node_modules/next/dist/docs/`). Only stable App Router basics used so far.
 
