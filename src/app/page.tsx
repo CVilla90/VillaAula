@@ -11,20 +11,20 @@ const LEVELS = [
   },
   {
     n: 2,
-    name: "Everyday things",
-    focus: "articles · present continuous · family",
-    status: "soon" as const,
+    name: "Everyday Stories",
+    focus: "past · future · some / any",
+    status: "active" as const,
   },
   {
     n: 3,
-    name: "Routines & places",
-    focus: "simple present · there is/are · time",
+    name: "Telling More",
+    focus: "present perfect · adverbs · because",
     status: "soon" as const,
   },
   {
     n: 4,
-    name: "Describe & compare",
-    focus: "have · comparatives · can / can't",
+    name: "Real Conversations",
+    focus: "conditionals · should · phrasal verbs",
     status: "soon" as const,
   },
 ];
@@ -191,7 +191,7 @@ export default function Home() {
             Ready when you are.
           </h2>
           <p className="mx-auto mt-3 max-w-md text-white/85">
-            Level 1 is ready end to end. Start free, no pressure.
+            Levels 1 and 2 are ready end to end. Start free, no pressure.
           </p>
           <Link
             href="/level/1"
@@ -373,7 +373,7 @@ function LevelCard({
       </div>
       {active ? (
         <Link
-          href="/level/1"
+          href={`/level/${n}`}
           className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-coral"
         >
           Start <span className="transition-transform group-hover:translate-x-0.5">→</span>

@@ -5,6 +5,7 @@ import {
   level1Diploma,
   phase2Units,
 } from "@/content/level1-phase2";
+import { level2 } from "@/content/level2";
 
 /**
  * Level 1 — original WISHUB content. Inspired by the A1 grammar progression only
@@ -409,7 +410,7 @@ export const level1: Course = {
   diploma: level1Diploma,
 };
 
-export const courses: Course[] = [level1];
+export const courses: Course[] = [level1, level2];
 
 export function getCourse(slug: string): Course | undefined {
   return courses.find((c) => c.slug === slug);

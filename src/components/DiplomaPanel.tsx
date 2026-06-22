@@ -54,6 +54,7 @@ export default function DiplomaPanel({ course }: { course: Course }) {
       subtitle: course.diploma?.subtitle ?? `Level ${course.level}`,
       issuer: course.diploma?.issuer ?? "WISHUB",
       date: today,
+      level: course.level,
     });
     const blob = new Blob([svg], { type: "image/svg+xml" });
     const url = URL.createObjectURL(blob);
@@ -205,6 +206,7 @@ function buildDiplomaSvg({
   subtitle,
   issuer,
   date,
+  level,
 }: {
   learner: string;
   courseTitle: string;
@@ -212,6 +214,7 @@ function buildDiplomaSvg({
   subtitle: string;
   issuer: string;
   date: string;
+  level: number;
 }) {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100">
   <rect width="1600" height="1100" fill="#fbf4ec"/>
@@ -228,6 +231,6 @@ function buildDiplomaSvg({
   <text x="505" y="890" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#8a7a6e">${escapeXml(issuer)}</text>
   <text x="1095" y="890" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#8a7a6e">${escapeXml(date)}</text>
   <circle cx="800" cy="842" r="66" fill="#16a394"/>
-  <text x="800" y="861" text-anchor="middle" font-family="Arial, sans-serif" font-size="54" font-weight="800" fill="#ffffff">1</text>
+  <text x="800" y="861" text-anchor="middle" font-family="Arial, sans-serif" font-size="54" font-weight="800" fill="#ffffff">${level}</text>
 </svg>`;
 }

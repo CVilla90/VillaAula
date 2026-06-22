@@ -9,20 +9,20 @@ const LEVELS = [
   },
   {
     n: 2,
-    name: "Everyday things",
-    focus: "articles · present continuous · family",
-    status: "soon" as const,
+    name: "Everyday Stories",
+    focus: "past · future · some / any",
+    status: "active" as const,
   },
   {
     n: 3,
-    name: "Routines & places",
-    focus: "simple present · there is/are · time",
+    name: "Telling More",
+    focus: "present perfect · adverbs · because",
     status: "soon" as const,
   },
   {
     n: 4,
-    name: "Describe & compare",
-    focus: "have · comparatives · can / can't",
+    name: "Real Conversations",
+    focus: "conditionals · should · phrasal verbs",
     status: "soon" as const,
   },
 ];
@@ -43,8 +43,8 @@ export default function LevelsPage() {
         Four levels, one path.
       </h1>
       <p className="mt-3 max-w-lg text-muted">
-        Start at the beginning and climb. Level 1 is complete now — the rest are
-        on the way.
+        Start at the beginning and climb. Levels 1 and 2 are complete now — the
+        rest are on the way.
       </p>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2">
@@ -84,7 +84,7 @@ export default function LevelsPage() {
           return active ? (
             <Link
               key={l.n}
-              href="/level/1"
+              href={`/level/${l.n}`}
               className="flex flex-col rounded-2xl border border-coral/30 bg-paper p-5 shadow-lg shadow-coral/5 transition hover:-translate-y-0.5"
             >
               {inner}

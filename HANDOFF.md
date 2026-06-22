@@ -16,11 +16,14 @@
 - **Owner context:** This is one of Carlos's **personal** projects (like HolIA/Atina,
   MUSAI, Cátedra). It is **not** Creai work and **not** an official UACH project. Keep
   those worlds separate (see his `user_identity` memory).
-- **Status:** **Phase 0 + Phase 1 DONE (2026-06-21); Phase 2 learner path DONE
-  (2026-06-22).** Branding locked & landing approved; Next.js app built; Level 1 now
-  has Units 1–4, audio/read-aloud blocks, final check, conclusion, and downloadable SVG
-  diploma. Production build + lint are green.
-  **Next action:** generate persistent edge-tts MP3 assets, then Phase 3 DB/auth/admin.
+- **Status:** **Phases 0–3 substantially DONE (2026-06-22, autonomous `/loop`).** Level 1
+  (Units 1–4 + final + diploma) and now **Level 2 (Everyday Stories — A2: past/future/quantity,
+  2 units + final + diploma)** are live. **Auth + Postgres + server-persisted progress** built
+  (manual signup + Google OAuth, guest→account merge), plus **real edge-tts audio** on Level 1.
+  All four `/loop` steps (UI/UX → platform spine → audio → Level 2) are complete; build+lint green.
+  **Next action (Carlos):** follow **§17** to turn on auth/DB on Replit (Postgres + secrets +
+  `npm run db:push`) and smoke-test live — the auth/OAuth/DB runtime is the one thing the loop
+  couldn't test. Then optional round-2 dev (Level 2 audio, expand L2 to 4 units, admin authoring).
 - **Deadline pressure:** Carlos starts the first formal class **today (2026-06-22)**.
   Goal = something real and usable for Level 1, even if rough. Dirty hardcoding is OK.
 
@@ -170,9 +173,22 @@ spine & harden L1→diploma → (3) real edge-tts audio → (4) Level 2.
     rate** (the player owns speed: defaults to 0.75x, plus 1x/1.15x). Set `mediaUrl` on those
     Content blocks, so `AudioBlock` now plays real `<audio>` instead of the speechSynthesis fallback.
   - ✅ `tsc` + `next build` green. To regenerate: see the docstring in `tools/generate_audio.py`.
-- ⏭ **Next iter:** **step 4 — Level 2 content.** Author Level 2 as a new `Course` (the §9 spine
-  continues past A2, or a themed beginner+ track) following the same data shapes; add it to
-  `courses`, light up Level 2 on `/levels` + the landing. Keep content 100% original (§9).
+- ✅ **Iter 7 — Level 2 content (step 4 done; ALL 4 LOOP STEPS COMPLETE):**
+  - `src/content/level2.ts`: **"Everyday Stories" (A2)** — Unit 1 *Back in time* (was/were,
+    regular -ed, irregulars, did/didn't) + Unit 2 *What's next* (going to, will, some/any,
+    how much/many), each 4 lessons; 10-question final (pass 8), conclusion, diploma. 100%
+    original. Registered in `courses` (`src/content/level1.ts`); `getCourse("2")` resolves.
+  - Lit up Level 2 on the landing + `/levels` (status active, real focus labels), relabeled the
+    still-locked L3/L4 to a forward A2→B1 path so they don't look like repeats of L1.
+  - **Bugs fixed:** the two level cards hardcoded `/level/1` (Level 2 would've linked to L1);
+    the diploma SVG seal hardcoded "1" (now uses `course.level`). Copy updated to "Levels 1 and 2".
+  - ✅ `tsc` + `eslint` + `next build` green.
+- ✅ **All four planned `/loop` steps are complete.** Remaining is **Carlos's live Replit
+  setup (§17)** plus optional round-2 enhancements:
+  - generate edge-tts audio for Level 2 (rerun `tools/generate_audio.py` with new CLIPS),
+  - expand Level 2 to 4 units for parity with Level 1,
+  - the **admin authoring UI** (Phase 3 item §3.16) so content isn't code-only,
+  - a focused correctness review of the auth/OAuth/progress code before/after the first deploy.
 
 ### 2026-06-22 — Session 2 (Phase 2 learner path)
 - ✅ **Level 1 expanded to Units 1–4:** added `src/content/level1-phase2.ts` with original
