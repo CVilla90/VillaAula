@@ -8,14 +8,15 @@ import {
   finalTestKey,
   isCourseComplete,
   lessonKey,
-  markCompleted,
-  useCompleted,
 } from "@/lib/progress";
+import { useProgress } from "@/components/progress/ProgressProvider";
+import { useSessionUser } from "@/components/auth/SessionProvider";
 import { RichText } from "@/components/RichText";
 
 export default function DiplomaPanel({ course }: { course: Course }) {
-  const completed = useCompleted();
-  const [name, setName] = useState("");
+  const { completed, markCompleted } = useProgress();
+  const { name: accountName } = useSessionUser();
+  const [name, setName] = useState(accountName ?? "");
   const lessonKeys = useMemo(
     () =>
       course.units.flatMap((unit) =>
@@ -35,9 +36,9 @@ export default function DiplomaPanel({ course }: { course: Course }) {
 
   useEffect(() => {
     if (ready) markCompleted(courseKey(course.slug));
-  }, [ready, course.slug]);
+  }, [ready, course.slug, markCompleted]);
 
-  const displayName = name.trim() || "WISHUB Learner";
+  const displayName = name.trim() || accountName?.trim() || "WISHUB Learner";
 
   function downloadDiploma() {
     if (!ready) return;

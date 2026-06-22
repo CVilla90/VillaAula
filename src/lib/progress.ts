@@ -1,14 +1,16 @@
-"use client";
-
-import { useEffect, useState } from "react";
-
 /**
- * Lesson-completion progress, stored in localStorage (single-user MVP — HANDOFF §4).
- * Moves to per-user DB rows (Enrollment/Attempt) in Phase 3.
+ * Progress keys + localStorage primitives. Pure (no React) so both the client
+ * ProgressProvider and server code can share the key builders.
+ *
+ * A "completed" unit is identified by a string key:
+ *   - lesson:     "courseSlug/unitSlug/lessonSlug"
+ *   - final test: "final:courseSlug"
+ *   - course:     "course:courseSlug"
+ * The DB `Progress.key` column stores these verbatim, so signed-in progress and
+ * localStorage progress use one shared key space (migration = a straight insert).
  */
 
 const KEY = "wishub:completed";
-const EVENT = "wishub:progress";
 
 export function lessonKey(
   courseSlug: string,
@@ -26,26 +28,6 @@ export function courseKey(courseSlug: string): string {
   return `course:${courseSlug}`;
 }
 
-export function getCompleted(): Record<string, boolean> {
-  if (typeof window === "undefined") return {};
-  try {
-    return JSON.parse(
-      window.localStorage.getItem(KEY) ?? "{}",
-    ) as Record<string, boolean>;
-  } catch {
-    return {};
-  }
-}
-
-export function markCompleted(key: string): void {
-  if (typeof window === "undefined") return;
-  const cur = getCompleted();
-  if (cur[key]) return;
-  cur[key] = true;
-  window.localStorage.setItem(KEY, JSON.stringify(cur));
-  window.dispatchEvent(new Event(EVENT));
-}
-
 export function isCourseComplete(
   completed: Record<string, boolean>,
   courseSlug: string,
@@ -57,18 +39,33 @@ export function isCourseComplete(
   );
 }
 
-/** Live map of completed lesson keys; updates on completion and across tabs. */
-export function useCompleted(): Record<string, boolean> {
-  const [data, setData] = useState<Record<string, boolean>>({});
-  useEffect(() => {
-    const read = () => setData(getCompleted());
-    read();
-    window.addEventListener(EVENT, read);
-    window.addEventListener("storage", read);
-    return () => {
-      window.removeEventListener(EVENT, read);
-      window.removeEventListener("storage", read);
-    };
-  }, []);
-  return data;
+/* ----------------------------- localStorage ---------------------------- */
+
+export function getLocalCompleted(): Record<string, boolean> {
+  if (typeof window === "undefined") return {};
+  try {
+    return JSON.parse(
+      window.localStorage.getItem(KEY) ?? "{}",
+    ) as Record<string, boolean>;
+  } catch {
+    return {};
+  }
+}
+
+export function addLocalKey(key: string): void {
+  if (typeof window === "undefined") return;
+  const cur = getLocalCompleted();
+  if (cur[key]) return;
+  cur[key] = true;
+  window.localStorage.setItem(KEY, JSON.stringify(cur));
+}
+
+/** Called after a guest's progress has been merged into their new account. */
+export function clearLocalCompleted(): void {
+  if (typeof window === "undefined") return;
+  window.localStorage.removeItem(KEY);
+}
+
+export function keysToRecord(keys: string[]): Record<string, boolean> {
+  return Object.fromEntries(keys.map((k) => [k, true]));
 }

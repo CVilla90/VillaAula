@@ -54,7 +54,7 @@ export default function QuestionCard({
         <span className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-coral/10 font-mono text-xs font-bold text-coral">
           {index}
         </span>
-        <p className="font-display text-base font-semibold leading-snug text-ink">
+        <p className="font-display text-base font-medium leading-snug text-ink">
           <RichText md={question.prompt} inline variant="prompt" />
         </p>
       </div>

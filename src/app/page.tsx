@@ -1,5 +1,6 @@
 import Link from "next/link";
 import HeroCloze from "@/components/HeroCloze";
+import AccountMenu from "@/components/auth/AccountMenu";
 
 const LEVELS = [
   {
@@ -66,12 +67,7 @@ export default function Home() {
             >
               Levels
             </Link>
-            <Link
-              href="/login"
-              className="rounded-full border border-line bg-paper px-4 py-2 text-sm font-semibold text-ink shadow-sm transition hover:border-coral hover:text-coral"
-            >
-              Log in
-            </Link>
+            <AccountMenu />
           </div>
         </nav>
       </header>

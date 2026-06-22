@@ -3,7 +3,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import type { Course, FinalTest } from "@/lib/types";
-import { finalTestKey, markCompleted } from "@/lib/progress";
+import { finalTestKey } from "@/lib/progress";
+import { useProgress } from "@/components/progress/ProgressProvider";
 import QuestionCard from "./QuestionCard";
 import ReadingBlock from "./ReadingBlock";
 
@@ -19,6 +20,7 @@ export default function FinalTestPlayer({
     [test],
   );
   const [results, setResults] = useState<Record<string, boolean>>({});
+  const { markCompleted } = useProgress();
   const savedRef = useRef(false);
 
   const answered = Object.keys(results).length;
@@ -31,7 +33,7 @@ export default function FinalTestPlayer({
       savedRef.current = true;
       markCompleted(finalTestKey(course.slug));
     }
-  }, [passed, course.slug]);
+  }, [passed, course.slug, markCompleted]);
 
   let qNum = 0;
 

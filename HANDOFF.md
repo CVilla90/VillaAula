@@ -130,10 +130,30 @@ spine & harden L1→diploma → (3) real edge-tts audio → (4) Level 2.
   - ✅ `tsc` + `next build` green; routes `/login`, `/signup`, `/api/auth/google[/callback]`.
   - ⚠️ **Untested live** (no DB/creds in the loop): the signup/login/OAuth *runtime* needs
     Carlos to set env on Replit + `npm run db:push`. Logic is conventional + reviewed.
-- ⏭ **Next iter (the heart of "save his progress"):** server-persisted progress — a `Progress`
-  server action layer + a unified `useProgress` hook (DB when signed in, else localStorage) with
-  a one-time localStorage→DB merge on login; diploma learner-name defaults from the account;
-  session-aware nav (name/avatar + Log out). Then harden the full L1→diploma path end to end.
+- ✅ **Iter 4 — server-persisted progress (step 2, part 3 — the "save his progress" core):**
+  - `progress.ts` refactored to pure key builders + localStorage primitives (no React).
+  - `src/lib/auth/progress-actions.ts` (Server Actions): `getProgressKeys`, `addProgressKey`
+    (upsert on `userId_key`), `mergeProgressKeys` (transactional). All no-op without a session.
+  - `SessionProvider` (client context, fed by the root layout's `getCurrentUser()`) +
+    `ProgressProvider` (`useProgress()` → `{ completed, markCompleted, ready }`): **server mode**
+    when signed in (loads DB keys, writes via actions), **local mode** otherwise (localStorage).
+    On first sign-in it **merges any guest localStorage progress into the account, then clears it**.
+  - Root `layout.tsx` now async: wraps the app in both providers. `AccountMenu` (name + Log out
+    when signed in, else Log in) replaces the landing's static Log in. `DiplomaPanel` defaults the
+    learner name to the account name. `LessonPlayer`/`FinalTestPlayer`/`Syllabus` now read/write
+    progress through `useProgress`.
+  - Fixed an iter-1 nit: prompt weight `font-semibold`→`font-medium` (Hanken only loads 500/700/800,
+    so 600 wasn't a real weight; 500 also makes the coral term-chips pop more).
+  - ✅ `tsc` + `eslint` + `next build` all green.
+  - ⚠️ **Replit note:** the session nav + server-progress need the env present **at build time**
+    (so the cookie-reading layout renders dynamically). Replit Secrets are available at build, so
+    this is automatic there; `npm run dev` is always dynamic. Only a "build with no env, then run
+    with env" would show a stale logged-out nav — not a normal flow.
+  - ⚠️ Still **untested live** (no DB/creds in loop). Carlos on Replit: set env (DATABASE_URL,
+    AUTH_SECRET, NEXT_PUBLIC_APP_URL, optionally GOOGLE_*) → `npm run db:push` → deploy.
+- ⏭ **Next iter:** finish step 2 by **hardening the full L1→diploma path** (re-read every flow,
+  fix edge cases, confirm progress/diploma gating with both auth states), then move to step 3
+  (real edge-tts audio assets) and step 4 (Level 2 content) as budget allows.
 
 ### 2026-06-22 — Session 2 (Phase 2 learner path)
 - ✅ **Level 1 expanded to Units 1–4:** added `src/content/level1-phase2.ts` with original

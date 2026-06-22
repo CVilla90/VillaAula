@@ -3,7 +3,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import type { Course, Unit, Lesson } from "@/lib/types";
-import { lessonKey, markCompleted } from "@/lib/progress";
+import { lessonKey } from "@/lib/progress";
+import { useProgress } from "@/components/progress/ProgressProvider";
 import GrammarNote from "./GrammarNote";
 import ReadingBlock from "./ReadingBlock";
 import QuestionCard from "./QuestionCard";
@@ -22,6 +23,7 @@ export default function LessonPlayer({
     [lesson],
   );
   const [results, setResults] = useState<Record<string, boolean>>({});
+  const { markCompleted } = useProgress();
 
   const answered = Object.keys(results).length;
   const correctCount = Object.values(results).filter(Boolean).length;
@@ -33,7 +35,7 @@ export default function LessonPlayer({
       savedRef.current = true;
       markCompleted(lessonKey(course.slug, unit.slug, lesson.slug));
     }
-  }, [allAnswered, course.slug, unit.slug, lesson.slug]);
+  }, [allAnswered, course.slug, unit.slug, lesson.slug, markCompleted]);
 
   const lessonIndex = unit.lessons.findIndex((l) => l.id === lesson.id);
   const orderedLessons = course.units.flatMap((u) =>

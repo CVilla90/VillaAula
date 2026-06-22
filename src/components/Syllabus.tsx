@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import type { Course } from "@/lib/types";
-import { finalTestKey, lessonKey, useCompleted } from "@/lib/progress";
+import { finalTestKey, lessonKey } from "@/lib/progress";
+import { useProgress } from "@/components/progress/ProgressProvider";
 
 export default function Syllabus({ course }: { course: Course }) {
-  const completed = useCompleted();
+  const { completed } = useProgress();
 
   const ordered = course.units.flatMap((u) =>
     u.lessons.map((l) => ({
