@@ -65,6 +65,34 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
 
 ## 2. STATUS LOG (newest first — UPDATE EVERY SESSION)
 
+### 2026-06-22 — Session 3 (autonomous `/loop`)
+**Decisions locked this session (Carlos):** ships **online on Replit** with **Replit's
+default Postgres** (real DB by the time the friend uses it). Auth = **dual**: in-app
+**manual account creation** (username/email + password, hashed) **AND Google OAuth** —
+manual is required because the friend may not have a Google account. **No email validation
+for now** (no Resend/email API) — signup is fully in-app. Progress + diploma must persist
+per-user server-side. Loop order: (1) UI/UX pass → (2) Postgres + dual-auth + server-progress
+spine & harden L1→diploma → (3) real edge-tts audio → (4) Level 2.
+
+- ✅ **Baseline commit** of the (previously uncommitted) Phase 2 working tree, so all
+  autonomous edits are reversible.
+- ✅ **Iter 1 — UI/UX detail pass (step 1):**
+  - **Mention-vs-use typography fix** (the reported "We use the for…" confusion): `RichText`
+    now takes a `variant="prompt"`. In a question prompt, a studied term (`**word**`) renders
+    as a highlighted coral chip and a `___` blank renders as a real underlined gap; the prompt
+    text weight dropped from `font-bold`→`font-semibold` so the chip actually stands out (the
+    old bug: bold-inside-bold rendered *lighter*). Default `<strong>` is now `font-bold`.
+  - Emphasized two bare grammar-term prompts ("**simple present**", "**present continuous**").
+  - **Match input** (`QuestionCard`): answers are de-duplicated + sorted deterministically so
+    they no longer line up positionally with the prompts (was a giveaway), and once an answer
+    is chosen it's disabled in other rows (can't reuse one answer for two prompts).
+  - **Open answers: press Enter to check** (was click-only).
+  - Landing copy: dropped the soon-to-be-false "No account needed" / "No sign-up" lines.
+  - ✅ `tsc`, `eslint`, and `next build` all green.
+- ⏭ **Next iter:** finish any remaining UI/UX nits, then begin step 2 — Prisma schema +
+  Replit Postgres + dual auth (manual signup + Google) + server-persisted progress/diploma,
+  with graceful fallback when env (DATABASE_URL / GOOGLE_*) is absent so local dev still runs.
+
 ### 2026-06-22 — Session 2 (Phase 2 learner path)
 - ✅ **Level 1 expanded to Units 1–4:** added `src/content/level1-phase2.ts` with original
   beginner ESL lessons for articles, demonstratives, present continuous, possessives,

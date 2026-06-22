@@ -130,7 +130,7 @@ export default function Home() {
               className="animate-rise mt-4 text-sm text-muted"
               style={{ animationDelay: "0.36s" }}
             >
-              Free to start · No account needed.
+              Free to start · Jump in in seconds.
             </p>
           </div>
 
@@ -195,7 +195,7 @@ export default function Home() {
             Ready when you are.
           </h2>
           <p className="mx-auto mt-3 max-w-md text-white/85">
-            Level 1 is ready end to end. No sign-up, no pressure.
+            Level 1 is ready end to end. Start free, no pressure.
           </p>
           <Link
             href="/level/1"

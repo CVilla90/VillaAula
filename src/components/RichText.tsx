@@ -1,9 +1,20 @@
 import React from "react";
 
-/** Minimal, dependency-free inline formatter: **bold**, *italic*, `code`. */
-function renderInline(text: string, keyBase: string): React.ReactNode[] {
+type Variant = "default" | "prompt";
+
+/**
+ * Minimal, dependency-free inline formatter: **bold**, *italic*, `code`, and
+ * `___` fill-in blanks. In the "prompt" variant a **studied term** renders as a
+ * highlighted chip and a blank renders as an underlined gap, so the word being
+ * taught never reads as an ordinary sentence word (and the gap reads as a gap).
+ */
+function renderInline(
+  text: string,
+  keyBase: string,
+  variant: Variant = "default",
+): React.ReactNode[] {
   const nodes: React.ReactNode[] = [];
-  const regex = /(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`)/g;
+  const regex = /(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`|_{2,})/g;
   let last = 0;
   let m: RegExpExecArray | null;
   let i = 0;
@@ -11,10 +22,20 @@ function renderInline(text: string, keyBase: string): React.ReactNode[] {
     if (m.index > last) nodes.push(text.slice(last, m.index));
     const tok = m[0];
     if (tok.startsWith("**")) {
+      const inner = tok.slice(2, -2);
       nodes.push(
-        <strong key={`${keyBase}-b${i}`} className="font-semibold text-ink">
-          {tok.slice(2, -2)}
-        </strong>,
+        variant === "prompt" ? (
+          <strong
+            key={`${keyBase}-b${i}`}
+            className="rounded-md bg-coral/10 px-1.5 py-0.5 font-bold text-coral-deep"
+          >
+            {inner}
+          </strong>
+        ) : (
+          <strong key={`${keyBase}-b${i}`} className="font-bold text-ink">
+            {inner}
+          </strong>
+        ),
       );
     } else if (tok.startsWith("`")) {
       nodes.push(
@@ -24,6 +45,17 @@ function renderInline(text: string, keyBase: string): React.ReactNode[] {
         >
           {tok.slice(1, -1)}
         </code>,
+      );
+    } else if (tok.startsWith("_")) {
+      nodes.push(
+        <span
+          key={`${keyBase}-blk${i}`}
+          aria-label="blank"
+          role="img"
+          className="mx-1 inline-block w-10 border-b-2 border-coral/50 align-[-0.15em]"
+        >
+          {" "}
+        </span>,
       );
     } else {
       nodes.push(<em key={`${keyBase}-i${i}`}>{tok.slice(1, -1)}</em>);
@@ -37,10 +69,18 @@ function renderInline(text: string, keyBase: string): React.ReactNode[] {
 
 /**
  * Tiny markdown renderer for the subset WISHUB content uses: paragraphs,
- * "- " bullet lists, and inline bold/italic/code. No HTML injection.
+ * "- " bullet lists, and inline bold/italic/code/blank. No HTML injection.
  */
-export function RichText({ md, inline = false }: { md: string; inline?: boolean }) {
-  if (inline) return <>{renderInline(md, "inl")}</>;
+export function RichText({
+  md,
+  inline = false,
+  variant = "default",
+}: {
+  md: string;
+  inline?: boolean;
+  variant?: Variant;
+}) {
+  if (inline) return <>{renderInline(md, "inl", variant)}</>;
 
   const lines = md.split("\n");
   const blocks: React.ReactNode[] = [];
@@ -53,7 +93,7 @@ export function RichText({ md, inline = false }: { md: string; inline?: boolean 
       blocks.push(
         <ul key={`ul${key++}`} className="ml-4 list-disc space-y-1">
           {items.map((it, idx) => (
-            <li key={idx}>{renderInline(it, `ul${key}-${idx}`)}</li>
+            <li key={idx}>{renderInline(it, `ul${key}-${idx}`, variant)}</li>
           ))}
         </ul>,
       );
@@ -69,7 +109,7 @@ export function RichText({ md, inline = false }: { md: string; inline?: boolean 
     }
     flush();
     if (line.trim() === "") continue;
-    blocks.push(<p key={`p${key++}`}>{renderInline(line, `p${key}`)}</p>);
+    blocks.push(<p key={`p${key++}`}>{renderInline(line, `p${key}`, variant)}</p>);
   }
   flush();
 

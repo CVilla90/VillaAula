@@ -209,7 +209,7 @@ export const phase2Units: Unit[] = [
               question: {
                 id: "u2-l3-q3",
                 type: "true_false",
-                prompt: "“I am studying” is present continuous.",
+                prompt: "“I am studying” is the **present continuous**.",
                 points: 1,
                 config: { correct: true },
                 explanation:
@@ -511,7 +511,7 @@ export const phase2Units: Unit[] = [
               question: {
                 id: "u3-l2-q3",
                 type: "true_false",
-                prompt: "Simple present can describe routines.",
+                prompt: "The **simple present** can describe routines.",
                 points: 1,
                 config: { correct: true },
                 explanation:

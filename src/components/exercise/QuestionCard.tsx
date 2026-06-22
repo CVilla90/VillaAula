@@ -54,13 +54,15 @@ export default function QuestionCard({
         <span className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-coral/10 font-mono text-xs font-bold text-coral">
           {index}
         </span>
-        <p className="font-display text-base font-bold leading-snug text-ink">
-          <RichText md={question.prompt} inline />
+        <p className="font-display text-base font-semibold leading-snug text-ink">
+          <RichText md={question.prompt} inline variant="prompt" />
         </p>
       </div>
 
       <div className="mt-4 pl-9">
-        {renderInput(question, value, setValue, checked)}
+        {renderInput(question, value, setValue, checked, () => {
+          if (ready && !checked) handleCheck();
+        })}
       </div>
 
       <div className="mt-4 flex flex-wrap items-center gap-3 pl-9">
@@ -149,6 +151,7 @@ function renderInput(
   value: Value,
   setValue: (v: Value) => void,
   locked: boolean,
+  onEnter: () => void,
 ) {
   switch (q.type) {
     case "open":
@@ -158,6 +161,7 @@ function renderInput(
           value={(value as string) ?? ""}
           onChange={setValue}
           locked={locked}
+          onEnter={onEnter}
         />
       );
     case "multiple_choice":
@@ -196,11 +200,13 @@ function OpenInput({
   value,
   onChange,
   locked,
+  onEnter,
 }: {
   config: OpenConfig;
   value: string;
   onChange: (v: Value) => void;
   locked: boolean;
+  onEnter: () => void;
 }) {
   return (
     <input
@@ -210,6 +216,12 @@ function OpenInput({
       maxLength={config.charLimit}
       placeholder={config.placeholder ?? "Type your answer"}
       onChange={(e) => onChange(e.target.value)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          onEnter();
+        }
+      }}
       className="w-full max-w-xs rounded-xl border border-line bg-cream/40 px-4 py-2.5 font-mono text-ink outline-none transition focus:border-coral disabled:opacity-70"
     />
   );
@@ -306,7 +318,9 @@ function MatchInput({
   onChange: (v: Value) => void;
   locked: boolean;
 }) {
-  const rights = config.pairs.map((p) => p.right);
+  // Sort the choices so they don't line up with the prompts (no positional
+  // giveaway); the sort is deterministic, so it's stable across SSR/hydration.
+  const rights = [...new Set(config.pairs.map((p) => p.right))].sort();
 
   return (
     <div className="grid gap-2">
@@ -327,11 +341,18 @@ function MatchInput({
             <option value="" disabled>
               Choose…
             </option>
-            {rights.map((r) => (
-              <option key={r} value={r}>
-                {r}
-              </option>
-            ))}
+            {rights.map((r) => {
+              // Each answer can pair with only one prompt: disable a choice once
+              // another row has taken it, so a learner can't reuse it.
+              const takenElsewhere = Object.entries(value).some(
+                ([left, chosen]) => left !== p.left && chosen === r,
+              );
+              return (
+                <option key={r} value={r} disabled={takenElsewhere}>
+                  {r}
+                </option>
+              );
+            })}
           </select>
         </div>
       ))}
