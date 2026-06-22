@@ -111,7 +111,7 @@ export default function Home() {
               style={{ animationDelay: "0.3s" }}
             >
               <Link
-                href="/levels"
+                href="/level/1"
                 className="group inline-flex items-center gap-2 rounded-full bg-coral px-6 py-3.5 font-display text-base font-bold text-white shadow-lg shadow-coral/25 transition hover:bg-coral-deep"
               >
                 Start Level 1
@@ -198,7 +198,7 @@ export default function Home() {
             Level 1 takes a couple of minutes to start. No sign-up, no pressure.
           </p>
           <Link
-            href="/levels"
+            href="/level/1"
             className="mt-7 inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 font-display text-base font-bold text-coral-deep shadow-lg transition hover:bg-white/90"
           >
             Start Level 1 <span>→</span>
@@ -377,7 +377,7 @@ function LevelCard({
       </div>
       {active ? (
         <Link
-          href="/levels"
+          href="/level/1"
           className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-coral"
         >
           Start <span className="transition-transform group-hover:translate-x-0.5">→</span>

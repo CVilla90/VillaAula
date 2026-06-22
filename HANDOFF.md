@@ -99,9 +99,14 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
   feedback, wired to `gradeQuestion`), `exercise/LessonPlayer.tsx` (progress bar + completion
   + next-lesson link), route `app/level/[slug]/unit/[unit]/lesson/[lesson]/page.tsx`
   (Next 16 async `params`). Live: `/level/1/unit/1/lesson/to-be` → 200, `tsc` clean.
-- ⏭ **Phase 1 — next:** navigation shell — real `/levels` (the four levels) + `/level/[slug]`
-  (intro + syllabus listing units & lessons) + wire the landing CTAs to the first lesson;
-  then `localStorage` progress (lesson completion) + final polish.
+- ✅ **Phase 1 — navigation shell + progress done:** real `/levels` (four levels, L1 active),
+  `app/level/[slug]/page.tsx` (intro + `Syllabus`), `src/components/Syllabus.tsx`
+  (units/lessons with completion ticks + Continue/Start/Review), `src/lib/progress.ts`
+  (localStorage completion + `useCompleted` hook). LessonPlayer marks completion on finish;
+  landing CTAs now point to `/level/1`. `tsc` clean; `/levels` & `/level/1` → 200.
+  **End-to-end flow works:** landing → level → syllabus → lesson → complete → next, persisted.
+- ⏭ **Phase 1 — final:** production `next build` check + small polish, then mark Phase 1 DONE
+  and stop the loop.
 - ⚠️ Next.js 16 is newer than the agent's training; see repo `AGENTS.md` (it points to
   `node_modules/next/dist/docs/`). Only stable App Router basics used so far.
 

@@ -1,8 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import type { Course, Unit, Lesson } from "@/lib/types";
+import { lessonKey, markCompleted } from "@/lib/progress";
 import GrammarNote from "./GrammarNote";
 import ReadingBlock from "./ReadingBlock";
 import QuestionCard from "./QuestionCard";
@@ -25,6 +26,14 @@ export default function LessonPlayer({
   const answered = Object.keys(results).length;
   const correctCount = Object.values(results).filter(Boolean).length;
   const allAnswered = total > 0 && answered >= total;
+
+  const savedRef = useRef(false);
+  useEffect(() => {
+    if (allAnswered && !savedRef.current) {
+      savedRef.current = true;
+      markCompleted(lessonKey(course.slug, unit.slug, lesson.slug));
+    }
+  }, [allAnswered, course.slug, unit.slug, lesson.slug]);
 
   const lessonIndex = unit.lessons.findIndex((l) => l.id === lesson.id);
   const next = unit.lessons[lessonIndex + 1];
