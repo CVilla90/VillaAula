@@ -1,4 +1,10 @@
 import type { Course } from "@/lib/types";
+import {
+  finalTest,
+  level1Conclusion,
+  level1Diploma,
+  phase2Units,
+} from "@/content/level1-phase2";
 
 /**
  * Level 1 — original WISHUB content. Inspired by the A1 grammar progression only
@@ -396,7 +402,11 @@ export const level1: Course = {
         },
       ],
     },
+    ...phase2Units,
   ],
+  finalTest,
+  conclusion: level1Conclusion,
+  diploma: level1Diploma,
 };
 
 export const courses: Course[] = [level1];

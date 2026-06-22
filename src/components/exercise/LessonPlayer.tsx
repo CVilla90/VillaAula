@@ -36,7 +36,13 @@ export default function LessonPlayer({
   }, [allAnswered, course.slug, unit.slug, lesson.slug]);
 
   const lessonIndex = unit.lessons.findIndex((l) => l.id === lesson.id);
-  const next = unit.lessons[lessonIndex + 1];
+  const orderedLessons = course.units.flatMap((u) =>
+    u.lessons.map((l) => ({ unit: u, lesson: l })),
+  );
+  const courseLessonIndex = orderedLessons.findIndex(
+    (item) => item.lesson.id === lesson.id,
+  );
+  const next = orderedLessons[courseLessonIndex + 1];
 
   let qNum = 0;
 
@@ -111,10 +117,17 @@ export default function LessonPlayer({
           <div className="mt-5 flex justify-center">
             {next ? (
               <Link
-                href={`/level/${course.slug}/unit/${unit.slug}/lesson/${next.slug}`}
+                href={`/level/${course.slug}/unit/${next.unit.slug}/lesson/${next.lesson.slug}`}
                 className="rounded-full bg-coral px-6 py-3 font-display text-sm font-bold text-white transition hover:bg-coral-deep"
               >
-                Next: {next.title} →
+                Next: {next.lesson.title} →
+              </Link>
+            ) : course.finalTest ? (
+              <Link
+                href={`/level/${course.slug}/final-test`}
+                className="rounded-full bg-coral px-6 py-3 font-display text-sm font-bold text-white transition hover:bg-coral-deep"
+              >
+                Final check →
               </Link>
             ) : (
               <Link

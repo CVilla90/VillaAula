@@ -4,7 +4,7 @@ const LEVELS = [
   {
     n: 1,
     name: "Foundations",
-    focus: "be · numbers · colors · greetings",
+    focus: "be · routines · comparisons · can",
     status: "active" as const,
   },
   {
@@ -43,8 +43,8 @@ export default function LevelsPage() {
         Four levels, one path.
       </h1>
       <p className="mt-3 max-w-lg text-muted">
-        Start at the beginning and climb. Level 1 is ready now — the rest are on
-        the way.
+        Start at the beginning and climb. Level 1 is complete now — the rest are
+        on the way.
       </p>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2">

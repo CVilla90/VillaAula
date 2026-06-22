@@ -1,7 +1,10 @@
 import type { Content } from "@/lib/types";
 import { RichText } from "@/components/RichText";
+import AudioBlock from "./AudioBlock";
 
 export default function ReadingBlock({ content }: { content: Content }) {
+  if (content.type === "audio") return <AudioBlock content={content} />;
+
   return (
     <div className="rounded-2xl border border-line bg-cream/40 p-5">
       {(content.emoji || content.title) && (

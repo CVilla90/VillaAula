@@ -19,9 +19,11 @@ export default function HeroCloze() {
       window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 
     if (reduce) {
-      setCount(WORD.length);
-      setDone(true);
-      return;
+      const timer = setTimeout(() => {
+        setCount(WORD.length);
+        setDone(true);
+      }, 0);
+      return () => clearTimeout(timer);
     }
 
     const timers: ReturnType<typeof setTimeout>[] = [];

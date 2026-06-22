@@ -5,7 +5,7 @@ const LEVELS = [
   {
     n: 1,
     name: "Foundations",
-    focus: "be · numbers · colors · greetings",
+    focus: "be · routines · comparisons · can",
     status: "active" as const,
   },
   {
@@ -195,7 +195,7 @@ export default function Home() {
             Ready when you are.
           </h2>
           <p className="mx-auto mt-3 max-w-md text-white/85">
-            Level 1 takes a couple of minutes to start. No sign-up, no pressure.
+            Level 1 is ready end to end. No sign-up, no pressure.
           </p>
           <Link
             href="/level/1"

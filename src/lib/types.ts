@@ -77,6 +77,10 @@ export interface Content {
   body?: string;
   /** For audio/image assets (pre-generated; Phase 2). */
   mediaUrl?: string;
+  /** Text transcript for audio/read-aloud blocks. */
+  transcript?: string;
+  /** Voice label from the authoring-time TTS pipeline. */
+  voice?: string;
   /** Decorative emoji for lightweight imagery. */
   emoji?: string;
 }
@@ -111,6 +115,27 @@ export interface Unit {
   lessons: Lesson[];
 }
 
+export interface FinalTest {
+  id: string;
+  slug: string;
+  title: string;
+  intro: string;
+  passingScore: number;
+  exercise: Exercise;
+}
+
+export interface CourseConclusion {
+  title: string;
+  body: string;
+  nextSteps: string[];
+}
+
+export interface DiplomaConfig {
+  title: string;
+  subtitle: string;
+  issuer: string;
+}
+
 export interface Course {
   id: string;
   slug: string;
@@ -119,4 +144,7 @@ export interface Course {
   intro: string;
   acceptsGuests: boolean;
   units: Unit[];
+  finalTest?: FinalTest;
+  conclusion?: CourseConclusion;
+  diploma?: DiplomaConfig;
 }

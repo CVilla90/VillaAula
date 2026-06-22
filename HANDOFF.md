@@ -16,11 +16,13 @@
 - **Owner context:** This is one of Carlos's **personal** projects (like HolIA/Atina,
   MUSAI, Cátedra). It is **not** Creai work and **not** an official UACH project. Keep
   those worlds separate (see his `user_identity` memory).
-- **Status:** **Phase 0 + Phase 1 DONE (2026-06-21).** Branding locked & landing approved;
-  Next.js app built; full Unit 1 learner runtime works end-to-end; production build green.
-  **Next action:** Phase 2 — audio (edge-tts), Units 2–4, final test + diploma (see §3).
-- **Deadline pressure:** Carlos starts the first formal class **tomorrow (2026-06-22)**.
-  Goal = something real and usable for Unit 1, even if rough. Dirty hardcoding is OK.
+- **Status:** **Phase 0 + Phase 1 DONE (2026-06-21); Phase 2 learner path DONE
+  (2026-06-22).** Branding locked & landing approved; Next.js app built; Level 1 now
+  has Units 1–4, audio/read-aloud blocks, final check, conclusion, and downloadable SVG
+  diploma. Production build + lint are green.
+  **Next action:** generate persistent edge-tts MP3 assets, then Phase 3 DB/auth/admin.
+- **Deadline pressure:** Carlos starts the first formal class **today (2026-06-22)**.
+  Goal = something real and usable for Level 1, even if rough. Dirty hardcoding is OK.
 
 ---
 
@@ -62,6 +64,30 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
 ---
 
 ## 2. STATUS LOG (newest first — UPDATE EVERY SESSION)
+
+### 2026-06-22 — Session 2 (Phase 2 learner path)
+- ✅ **Level 1 expanded to Units 1–4:** added `src/content/level1-phase2.ts` with original
+  beginner ESL lessons for articles, demonstratives, present continuous, possessives,
+  clothes/appearance, places, routines, third-person present simple, prepositions,
+  questions/negatives, have/has, comparatives, superlatives, as...as, and can/can't.
+- ✅ **Audio/read-aloud support added:** `src/components/exercise/AudioBlock.tsx` renders
+  real `<audio>` playback when `mediaUrl` exists and a browser `speechSynthesis` fallback
+  when only a transcript exists. Speed controls: `0.75x`, `1x`, `1.15x`.
+  **Important:** persistent edge-tts MP3 generation/storage is still TODO; the UI/data path
+  is ready for those files.
+- ✅ **Final check added:** route `src/app/level/[slug]/final-test/page.tsx` plus
+  `FinalTestPlayer` with passing-score logic and progress persistence via `finalTestKey`.
+- ✅ **Conclusion + diploma added:** route `src/app/level/[slug]/conclusion/page.tsx` plus
+  `DiplomaPanel`, completion status, learner-name input, and downloadable SVG diploma.
+- ✅ **Navigation updated:** syllabus and lesson flow now continue across units and then to
+  final check → conclusion/diploma. Landing/levels copy now says Level 1 is complete.
+- ✅ **Validation green:** `npm.cmd run lint` passes. `npm.cmd run build` passes with
+  Next.js 16.2.9 (routes: `/`, `/_not-found`, `/levels`, `/level/[slug]`,
+  `/level/[slug]/final-test`, `/level/[slug]/conclusion`,
+  `/level/[slug]/unit/[unit]/lesson/[lesson]`). On Windows, sandboxed PowerShell may hit
+  `EPERM` on `.next/trace`; rerun build outside the shell sandbox or use a clean `.next`.
+- ⏭ **Next:** generate/stage real edge-tts MP3 files for the transcript audio blocks, then
+  begin Phase 3 (Postgres/Prisma, Auth.js Google login, admin allowlist, authoring UI).
 
 ### 2026-06-21 — Session 1 (planning + branding)
 - ✅ Reviewed source program: `WISHUB/reference/s1u1.png … s1u4.png` (source book

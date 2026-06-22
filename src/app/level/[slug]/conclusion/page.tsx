@@ -1,0 +1,37 @@
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { getCourse } from "@/content/level1";
+import DiplomaPanel from "@/components/DiplomaPanel";
+
+export default async function ConclusionPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const course = getCourse(slug);
+
+  if (!course) notFound();
+
+  return (
+    <main className="mx-auto max-w-2xl px-5 py-10">
+      <Link
+        href={`/level/${course.slug}`}
+        className="font-mono text-xs text-muted transition hover:text-coral"
+      >
+        &larr; Level {course.level}
+      </Link>
+      <p className="mt-6 font-mono text-xs tracking-[0.2em] text-coral">
+        CONCLUSION
+      </p>
+      <h1 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-ink">
+        Finish Level {course.level}
+      </h1>
+      <p className="mt-3 leading-relaxed text-muted">
+        Review your completion status and download your diploma when the full
+        level is complete.
+      </p>
+      <DiplomaPanel course={course} />
+    </main>
+  );
+}

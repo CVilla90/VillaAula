@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type {
   Question,
   OpenConfig,
@@ -306,20 +306,7 @@ function MatchInput({
   onChange: (v: Value) => void;
   locked: boolean;
 }) {
-  // Shuffle the right-hand options on the client only (avoids SSR/hydration mismatch).
-  const [rights, setRights] = useState<string[]>(() =>
-    config.pairs.map((p) => p.right),
-  );
-  useEffect(() => {
-    setRights((prev) => {
-      const a = [...prev];
-      for (let i = a.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [a[i], a[j]] = [a[j], a[i]];
-      }
-      return a;
-    });
-  }, []);
+  const rights = config.pairs.map((p) => p.right);
 
   return (
     <div className="grid gap-2">

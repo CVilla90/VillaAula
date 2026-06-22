@@ -18,6 +18,14 @@ export function lessonKey(
   return `${courseSlug}/${unitSlug}/${lessonSlug}`;
 }
 
+export function finalTestKey(courseSlug: string): string {
+  return `final:${courseSlug}`;
+}
+
+export function courseKey(courseSlug: string): string {
+  return `course:${courseSlug}`;
+}
+
 export function getCompleted(): Record<string, boolean> {
   if (typeof window === "undefined") return {};
   try {
@@ -36,6 +44,17 @@ export function markCompleted(key: string): void {
   cur[key] = true;
   window.localStorage.setItem(KEY, JSON.stringify(cur));
   window.dispatchEvent(new Event(EVENT));
+}
+
+export function isCourseComplete(
+  completed: Record<string, boolean>,
+  courseSlug: string,
+  lessonKeys: string[],
+): boolean {
+  return (
+    lessonKeys.every((key) => completed[key]) &&
+    Boolean(completed[finalTestKey(courseSlug)])
+  );
 }
 
 /** Live map of completed lesson keys; updates on completion and across tabs. */
