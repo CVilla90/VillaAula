@@ -93,9 +93,15 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
   `src/content/level1.ts` (original Unit 1 — 5 lessons: to-be / numbers+age /
   greetings+pronouns / colors / people+jobs; exercises use MCQ, open, true/false, match
   + 2 short readings; `courses` + `getCourse(slug)` helpers). `tsc --noEmit` clean.
-- ⏭ **Phase 1 — next:** exercise UI (4 question-type widgets + grader wiring), routes
-  (`/levels` real, `/level/[slug]` intro+syllabus, `/level/[slug]/unit/[u]/lesson/[slug]`
-  player), expandable grammar note, `localStorage` progress, then polish.
+- ✅ **Phase 1 — lesson player done:** `src/components/RichText.tsx` (mini-markdown, no dep),
+  `exercise/GrammarNote.tsx` (native `<details>`), `exercise/ReadingBlock.tsx`,
+  `exercise/QuestionCard.tsx` (open / MCQ / true-false / match inputs + Check / Try-again +
+  feedback, wired to `gradeQuestion`), `exercise/LessonPlayer.tsx` (progress bar + completion
+  + next-lesson link), route `app/level/[slug]/unit/[unit]/lesson/[lesson]/page.tsx`
+  (Next 16 async `params`). Live: `/level/1/unit/1/lesson/to-be` → 200, `tsc` clean.
+- ⏭ **Phase 1 — next:** navigation shell — real `/levels` (the four levels) + `/level/[slug]`
+  (intro + syllabus listing units & lessons) + wire the landing CTAs to the first lesson;
+  then `localStorage` progress (lesson completion) + final polish.
 - ⚠️ Next.js 16 is newer than the agent's training; see repo `AGENTS.md` (it points to
   `node_modules/next/dist/docs/`). Only stable App Router basics used so far.
 
