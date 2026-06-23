@@ -78,27 +78,30 @@ calibration = §18.B; copyright = §9; content track = `REFACTOR.md §6`.
 > `speaking`**, an expandable grammar note per lesson, and reading/audio blocks. Reuse
 > `tools/generate_audio.py` (throwaway venv) for listening clips.
 
-### C1 — Rebuild Level 2 (replace the provisional version)
-- The shipped `content/level2.ts` is a generic-A2 **inference with only 2 units** — replace it
-  with the real **4-unit** spine from `s2u1–s2u4`, 100% original, calibrated A2, final test +
-  conclusion + diploma. Update `catalog.ts` `LEVEL_META[2].focus` to the real spine. Validator
-  + tests green. ✅
+### C1 — Rebuild Level 2 (replace the provisional version) ✅ DONE (session 5)
+- The shipped `content/level2.ts` was a generic-A2 **inference with only 2 units** — replaced with
+  the real **4-unit** spine from `s2u1–s2u4`, 100% original, calibrated A2, final test +
+  conclusion + diploma; `LEVEL_META[2].focus` updated. Validator + tests green.
 
-### C2 — Author Level 3 (new)
-- `content/level3.ts` — 4 units from `s3u1–s3u4` (B1-ish), final + conclusion + diploma.
-  Register in `courses` (catalog), set `LEVEL_META[3]`, status flips to active automatically.
-  Calibrate speaking up (a short sentence/two). Validator + tests green. ✅
+### C2 — Author Level 3 (new) ✅ DONE (sessions 5–6)
+- `content/level3.ts` — 4 units from `s3u1–s3u4` (B1): past continuous → present perfect →
+  conditionals → modals. 20 lessons, 4 speaking, 16-Q final (pass 12), conclusion + diploma.
+  Registered in `courses`, `LEVEL_META[3]` set, card auto-active.
 
-### C3 — Author Level 4 (new)
-- `content/level4.ts` — 4 units from `s4u1–s4u4`, register, `LEVEL_META[4]`. ✅
+### C3 — Author Level 4 (new) ✅ DONE (session 6)
+- `content/level4.ts` — 4 units from `s4u1–s4u4` (B1+/B2): reported speech → conditionals &
+  verbals → future/ability → media language. 20 lessons, 4 speaking, 16-Q final (pass 12),
+  conclusion + diploma. Registered, `LEVEL_META[4]` set.
 
-### C4 — Audio + polish
-- Generate edge-tts MP3s for all new listening blocks; `validateAudioFiles` green. With all
-  four levels active, `levelRange()` auto-reads "Levels 1–4" everywhere (no page edits — the
-  catalog does it). Final ✅ green gate; HANDOFF §2 wrap.
+### C4 — Audio + polish ✅ DONE (session 6)
+- Added one edge-tts listening block + comprehension Q to each new level (L2/L3/L4); generated the
+  MP3s, removed orphaned old-L2 clips. `validateAudioFiles` green. All four levels active →
+  `levelRange()` auto-reads "Levels 1–4" everywhere.
 
 ---
 
 ## Suggested order
 S1 → S2 → S3 (speaking live-tested by Carlos) → C1 (L2) → C2 (L3) → C3 (L4) → C4 (audio/polish).
-Deferred still: REFACTOR §3-E (auth gating + scores) and §3-F (TS→Postgres) — independent, later.
+**🏁 ALL DONE (Phases S + C complete, 2026-06-23).** Program content-complete, Levels 1–4 live.
+Deferred still: REFACTOR §3-E (auth gating + scores) and §3-F (TS→Postgres) — independent, need the
+live DB; plus Carlos's go-live (§17 in HANDOFF) + his Gemini smoke-test for speaking.

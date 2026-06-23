@@ -27,15 +27,17 @@
   - ✅ **Level 2 fully rebuilt** to its REAL `s2` curriculum spine (4 units, 20 lessons, 16-Q final,
     4 speaking) — the old 2-unit "past/future/quantity" guess is gone. Extracted spines live in
     `CURRICULA_SPINE.md`.
-  - ✅ **Level 3 (B1) COMPLETE & LIVE (2026-06-23):** 4 units / 20 lessons / 4 speaking, 16-Q final
-    (pass 12), wired into `courses` — the L3 card auto-activated. Spine: past continuous → present
-    perfect → conditionals → modals.
-  - ⏳ **Level 4 (A2/B1 past depth) NOT started** — `content/level4.ts` to be authored from
-    `reference/s4u1–s4u4` (spine not yet extracted). Earlier: Auth + Postgres + server-progress
-    (manual + Google OAuth) + edge-tts audio on L1 — all built, untested-live.
-  - **Next:** **C3 — author Level 4** (extract `s4` spine → `level4.ts` → wire), then **C4 audio/polish**.
-    Carlos's go-live (auth/DB + `GEMINI_API_KEY` on Replit per §17) still pending. Deferred
-    engineering: REFACTOR.md §3-E / §3-F.
+  - 🏁 **ALL FOUR LEVELS CONTENT-COMPLETE & LIVE (2026-06-23) — Phase C done.** Levels 1–4 each =
+    4 units / 20 lessons, every level with a 16-Q final (pass 12, except L1/L2 per their spec),
+    conclusion, diploma, speaking questions, and ≥1 edge-tts listening block. `levelRange()` now
+    reads "Levels 1–4" everywhere. Spines: L1 foundations · L2 A2 (habits→past) · L3 B1 (past
+    continuous→present perfect→conditionals→modals) · L4 B1+/B2 (reported speech→conditionals &
+    verbals→future/ability→media language). All authored from the real curricula (`reference/s1–s4`,
+    spines in `CURRICULA_SPINE.md`). Runtime-smoke-tested (all routes 200, content renders).
+  - **Next (Carlos / deferred):** Carlos's **go-live** (auth/DB + `GEMINI_API_KEY` on Replit per §17)
+    is the real remaining unblock. Deferred engineering: REFACTOR.md §3-E (auth gating + real exam
+    scores) and §3-F (TS→Postgres content) — both need the live DB. Optional content round-2: more
+    speaking/listening per level, §18.B calibration audit.
 - **Deadline pressure:** Carlos starts the first formal class **today (2026-06-22)**.
   Goal = something real and usable for Level 1, even if rough. Dirty hardcoding is OK.
 
@@ -90,8 +92,26 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
   real `LEVEL_META[3].focus`); the Level 3 card auto-activates. Removed the standalone
   `validate.test.ts` L3 case (the `courses` test covers it now). ✅ tsc + lint + **36 tests** +
   build green; 12 routes. `levelRange()` now reads "Levels 1–3" everywhere automatically.
-- ⏭ **Next this session: C3 — Level 4** (extract `s4u1–s4u4` spine → `content/level4.ts` → wire),
-  then **C4** (edge-tts audio for new listening blocks + final polish).
+- ✅ **C3 — Level 4 authored & wired (NEW).** Extracted the real `s4u1–s4u4` spine (cropped via
+  the tts-venv `crop.py`, read the legible tiles) into `CURRICULA_SPINE.md`, then authored
+  `content/level4.ts` (B1+/B2): **U1 "Who Said What?"** (perfect-tense review → reported speech:
+  statements / commands / questions / time-place refs), **U2 "What Would You Do?"** (infinitives ·
+  gerunds · 2nd conditional · wish/if-only present · 3rd conditional + wish past), **U3 "Do You
+  Watch Sports?"** (present-for-future · have to · be able to across tenses), **U4 "How Addictive
+  Is It?"** (phrasal verbs · linking words · irregular comparatives · -ever words · adverbs of
+  place). 4 units / 20 lessons / 4 speaking / 2 readings; 16-Q final (pass 12). Wired into
+  `catalog.ts` (`courses` + `LEVEL_META[4]`); the L4 card auto-activated. ✅ green gate.
+- ✅ **C4 — audio + polish (NEW).** Added one edge-tts **listening block + comprehension Q** to each
+  new level (L2 `c2u3l3` was/were · L3 `c3u2l1` present perfect · L4 `c4u3l2` future plans),
+  generated the 3 MP3s via `tools/generate_audio.py` (throwaway tts venv) into `public/audio/`,
+  updated `CLIPS`. Deleted the two **orphaned** old-L2 clips (`l2-u1-a1`, `l2-u2-a1`).
+  `validateAudioFiles` green. ✅ tsc + lint + 36 tests + build.
+- ✅ **Runtime smoke test:** dev server up, all L3/L4 routes (intro/lessons/final/conclusion) →
+  **200**; landing renders "Levels 1–4", both new cards show "Ready" with correct focus labels, the
+  L4 audio `<audio src="/audio/c4u3l2-a1.mp3">` renders, L3 final shows "Score 12 of 16".
+- 🏁 **Phase C COMPLETE (C1–C4). The whole program (Levels 1–4) is content-complete and live.**
+  Remaining work is **Carlos's go-live (§17)** + deferred engineering (REFACTOR §3-E/§3-F, need live
+  DB). Clean working tree, build green, 36 tests pass — safe to stop here.
 
 ### 2026-06-22 — Session 5 (speaking + curricula loop — `SPEAKING_AND_CURRICULA.md`)
 - ✅ **Iteration S1 done (speaking model + AI service + analyze route):**
