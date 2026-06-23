@@ -128,6 +128,13 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
   model) — both need the live DB. **Next concrete work = the §6 content track:** rebuild Level 2 to
   its real 4-unit `s2u1–s2u4` spine, author Levels 3 & 4 from `s3`/`s4` (read the dense PNGs zoomed),
   each registered in `courses` and checked by the validator.
+- 🗺️ **Next loop spec written → `SPEAKING_AND_CURRICULA.md`.** Carlos also wants **speaking
+  exercises** (a new `speaking` question type, browser MediaRecorder → `@google/genai` multimodal
+  transcribe+grade, ported from `AudioReviewer/`) added to Level 1 first, *then* the L2 rebuild and
+  L3/L4 authoring. Next loop = **Phase S** (S1 model+AI route, S2 recorder+UI, S3 L1 speaking) →
+  **Phase C** (C1 rebuild L2, C2 L3, C3 L4, C4 audio/polish). ⚠️ Speaking needs `GEMINI_API_KEY`
+  (Carlos) and is built behind a `geminiConfigured()` fallback — the loop won't make live calls;
+  **Carlos smoke-tests the Gemini runtime** (like the auth §17 handback).
 
 ### 2026-06-22 — Session 3 (autonomous `/loop`)
 **Decisions locked this session (Carlos):** ships **online on Replit** with **Replit's
