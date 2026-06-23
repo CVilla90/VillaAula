@@ -121,9 +121,17 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
   articles · U3 adverbs+purpose/subject-object pronouns/was-were/simple-past-regular+questions ·
   U4 simple-past irregulars/used-to/duration/last-ago. Confirms the **shipped 2-unit L2 was a wrong
   guess** — full rebuild justified. ⚠️ §9: invent original reading titles (don't reuse the book's).
-- **Next: C1 (part 2) — author the new 4-unit `level2.ts`** from `CURRICULA_SPINE.md` (original,
-  A2-calibrated, mixed types incl. speaking; final/conclusion/diploma), update `LEVEL_META[2].focus`,
-  validator+tests green. Then C2 (extract+author L3), C3 (L4), C4 (audio/polish).
+- ✅ **C1 (part 2) — Level 2 Units 1 & 2 authored (real content).** Rewrote `content/level2.ts`
+  from `CURRICULA_SPINE.md`: **Unit 1 "Getting Around"** (directions/imperatives · present-simple +
+  frequency · `can` · present-continuous yes/no · present-continuous Wh- + clothes) and **Unit 2
+  "Plans & Plenty"** (going-to · will/won't · countable-uncountable + would-like · some/any + there
+  is/are · how much/many + articles). 5 lessons each, 100% original, A2-calibrated, mixed types incl.
+  **2 speaking** + 2 readings; new canonical IDs (`c2u1l1`…). 10-Q final (pass 8), conclusion,
+  diploma. Updated `LEVEL_META[2].focus`. ✅ tsc + lint + build + 36 tests (validator over the new
+  content) green. (Old `l2-u1-a1.mp3`/`l2-u2-a1.mp3` now unreferenced — regenerated in C4.)
+- **Next: C1 (part 3) — author Level 2 Units 3 & 4** (was/were, simple past regular+irregular,
+  used-to, duration, last/ago) + extend the final test to cover all 4 units. Then C2 (L3), C3 (L4),
+  C4 (audio/polish).
 
 ### 2026-06-22 — Session 4 (de-hardcode / harden — planning)
 - 📋 Did a full read of `src/` and wrote **`REFACTOR.md`** — the de-hardcode/best-practices

@@ -75,7 +75,7 @@ export const TOTAL_LEVELS = 4;
  */
 const LEVEL_META: Record<number, { title: string; focus: string }> = {
   1: { title: "Foundations", focus: "be · routines · comparisons · can" },
-  2: { title: "Everyday Stories", focus: "past · future · some / any" },
+  2: { title: "Everyday Stories", focus: "habits · can · going to · quantity · past" },
   3: { title: "Telling More", focus: "present perfect · adverbs · because" },
   4: { title: "Real Conversations", focus: "conditionals · should · phrasal verbs" },
 };

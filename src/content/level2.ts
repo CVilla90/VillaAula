@@ -1,11 +1,15 @@
 import type { Course } from "@/lib/types";
 
 /**
- * Level 2 — "Everyday Stories" (A2). Level 1 covered the full beginner spine
- * (to be → articles → present tenses → comparatives). Level 2 moves time around:
- * the past (was/were, regular + irregular, did), the future (going to, will), and
- * talking about quantity (some/any, how much/how many). 100% original content
- * (HANDOFF §9): we follow the universal CEFR progression, nothing copied.
+ * Level 2 — A2, rebuilt from the real program spine (reference/s2u1–s2u4, captured
+ * in CURRICULA_SPINE.md). 100% original content (HANDOFF §9): we follow the grammar
+ * progression + vocab themes, but every prompt, reading, and title is written fresh.
+ *
+ * Arc: Unit 1 the present (directions, habits, ability, what's happening now) →
+ * Unit 2 plans & quantity (going to, will, countable/uncountable, quantifiers) →
+ * Unit 3 the past (was/were, simple past) → Unit 4 the past in depth.
+ *
+ * NOTE: Units 1–2 authored; Units 3–4 + the full final test land in the next pass.
  */
 export const level2: Course = {
   id: "level-2",
@@ -13,340 +17,355 @@ export const level2: Course = {
   level: 2,
   title: "Everyday Stories",
   intro:
-    "You can talk about now — so let's move through time. In Level 2 you'll tell people what happened yesterday, what you're going to do tomorrow, and how much of everything you need. Same short exercises, same instant feedback, a little more to say.",
+    "You can talk about yourself — now let's talk about the world. In Level 2 you give directions, say how often you do things, make plans, talk about food and quantity, and tell stories about the past. Same short exercises, same instant feedback, a lot more to say.",
   acceptsGuests: true,
   units: [
+    // ============================== UNIT 1 ==============================
     {
-      id: "l2-u1",
+      id: "c2u1",
       slug: "1",
       number: 1,
-      title: "Back in time",
+      title: "Getting Around",
       summary:
-        "Talk about the past: was and were, regular and irregular verbs, and asking what happened.",
+        "Give directions, talk about your daily habits and abilities, and describe what is happening right now.",
       lessons: [
-        // ---------------------------------------------------------------- L1
+        // ---- L1: directions / imperatives ----
         {
-          id: "l2-u1-l1",
-          slug: "was-were",
-          title: "Was and were",
-          topic: "past of to be",
+          id: "c2u1l1",
+          slug: "directions",
+          title: "Which way?",
+          topic: "imperatives · directions",
           grammarNote: [
-            "The past of **to be** has just two shapes:",
+            "To give **directions and instructions** we use the **imperative** — just the base",
+            "verb, with no subject:",
             "",
-            "- I / he / she / it → **was**",
-            "- you / we / they → **were**",
+            "- **Go** straight. · **Turn** left. · **Take** the first street on the right.",
+            "- Make it negative with **don't**: *Don't turn here.*",
             "",
-            "Make it negative with **not**: *wasn't*, *weren't*.",
-            "Ask by moving the verb first: **Were you at home?** · **Was it cold?**",
+            "Useful words of movement: **along** a street, **across** a bridge, **past** the bank,",
+            "**through** the park.",
           ].join("\n"),
           exercise: {
-            id: "l2-u1-l1-ex",
-            title: "Practice: was / were",
+            id: "c2u1l1-ex",
+            title: "Practice: directions",
             items: [
               {
-                kind: "content",
-                content: {
-                  id: "l2-u1-a1",
-                  type: "audio",
-                  title: "Listen: last weekend",
-                  transcript:
-                    "Last weekend was great. We were at the beach on Saturday, and the weather was warm and sunny.",
-                  voice: "en-US-AndrewNeural",
-                  mediaUrl: "/audio/l2-u1-a1.mp3",
-                },
-              },
-              {
                 kind: "question",
                 question: {
-                  id: "l2-u1-l1-q0",
-                  type: "open",
-                  prompt: "From the audio: the weather was warm and ___.",
-                  points: 1,
-                  config: { acceptedAnswers: ["sunny"], charLimit: 10 },
-                  explanation: "“…warm and **sunny**.”",
-                },
-              },
-              {
-                kind: "question",
-                question: {
-                  id: "l2-u1-l1-q1",
+                  id: "c2u1l1-q1",
                   type: "multiple_choice",
-                  prompt: "Yesterday I ___ at the park.",
+                  prompt: "Which one is a correct instruction?",
                   points: 1,
                   config: {
                     options: [
-                      { id: "a", text: "was" },
-                      { id: "b", text: "were" },
-                      { id: "c", text: "am" },
-                    ],
-                    correctIds: ["a"],
-                  },
-                  explanation: "**I** takes **was** in the past.",
-                },
-              },
-              {
-                kind: "question",
-                question: {
-                  id: "l2-u1-l1-q2",
-                  type: "open",
-                  prompt: "Complete: They ___ very happy with the news.",
-                  points: 1,
-                  config: { acceptedAnswers: ["were"], charLimit: 8 },
-                  explanation: "**they** → **were**.",
-                },
-              },
-              {
-                kind: "question",
-                question: {
-                  id: "l2-u1-l1-q3",
-                  type: "true_false",
-                  prompt: "“She were at school.” — Is this correct?",
-                  points: 1,
-                  config: { correct: false },
-                  explanation: "It should be **she was**. He/she/it take *was*.",
-                },
-              },
-              {
-                kind: "question",
-                question: {
-                  id: "l2-u1-l1-q4",
-                  type: "multiple_choice",
-                  prompt: "Choose the question: ___ you tired last night?",
-                  points: 1,
-                  config: {
-                    options: [
-                      { id: "a", text: "Was" },
-                      { id: "b", text: "Were" },
-                      { id: "c", text: "Did" },
+                      { id: "a", text: "You turn left." },
+                      { id: "b", text: "Turn left." },
+                      { id: "c", text: "To turn left." },
                     ],
                     correctIds: ["b"],
                   },
-                  explanation: "With **you**, ask **Were you…?**",
+                  explanation: "An imperative is just the base verb: **Turn left.**",
                 },
               },
-            ],
-          },
-        },
-        // ---------------------------------------------------------------- L2
-        {
-          id: "l2-u1-l2",
-          slug: "past-regular",
-          title: "Regular past verbs",
-          topic: "-ed endings",
-          grammarNote: [
-            "For most past verbs, add **-ed**: *work → worked*, *play → played*.",
-            "",
-            "Small spelling rules:",
-            "- ends in **-e** → add **-d**: *like → liked*",
-            "- consonant + **-y** → **-ied**: *study → studied*",
-            "- short vowel + one consonant → double it: *stop → stopped*",
-          ].join("\n"),
-          exercise: {
-            id: "l2-u1-l2-ex",
-            title: "Practice: -ed verbs",
-            items: [
               {
                 kind: "question",
                 question: {
-                  id: "l2-u1-l2-q1",
+                  id: "c2u1l1-q2",
                   type: "open",
-                  prompt: "Past of **play**: Yesterday we ___ football.",
+                  prompt: "Complete: “___ straight, then turn right.” (one word)",
                   points: 1,
-                  config: { acceptedAnswers: ["played"], charLimit: 10 },
-                  explanation: "*play* + **-ed** = **played**.",
+                  config: { acceptedAnswers: ["go"], charLimit: 8 },
+                  explanation: "**Go** straight — base verb, no subject.",
                 },
               },
               {
                 kind: "question",
                 question: {
-                  id: "l2-u1-l2-q2",
-                  type: "multiple_choice",
-                  prompt: "Past of **study**:",
-                  points: 1,
-                  config: {
-                    options: [
-                      { id: "a", text: "studyed" },
-                      { id: "b", text: "studied" },
-                      { id: "c", text: "studed" },
-                    ],
-                    correctIds: ["b"],
-                  },
-                  explanation: "consonant + **-y** → **-ied**: *studied*.",
-                },
-              },
-              {
-                kind: "question",
-                question: {
-                  id: "l2-u1-l2-q3",
-                  type: "open",
-                  prompt: "Past of **stop**: The bus ___ near my house.",
-                  points: 1,
-                  config: { acceptedAnswers: ["stopped"], charLimit: 10 },
-                  explanation: "short vowel + one consonant → double it: **stopped**.",
-                },
-              },
-              {
-                kind: "question",
-                question: {
-                  id: "l2-u1-l2-q4",
-                  type: "true_false",
-                  prompt: "The past of **like** is *liked*.",
-                  points: 1,
-                  config: { correct: true },
-                  explanation: "It ends in **-e**, so we just add **-d**: *liked*.",
-                },
-              },
-            ],
-          },
-        },
-        // ---------------------------------------------------------------- L3
-        {
-          id: "l2-u1-l3",
-          slug: "past-irregular",
-          title: "Irregular past verbs",
-          topic: "go → went, etc.",
-          grammarNote: [
-            "Many common verbs don't take **-ed** — you learn their past by heart:",
-            "",
-            "- go → **went**",
-            "- have → **had**",
-            "- see → **saw**",
-            "- eat → **ate**",
-            "- make → **made**",
-            "- get → **got**",
-          ].join("\n"),
-          exercise: {
-            id: "l2-u1-l3-ex",
-            title: "Practice: irregular verbs",
-            items: [
-              {
-                kind: "content",
-                content: {
-                  id: "l2-u1-l3-c1",
-                  type: "reading",
-                  emoji: "🌮",
-                  title: "A small trip",
-                  body: "Last Saturday we went to the market. We saw fresh fruit and ate tacos. My mom made coffee at home and we had a slow morning.",
-                },
-              },
-              {
-                kind: "question",
-                question: {
-                  id: "l2-u1-l3-q1",
-                  type: "open",
-                  prompt: "From the reading — past of **go**: We ___ to the market.",
-                  points: 1,
-                  config: { acceptedAnswers: ["went"], charLimit: 8 },
-                  explanation: "go → **went**.",
-                },
-              },
-              {
-                kind: "question",
-                question: {
-                  id: "l2-u1-l3-q2",
+                  id: "c2u1l1-q3",
                   type: "match",
-                  prompt: "Match each verb to its past form.",
+                  prompt: "Match each word of movement to its meaning.",
                   points: 1,
                   config: {
                     pairs: [
-                      { left: "see", right: "saw" },
-                      { left: "eat", right: "ate" },
-                      { left: "have", right: "had" },
-                      { left: "make", right: "made" },
+                      { left: "across", right: "from one side to the other" },
+                      { left: "along", right: "following the line of a street" },
+                      { left: "past", right: "going by something" },
                     ],
                   },
-                  explanation: "These are irregular — no **-ed**.",
+                  explanation: "across a bridge · along a street · past the bank.",
                 },
               },
               {
                 kind: "question",
                 question: {
-                  id: "l2-u1-l3-q3",
-                  type: "multiple_choice",
-                  prompt: "Past of **get**: I ___ a new phone last week.",
+                  id: "c2u1l1-q4",
+                  type: "speaking",
+                  prompt: "Say this direction out loud:",
                   points: 1,
                   config: {
-                    options: [
-                      { id: "a", text: "getted" },
-                      { id: "b", text: "got" },
-                      { id: "c", text: "gotted" },
+                    target: "Turn left at the corner.",
+                    acceptedAnswers: [
+                      "turn left at the corner",
+                      "turn left on the corner",
                     ],
-                    correctIds: ["b"],
+                    maxSeconds: 8,
                   },
-                  explanation: "get → **got**.",
                 },
               },
             ],
           },
         },
-        // ---------------------------------------------------------------- L4
+        // ---- L2: present simple + adverbs of frequency ----
         {
-          id: "l2-u1-l4",
-          slug: "past-questions",
-          title: "Did and didn't",
-          topic: "past questions & negatives",
+          id: "c2u1l2",
+          slug: "how-often",
+          title: "How often?",
+          topic: "present simple · frequency",
           grammarNote: [
-            "For questions and negatives in the past, use **did** + the **base verb**:",
+            "Use the **present simple** for habits and routines: *I check my phone every morning.*",
             "",
-            "- Question: **Did you go** to school? (not *Did you went*)",
-            "- Negative: I **didn't go**. (didn't = did not)",
+            "**Adverbs of frequency** say how often. From most to least:",
+            "**always → usually → often → sometimes → never.**",
+            "They go **before the main verb**, but **after _be_**:",
+            "- I **always** *charge* my phone at night.",
+            "- She **is** **often** late.",
             "",
-            "The main verb goes back to its base form — **did** already shows the past.",
+            "Ask with **do / does**: *How often **do** you call home?*",
           ].join("\n"),
           exercise: {
-            id: "l2-u1-l4-ex",
-            title: "Practice: did / didn't",
+            id: "c2u1l2-ex",
+            title: "Practice: habits",
             items: [
               {
                 kind: "question",
                 question: {
-                  id: "l2-u1-l4-q1",
+                  id: "c2u1l2-q1",
                   type: "multiple_choice",
-                  prompt: "Choose the correct question: ___ you ___ breakfast?",
+                  prompt: "Choose the natural sentence.",
                   points: 1,
                   config: {
                     options: [
-                      { id: "a", text: "Did … eat" },
-                      { id: "b", text: "Did … ate" },
-                      { id: "c", text: "Was … eat" },
+                      { id: "a", text: "I check always my messages." },
+                      { id: "b", text: "I always check my messages." },
+                      { id: "c", text: "Always I check my messages." },
+                    ],
+                    correctIds: ["b"],
+                  },
+                  explanation:
+                    "The adverb goes **before the main verb**: *I **always check**…*",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u1l2-q2",
+                  type: "open",
+                  prompt: "Make a question: “___ you use your phone a lot?” (one word)",
+                  points: 1,
+                  config: { acceptedAnswers: ["do"], charLimit: 6 },
+                  explanation: "Present simple questions with *you* use **do**.",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u1l2-q3",
+                  type: "true_false",
+                  prompt: "“He always is late.” — Is this natural English?",
+                  points: 1,
+                  config: { correct: false },
+                  explanation:
+                    "After **be**, the adverb comes after: *He **is always** late.*",
+                },
+              },
+            ],
+          },
+        },
+        // ---- L3: can (ability / possibility) ----
+        {
+          id: "c2u1l3",
+          slug: "can",
+          title: "Can you do it?",
+          topic: "modal verb · can / can't",
+          grammarNote: [
+            "**can** + base verb = ability or possibility. It never changes form:",
+            "*I can swim. · She **can** drive. · They can help.*",
+            "",
+            "Negative: **can't** (cannot). Questions move *can* first:",
+            "*__Can__ you cook?* → **Yes, I can. / No, I can't.**",
+            "Never add *to*: ~~I can to swim~~.",
+          ].join("\n"),
+          exercise: {
+            id: "c2u1l3-ex",
+            title: "Practice: can",
+            items: [
+              {
+                kind: "question",
+                question: {
+                  id: "c2u1l3-q1",
+                  type: "multiple_choice",
+                  prompt: "She ___ play the guitar.",
+                  points: 1,
+                  config: {
+                    options: [
+                      { id: "a", text: "can" },
+                      { id: "b", text: "cans" },
+                      { id: "c", text: "can to" },
                     ],
                     correctIds: ["a"],
                   },
-                  explanation: "After **did**, use the base verb: **Did you eat?**",
+                  explanation: "**can** never adds *-s* or *to*.",
                 },
               },
               {
                 kind: "question",
                 question: {
-                  id: "l2-u1-l4-q2",
+                  id: "c2u1l3-q2",
                   type: "open",
-                  prompt: "Make it negative: “He ___ (not) call me.” → He ___ call me.",
-                  hint: "did + not, in one word",
+                  prompt: "Short answer: “Can you cook?” → “___, I can.” (one word)",
                   points: 1,
-                  config: { acceptedAnswers: ["didn't", "did not", "didnt"], charLimit: 10 },
-                  explanation: "**didn't** + base verb: *He didn't call me.*",
+                  config: { acceptedAnswers: ["yes"], charLimit: 6 },
+                  explanation: "Short answer: **Yes, I can.**",
                 },
               },
               {
                 kind: "question",
                 question: {
-                  id: "l2-u1-l4-q3",
+                  id: "c2u1l3-q3",
                   type: "true_false",
-                  prompt: "“Did she went home?” is correct English.",
+                  prompt: "“I can to drive.” — Is this correct?",
                   points: 1,
                   config: { correct: false },
-                  explanation: "After **did**, use the base verb: *Did she **go** home?*",
+                  explanation: "No *to* after *can*: **I can drive.**",
+                },
+              },
+            ],
+          },
+        },
+        // ---- L4: present continuous (yes/no) ----
+        {
+          id: "c2u1l4",
+          slug: "present-continuous",
+          title: "Right now",
+          topic: "present continuous · be + -ing",
+          grammarNote: [
+            "For something **happening now**, use **am / is / are + verb-ing**:",
+            "*I **am working**. · She **is reading**. · They **are playing**.*",
+            "",
+            "Spelling: *run → run**ning***, *make → mak**ing***, *sit → sit**ting***.",
+            "Yes/no questions move *be* first: ***Are** you listening?*",
+          ].join("\n"),
+          exercise: {
+            id: "c2u1l4-ex",
+            title: "Practice: happening now",
+            items: [
+              {
+                kind: "question",
+                question: {
+                  id: "c2u1l4-q1",
+                  type: "open",
+                  prompt: "Write the -ing form of **run**: ___",
+                  points: 1,
+                  config: { acceptedAnswers: ["running"], charLimit: 10 },
+                  explanation: "Double the *n*: **running**.",
                 },
               },
               {
                 kind: "question",
                 question: {
-                  id: "l2-u1-l4-q4",
-                  type: "open",
-                  prompt: "Complete with the base verb: I didn't ___ (see) the message.",
+                  id: "c2u1l4-q2",
+                  type: "multiple_choice",
+                  prompt: "___ they sleeping?",
                   points: 1,
-                  config: { acceptedAnswers: ["see"], charLimit: 8 },
-                  explanation: "After **didn't**, use the base form: **see**.",
+                  config: {
+                    options: [
+                      { id: "a", text: "Do" },
+                      { id: "b", text: "Are" },
+                      { id: "c", text: "Is" },
+                    ],
+                    correctIds: ["b"],
+                  },
+                  explanation: "Continuous questions use *be*: **Are** they sleeping?",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u1l4-q3",
+                  type: "true_false",
+                  prompt: "“She is play tennis now.” — Is this correct?",
+                  points: 1,
+                  config: { correct: false },
+                  explanation: "Add *-ing*: *She is **playing** tennis now.*",
+                },
+              },
+            ],
+          },
+        },
+        // ---- L5: present continuous (Wh-) + clothes ----
+        {
+          id: "c2u1l5",
+          slug: "wearing",
+          title: "What are they wearing?",
+          topic: "present continuous · Wh- questions",
+          grammarNote: [
+            "**Wh- question** + **be** + subject + **verb-ing**:",
+            "*__What__ are you doing? · __Where__ is she going? · __What__ is he wearing?*",
+            "",
+            "Clothes: a shirt, a jacket, jeans, a dress, shoes, a hat.",
+          ].join("\n"),
+          exercise: {
+            id: "c2u1l5-ex",
+            title: "Practice: describing now",
+            items: [
+              {
+                kind: "content",
+                content: {
+                  id: "c2u1l5-c1",
+                  type: "reading",
+                  emoji: "🧥",
+                  title: "At the bus stop",
+                  body: "Look at Sofía. She is waiting for the bus. She is wearing a red jacket and blue jeans, and she is reading a book. Next to her, a man is talking on his phone.",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u1l5-q1",
+                  type: "multiple_choice",
+                  prompt: "What ___ Sofía wearing?",
+                  points: 1,
+                  config: {
+                    options: [
+                      { id: "a", text: "is" },
+                      { id: "b", text: "are" },
+                      { id: "c", text: "does" },
+                    ],
+                    correctIds: ["a"],
+                  },
+                  explanation: "*Sofía* is one person → **is**.",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u1l5-q2",
+                  type: "open",
+                  prompt: "From the reading: what is Sofía reading? A ___.",
+                  points: 1,
+                  config: { acceptedAnswers: ["book"], charLimit: 10 },
+                  explanation: "She is reading a **book**.",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u1l5-q3",
+                  type: "true_false",
+                  prompt: "The man is sleeping.",
+                  points: 1,
+                  config: { correct: false },
+                  explanation: "He **is talking** on his phone.",
                 },
               },
             ],
@@ -354,181 +373,230 @@ export const level2: Course = {
         },
       ],
     },
+    // ============================== UNIT 2 ==============================
     {
-      id: "l2-u2",
+      id: "c2u2",
       slug: "2",
       number: 2,
-      title: "What's next",
+      title: "Plans & Plenty",
       summary:
-        "Talk about the future with going to and will, and say how much or how many you need.",
+        "Make plans and predictions, order food politely, and talk about quantity — how much and how many.",
       lessons: [
-        // ---------------------------------------------------------------- L1
+        // ---- L1: going to ----
         {
-          id: "l2-u2-l1",
+          id: "c2u2l1",
           slug: "going-to",
-          title: "Be going to",
-          topic: "plans & intentions",
+          title: "What are you going to do?",
+          topic: "future · be going to",
           grammarNote: [
-            "Use **be going to** for plans you've already decided:",
+            "Use **be going to + base verb** for **plans** and for predictions you can **see**",
+            "coming:",
+            "*I **am going to** travel this summer. · Look at those clouds — it'**s going to** rain.*",
             "",
-            "- **am / is / are** + **going to** + base verb",
-            "- *I'm going to study tonight.* · *She's going to travel in July.*",
-            "",
-            "Ask by moving *am/is/are* first: **Are you going to come?**",
+            "Form: am / is / are + **going to** + verb. Question: *__Are__ you going to study?*",
           ].join("\n"),
           exercise: {
-            id: "l2-u2-l1-ex",
-            title: "Practice: going to",
-            items: [
-              {
-                kind: "content",
-                content: {
-                  id: "l2-u2-a1",
-                  type: "audio",
-                  title: "Listen: my plan",
-                  transcript:
-                    "Next month I'm going to start a new class. My sister is going to help me, and we're going to practice every evening.",
-                  voice: "en-US-AriaNeural",
-                  mediaUrl: "/audio/l2-u2-a1.mp3",
-                },
-              },
-              {
-                kind: "question",
-                question: {
-                  id: "l2-u2-l1-q0",
-                  type: "open",
-                  prompt: "From the audio: they're going to practice every ___.",
-                  points: 1,
-                  config: { acceptedAnswers: ["evening"], charLimit: 12 },
-                  explanation: "“…practice every **evening**.”",
-                },
-              },
-              {
-                kind: "question",
-                question: {
-                  id: "l2-u2-l1-q1",
-                  type: "open",
-                  prompt: "Complete: She ___ going to visit her family.",
-                  points: 1,
-                  config: { acceptedAnswers: ["is", "'s"], charLimit: 6 },
-                  explanation: "**she is** going to… → *She's going to visit.*",
-                },
-              },
-              {
-                kind: "question",
-                question: {
-                  id: "l2-u2-l1-q2",
-                  type: "multiple_choice",
-                  prompt: "Which sentence is correct?",
-                  points: 1,
-                  config: {
-                    options: [
-                      { id: "a", text: "I going to sleep." },
-                      { id: "b", text: "I'm going to sleep." },
-                      { id: "c", text: "I'm going to sleeping." },
-                    ],
-                    correctIds: ["b"],
-                  },
-                  explanation: "**be** + going to + **base verb**: *I'm going to sleep.*",
-                },
-              },
-              {
-                kind: "question",
-                question: {
-                  id: "l2-u2-l1-q3",
-                  type: "true_false",
-                  prompt: "We use **going to** for plans we have already decided.",
-                  points: 1,
-                  config: { correct: true },
-                  explanation: "Yes — *going to* fits decided plans and intentions.",
-                },
-              },
-            ],
-          },
-        },
-        // ---------------------------------------------------------------- L2
-        {
-          id: "l2-u2-l2",
-          slug: "will",
-          title: "Will and won't",
-          topic: "predictions & quick decisions",
-          grammarNote: [
-            "Use **will** + base verb for predictions and decisions made *right now*:",
-            "",
-            "- *I think it **will** rain.* (prediction)",
-            "- *I'm tired — I**'ll** stay home.* (decision in the moment)",
-            "",
-            "Negative: **won't** (= will not). It's the same for every subject.",
-          ].join("\n"),
-          exercise: {
-            id: "l2-u2-l2-ex",
-            title: "Practice: will / won't",
+            id: "c2u2l1-ex",
+            title: "Practice: plans",
             items: [
               {
                 kind: "question",
                 question: {
-                  id: "l2-u2-l2-q1",
+                  id: "c2u2l1-q1",
+                  type: "open",
+                  prompt: "Complete: “They ___ going to visit us.” (am / is / are)",
+                  points: 1,
+                  config: { acceptedAnswers: ["are"], charLimit: 6 },
+                  explanation: "*They* → **are** going to…",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u2l1-q2",
                   type: "multiple_choice",
-                  prompt: "Pick the prediction: Maybe it ___ be sunny tomorrow.",
+                  prompt: "The sky is dark. It ___ rain.",
                   points: 1,
                   config: {
                     options: [
-                      { id: "a", text: "will" },
-                      { id: "b", text: "is going" },
-                      { id: "c", text: "was" },
+                      { id: "a", text: "is going to" },
+                      { id: "b", text: "going to" },
+                      { id: "c", text: "go to" },
                     ],
                     correctIds: ["a"],
                   },
-                  explanation: "**will** + base verb for a prediction: *will be*.",
+                  explanation: "Evidence now → prediction: **is going to** rain.",
                 },
               },
               {
                 kind: "question",
                 question: {
-                  id: "l2-u2-l2-q2",
-                  type: "open",
-                  prompt: "Negative of will, in one word: I ___ tell anyone. (will not)",
+                  id: "c2u2l1-q3",
+                  type: "speaking",
+                  prompt: "Say a plan out loud:",
                   points: 1,
-                  config: { acceptedAnswers: ["won't", "will not", "wont"], charLimit: 10 },
-                  explanation: "**won't** = will not.",
-                },
-              },
-              {
-                kind: "question",
-                question: {
-                  id: "l2-u2-l2-q3",
-                  type: "true_false",
-                  prompt: "“She will to call you.” is correct English.",
-                  points: 1,
-                  config: { correct: false },
-                  explanation: "No *to* after will: *She **will call** you.*",
+                  config: {
+                    target: "I am going to study tonight.",
+                    acceptedAnswers: [
+                      "i am going to study tonight",
+                      "im going to study tonight",
+                    ],
+                    maxSeconds: 10,
+                  },
                 },
               },
             ],
           },
         },
-        // ---------------------------------------------------------------- L3
+        // ---- L2: will / won't ----
         {
-          id: "l2-u2-l3",
-          slug: "some-any",
-          title: "Some and any",
-          topic: "countable / uncountable",
+          id: "c2u2l2",
+          slug: "will",
+          title: "What will happen?",
+          topic: "future · will / won't",
           grammarNote: [
-            "Some nouns you can count (**a book, two books**); some you can't (**water, rice, money**).",
+            "**will + base verb** = predictions, promises, and decisions made **right now**:",
+            "*I think it **will** be sunny. · I **will** help you. · I'**ll** have the soup.*",
             "",
-            "- **some** → in positive sentences: *I have **some** water.*",
-            "- **any** → in questions and negatives: *Is there **any** milk?* · *I don't have **any** money.*",
+            "Negative: **won't** (will not). It's the same for every subject:",
+            "*she **will**, they **will**, it **won't**.*",
           ].join("\n"),
           exercise: {
-            id: "l2-u2-l3-ex",
-            title: "Practice: some / any",
+            id: "c2u2l2-ex",
+            title: "Practice: predictions",
             items: [
               {
                 kind: "question",
                 question: {
-                  id: "l2-u2-l3-q1",
+                  id: "c2u2l2-q1",
+                  type: "open",
+                  prompt: "**won't** is short for “will ___”. (one word)",
+                  points: 1,
+                  config: { acceptedAnswers: ["not"], charLimit: 6 },
+                  explanation: "**won't** = will **not**.",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u2l2-q2",
                   type: "multiple_choice",
-                  prompt: "Positive sentence: There is ___ bread on the table.",
+                  prompt: "Choose the correct sentence.",
+                  points: 1,
+                  config: {
+                    options: [
+                      { id: "a", text: "She will helps you." },
+                      { id: "b", text: "She will help you." },
+                      { id: "c", text: "She wills help you." },
+                    ],
+                    correctIds: ["b"],
+                  },
+                  explanation: "**will** + base verb, no *-s*: *She will **help**.*",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u2l2-q3",
+                  type: "true_false",
+                  prompt: "We can say “I’ll call you later.”",
+                  points: 1,
+                  config: { correct: true },
+                  explanation: "**I'll** = I will — a decision made now. ✓",
+                },
+              },
+            ],
+          },
+        },
+        // ---- L3: countable/uncountable + would like ----
+        {
+          id: "c2u2l3",
+          slug: "would-like",
+          title: "Would you like…?",
+          topic: "countable / uncountable · would like",
+          grammarNote: [
+            "**would like (to)** is a polite way to say *want*: *I'**d like** a coffee. · I'd like **to** order.*",
+            "",
+            "**Countable** nouns can be counted: *an apple, two apples*.",
+            "**Uncountable** nouns can't: *water, rice, money* — no plural; use **some**:",
+            "*I'd like **some** water.*",
+          ].join("\n"),
+          exercise: {
+            id: "c2u2l3-ex",
+            title: "Practice: ordering",
+            items: [
+              {
+                kind: "question",
+                question: {
+                  id: "c2u2l3-q1",
+                  type: "multiple_choice",
+                  prompt: "I'd like ___ water, please.",
+                  points: 1,
+                  config: {
+                    options: [
+                      { id: "a", text: "a" },
+                      { id: "b", text: "an" },
+                      { id: "c", text: "some" },
+                    ],
+                    correctIds: ["c"],
+                  },
+                  explanation: "*Water* is uncountable → **some** water.",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u2l3-q2",
+                  type: "match",
+                  prompt: "Countable or uncountable?",
+                  points: 1,
+                  config: {
+                    pairs: [
+                      { left: "apple", right: "countable" },
+                      { left: "rice", right: "uncountable" },
+                      { left: "sandwich", right: "countable" },
+                    ],
+                  },
+                  explanation: "You can count apples and sandwiches, but not rice.",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u2l3-q3",
+                  type: "open",
+                  prompt: "Polite order: “I'd ___ to see the menu.” (one word)",
+                  points: 1,
+                  config: { acceptedAnswers: ["like"], charLimit: 8 },
+                  explanation: "**would like to** + verb: *I'd **like** to see…*",
+                },
+              },
+            ],
+          },
+        },
+        // ---- L4: some / any + there is / are ----
+        {
+          id: "c2u2l4",
+          slug: "some-any",
+          title: "On the shopping list",
+          topic: "some / any · there is / are",
+          grammarNote: [
+            "**some** in positive sentences; **any** in negatives and questions:",
+            "*There are **some** eggs. · There aren't **any** eggs. · Are there **any** eggs?*",
+            "",
+            "**There is** + singular/uncountable; **There are** + plural:",
+            "*There **is** some milk. · There **are** three apples.*",
+          ].join("\n"),
+          exercise: {
+            id: "c2u2l4-ex",
+            title: "Practice: quantity",
+            items: [
+              {
+                kind: "question",
+                question: {
+                  id: "c2u2l4-q1",
+                  type: "multiple_choice",
+                  prompt: "Is there ___ milk in the fridge?",
                   points: 1,
                   config: {
                     options: [
@@ -536,60 +604,59 @@ export const level2: Course = {
                       { id: "b", text: "any" },
                       { id: "c", text: "a" },
                     ],
-                    correctIds: ["a"],
+                    correctIds: ["b"],
                   },
-                  explanation: "Positive sentence → **some**.",
+                  explanation: "Questions use **any**.",
                 },
               },
               {
                 kind: "question",
                 question: {
-                  id: "l2-u2-l3-q2",
+                  id: "c2u2l4-q2",
                   type: "open",
-                  prompt: "Question: Is there ___ sugar? (some/any)",
+                  prompt: "There ___ three apples on the table. (is / are)",
                   points: 1,
-                  config: { acceptedAnswers: ["any"], charLimit: 6 },
-                  explanation: "Questions usually take **any**.",
+                  config: { acceptedAnswers: ["are"], charLimit: 6 },
+                  explanation: "Plural *apples* → **There are**.",
                 },
               },
               {
                 kind: "question",
                 question: {
-                  id: "l2-u2-l3-q3",
+                  id: "c2u2l4-q3",
                   type: "true_false",
-                  prompt: "“Money” is a noun you usually count one by one (one money, two moneys).",
+                  prompt: "“We don't have some bread.” — Is this correct?",
                   points: 1,
                   config: { correct: false },
-                  explanation: "**Money** is uncountable — we don't say *moneys*.",
+                  explanation: "Negatives use **any**: *We don't have **any** bread.*",
                 },
               },
             ],
           },
         },
-        // ---------------------------------------------------------------- L4
+        // ---- L5: how much / many + articles ----
         {
-          id: "l2-u2-l4",
-          slug: "how-much-many",
-          title: "How much, how many",
-          topic: "asking about quantity",
+          id: "c2u2l5",
+          slug: "how-much",
+          title: "How much is it?",
+          topic: "how much / many · articles",
           grammarNote: [
-            "Ask about amount with:",
+            "**How much** + uncountable; **How many** + countable:",
+            "*__How much__ money? · __How many__ apples?*",
             "",
-            "- **How many** + things you can count: *How **many** apples?*",
-            "- **How much** + things you can't count: *How **much** water?*",
-            "",
-            "Useful amounts: **a lot of** (big), **a few** (some, countable), **a little** (some, uncountable).",
+            "Articles: **a / an** = one general thing (*a shop, an orange*); **the** = a specific one",
+            "(*the shop on the corner*).",
           ].join("\n"),
           exercise: {
-            id: "l2-u2-l4-ex",
-            title: "Practice: how much / how many",
+            id: "c2u2l5-ex",
+            title: "Practice: how much / many",
             items: [
               {
                 kind: "question",
                 question: {
-                  id: "l2-u2-l4-q1",
+                  id: "c2u2l5-q1",
                   type: "multiple_choice",
-                  prompt: "___ students are in your class?",
+                  prompt: "___ sugar do you want in your coffee?",
                   points: 1,
                   config: {
                     options: [
@@ -597,36 +664,38 @@ export const level2: Course = {
                       { id: "b", text: "How many" },
                       { id: "c", text: "How long" },
                     ],
-                    correctIds: ["b"],
+                    correctIds: ["a"],
                   },
-                  explanation: "Students are countable → **How many**.",
+                  explanation: "*Sugar* is uncountable → **How much**.",
                 },
               },
               {
                 kind: "question",
                 question: {
-                  id: "l2-u2-l4-q2",
+                  id: "c2u2l5-q2",
                   type: "open",
-                  prompt: "Uncountable: ___ much water do you drink? (one word)",
+                  prompt: "Countable: “How ___ people are here?” (much / many)",
                   points: 1,
-                  config: { acceptedAnswers: ["how"], charLimit: 6 },
-                  explanation: "**How much** water — water is uncountable.",
+                  config: { acceptedAnswers: ["many"], charLimit: 6 },
+                  explanation: "*People* are countable → **How many**.",
                 },
               },
               {
                 kind: "question",
                 question: {
-                  id: "l2-u2-l4-q3",
-                  type: "match",
-                  prompt: "Match the amount to the noun it fits.",
+                  id: "c2u2l5-q3",
+                  type: "multiple_choice",
+                  prompt: "I bought ___ orange and ___ banana.",
                   points: 1,
                   config: {
-                    pairs: [
-                      { left: "a few", right: "apples" },
-                      { left: "a little", right: "milk" },
+                    options: [
+                      { id: "a", text: "a / a" },
+                      { id: "b", text: "an / a" },
+                      { id: "c", text: "an / an" },
                     ],
+                    correctIds: ["b"],
                   },
-                  explanation: "**a few** + countable, **a little** + uncountable.",
+                  explanation: "Vowel sound → **an** orange; consonant → **a** banana.",
                 },
               },
             ],
@@ -636,120 +705,138 @@ export const level2: Course = {
     },
   ],
   finalTest: {
-    id: "level-2-final",
+    id: "c2-final",
     slug: "final-test",
-    title: "Level 2 Final Check",
+    title: "Level 2 review",
     intro:
-      "A compact review of Everyday Stories — past, future, and quantity. Answer each item, retry anything that doesn't click, then unlock your Level 2 diploma.",
+      "A quick check across Units 1 and 2 — directions, habits, ability, what's happening now, plans, and quantity. Score 8 of 10 to earn your diploma.",
     passingScore: 8,
     exercise: {
-      id: "level-2-final-ex",
-      title: "Final check",
+      id: "c2-final-ex",
+      title: "Level 2 final",
       items: [
         {
           kind: "question",
           question: {
-            id: "l2-final-q1",
+            id: "c2-final-q1",
             type: "multiple_choice",
-            prompt: "We ___ at the beach yesterday.",
+            prompt: "Give an instruction:",
             points: 1,
             config: {
               options: [
-                { id: "a", text: "was" },
-                { id: "b", text: "were" },
-                { id: "c", text: "are" },
+                { id: "a", text: "You take the first street." },
+                { id: "b", text: "Take the first street." },
+                { id: "c", text: "Taking the first street." },
               ],
               correctIds: ["b"],
             },
-            explanation: "**we** → **were**.",
+            explanation: "Imperative = base verb: **Take**…",
           },
         },
         {
           kind: "question",
           question: {
-            id: "l2-final-q2",
-            type: "open",
-            prompt: "Past of **study**: She ___ all weekend.",
+            id: "c2-final-q2",
+            type: "multiple_choice",
+            prompt: "Where does the adverb go? “I ___ drink coffee in the morning.”",
             points: 1,
-            config: { acceptedAnswers: ["studied"], charLimit: 10 },
-            explanation: "consonant + **-y** → **-ied**: *studied*.",
+            config: {
+              options: [
+                { id: "a", text: "drink usually" },
+                { id: "b", text: "usually drink" },
+                { id: "c", text: "drink coffee usually" },
+              ],
+              correctIds: ["b"],
+            },
+            explanation: "Before the main verb: *I **usually drink**…*",
           },
         },
         {
           kind: "question",
           question: {
-            id: "l2-final-q3",
+            id: "c2-final-q3",
             type: "open",
-            prompt: "Past of **go**: They ___ to the cinema.",
+            prompt: "Short answer: “Can you swim?” → “Yes, I ___.” (one word)",
             points: 1,
-            config: { acceptedAnswers: ["went"], charLimit: 8 },
-            explanation: "go → **went** (irregular).",
+            config: { acceptedAnswers: ["can"], charLimit: 6 },
+            explanation: "**Yes, I can.**",
           },
         },
         {
           kind: "question",
           question: {
-            id: "l2-final-q4",
+            id: "c2-final-q4",
+            type: "open",
+            prompt: "-ing form of **sit**: ___",
+            points: 1,
+            config: { acceptedAnswers: ["sitting"], charLimit: 10 },
+            explanation: "Double the *t*: **sitting**.",
+          },
+        },
+        {
+          kind: "question",
+          question: {
+            id: "c2-final-q5",
+            type: "multiple_choice",
+            prompt: "___ you going to call her?",
+            points: 1,
+            config: {
+              options: [
+                { id: "a", text: "Do" },
+                { id: "b", text: "Are" },
+                { id: "c", text: "Will" },
+              ],
+              correctIds: ["b"],
+            },
+            explanation: "*be going to* question: **Are** you going to…",
+          },
+        },
+        {
+          kind: "question",
+          question: {
+            id: "c2-final-q6",
             type: "true_false",
-            prompt: "“Did you saw the film?” is correct English.",
+            prompt: "“She will helps us.” — Is this correct?",
             points: 1,
             config: { correct: false },
-            explanation: "After **did**, use the base verb: *Did you **see** the film?*",
+            explanation: "**will** + base verb: *She will **help** us.*",
           },
         },
         {
           kind: "question",
           question: {
-            id: "l2-final-q5",
+            id: "c2-final-q7",
             type: "multiple_choice",
-            prompt: "Plan already decided: I ___ going to start a course.",
+            prompt: "I'd like ___ rice, please.",
             points: 1,
             config: {
               options: [
-                { id: "a", text: "am" },
-                { id: "b", text: "will" },
-                { id: "c", text: "did" },
-              ],
-              correctIds: ["a"],
-            },
-            explanation: "**am** going to + base verb for a decided plan.",
-          },
-        },
-        {
-          kind: "question",
-          question: {
-            id: "l2-final-q6",
-            type: "open",
-            prompt: "Negative of will, one word: I ___ forget you. (will not)",
-            points: 1,
-            config: { acceptedAnswers: ["won't", "will not", "wont"], charLimit: 10 },
-            explanation: "**won't** = will not.",
-          },
-        },
-        {
-          kind: "question",
-          question: {
-            id: "l2-final-q7",
-            type: "multiple_choice",
-            prompt: "Negative: There isn't ___ coffee left.",
-            points: 1,
-            config: {
-              options: [
-                { id: "a", text: "some" },
-                { id: "b", text: "any" },
+                { id: "a", text: "a" },
+                { id: "b", text: "some" },
                 { id: "c", text: "many" },
               ],
               correctIds: ["b"],
             },
-            explanation: "Negatives take **any**.",
+            explanation: "*Rice* is uncountable → **some**.",
           },
         },
         {
           kind: "question",
           question: {
-            id: "l2-final-q8",
+            id: "c2-final-q8",
+            type: "open",
+            prompt: "Question form: “Is there ___ sugar?” (some / any)",
+            points: 1,
+            config: { acceptedAnswers: ["any"], charLimit: 6 },
+            explanation: "Questions use **any**.",
+          },
+        },
+        {
+          kind: "question",
+          question: {
+            id: "c2-final-q9",
             type: "multiple_choice",
-            prompt: "___ eggs do we need for the cake?",
+            prompt: "___ apples do you need?",
             points: 1,
             config: {
               options: [
@@ -759,53 +846,42 @@ export const level2: Course = {
               ],
               correctIds: ["b"],
             },
-            explanation: "Eggs are countable → **How many**.",
+            explanation: "Countable *apples* → **How many**.",
           },
         },
         {
           kind: "question",
           question: {
-            id: "l2-final-q9",
-            type: "open",
-            prompt: "Past of **be** (negative), one word: It ___ cold. (was not)",
-            points: 1,
-            config: { acceptedAnswers: ["wasn't", "was not", "wasnt"], charLimit: 10 },
-            explanation: "**wasn't** = was not.",
-          },
-        },
-        {
-          kind: "question",
-          question: {
-            id: "l2-final-q10",
+            id: "c2-final-q10",
             type: "match",
-            prompt: "Match each verb to its past form.",
+            prompt: "Match each noun to its type.",
             points: 1,
             config: {
               pairs: [
-                { left: "have", right: "had" },
-                { left: "make", right: "made" },
-                { left: "eat", right: "ate" },
+                { left: "water", right: "uncountable" },
+                { left: "banana", right: "countable" },
+                { left: "money", right: "uncountable" },
               ],
             },
-            explanation: "All irregular: have→had, make→made, eat→ate.",
+            explanation: "Count bananas, not water or money.",
           },
         },
       ],
     },
   },
   conclusion: {
-    title: "Everyday Stories complete",
+    title: "Halfway through Level 2",
     body:
-      "Now you can move through time in English: say what happened, what you plan to do, and how much you need. That's the backbone of real conversation — the rest is vocabulary and practice.",
+      "You can give directions, talk about your habits and abilities, describe what's happening now, make plans, and handle food and quantity. Next, Units 3 and 4 take you into the **past** — what happened, and when.",
     nextSteps: [
-      "Tell someone three things you did yesterday, out loud.",
-      "Write one sentence about your plans for next week.",
-      "Notice some/any and how much/how many when you read English.",
+      "Give someone directions to your home, out loud.",
+      "Say three things you are going to do this week.",
+      "Notice some / any and how much / how many when you shop.",
     ],
   },
   diploma: {
     title: "WISHUB Everyday Stories Diploma",
-    subtitle: "Level 2: Past, Future & Quantity (A2)",
+    subtitle: "Level 2 (A2)",
     issuer: "WISHUB",
   },
 };
