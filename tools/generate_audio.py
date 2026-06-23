@@ -42,18 +42,27 @@ CLIPS = [
         "text": "I can cook breakfast, but I can't bake bread. "
         "My sister can play guitar, and my brother can draw animals.",
     },
-    # Level 2
+    # Level 2 (rebuilt 4-unit course) — U3 was/were listening
     {
-        "id": "l2-u1-a1",
+        "id": "c2u3l3-a1",
         "voice": "en-US-AndrewNeural",
-        "text": "Last weekend was great. We were at the beach on Saturday, "
-        "and the weather was warm and sunny.",
+        "text": "Last Friday we were at a concert. The music was wonderful, "
+        "and our friends were there too. It was a perfect night.",
     },
+    # Level 3 — U2 present perfect listening
     {
-        "id": "l2-u2-a1",
-        "voice": "en-US-AriaNeural",
-        "text": "Next month I'm going to start a new class. My sister is going to "
-        "help me, and we're going to practice every evening.",
+        "id": "c3u2l1-a1",
+        "voice": "en-US-AvaMultilingualNeural",
+        "text": "I have visited many countries. I have seen the ocean, "
+        "and I have tried lots of new food. But I have never been to Japan.",
+    },
+    # Level 4 — U3 future arrangements listening
+    {
+        "id": "c4u3l2-a1",
+        "voice": "en-US-GuyNeural",
+        "text": "This weekend is going to be busy. On Saturday I'm meeting my "
+        "friends for lunch, and in the afternoon I'm playing football. "
+        "On Sunday I'm visiting my grandmother.",
     },
 ]
 

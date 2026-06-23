@@ -856,6 +856,36 @@ export const level2: Course = {
             title: "Practice: was / were",
             items: [
               {
+                kind: "content",
+                content: {
+                  id: "c2u3l3-a1",
+                  type: "audio",
+                  title: "Listen: last Friday",
+                  transcript:
+                    "Last Friday we were at a concert. The music was wonderful, and our friends were there too. It was a perfect night.",
+                  voice: "en-US-AndrewNeural",
+                  mediaUrl: "/audio/c2u3l3-a1.mp3",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u3l3-q4",
+                  type: "multiple_choice",
+                  prompt: "From the audio, where were they last Friday?",
+                  points: 1,
+                  config: {
+                    options: [
+                      { id: "a", text: "At a concert" },
+                      { id: "b", text: "At home" },
+                      { id: "c", text: "At school" },
+                    ],
+                    correctIds: ["a"],
+                  },
+                  explanation: "“Last Friday we **were at a concert**.”",
+                },
+              },
+              {
                 kind: "question",
                 question: {
                   id: "c2u3l3-q1",

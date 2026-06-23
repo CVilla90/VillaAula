@@ -752,6 +752,36 @@ export const level4: Course = {
             title: "Practice: plans vs. timetables",
             items: [
               {
+                kind: "content",
+                content: {
+                  id: "c4u3l2-a1",
+                  type: "audio",
+                  title: "Listen: a busy weekend",
+                  transcript:
+                    "This weekend is going to be busy. On Saturday I'm meeting my friends for lunch, and in the afternoon I'm playing football. On Sunday I'm visiting my grandmother.",
+                  voice: "en-US-GuyNeural",
+                  mediaUrl: "/audio/c4u3l2-a1.mp3",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c4u3l2-q4",
+                  type: "multiple_choice",
+                  prompt: "From the audio, what is the speaker doing on Sunday?",
+                  points: 1,
+                  config: {
+                    options: [
+                      { id: "a", text: "Visiting their grandmother" },
+                      { id: "b", text: "Playing football" },
+                      { id: "c", text: "Meeting friends for lunch" },
+                    ],
+                    correctIds: ["a"],
+                  },
+                  explanation: "“On Sunday I'm **visiting my grandmother**.”",
+                },
+              },
+              {
                 kind: "question",
                 question: {
                   id: "c4u3l2-q1",

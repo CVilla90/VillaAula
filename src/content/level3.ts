@@ -368,6 +368,36 @@ export const level3: Course = {
             title: "Practice: present perfect",
             items: [
               {
+                kind: "content",
+                content: {
+                  id: "c3u2l1-a1",
+                  type: "audio",
+                  title: "Listen: things I've done",
+                  transcript:
+                    "I have visited many countries. I have seen the ocean, and I have tried lots of new food. But I have never been to Japan.",
+                  voice: "en-US-AvaMultilingualNeural",
+                  mediaUrl: "/audio/c3u2l1-a1.mp3",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c3u2l1-q4",
+                  type: "multiple_choice",
+                  prompt: "From the audio, where has the speaker never been?",
+                  points: 1,
+                  config: {
+                    options: [
+                      { id: "a", text: "Japan" },
+                      { id: "b", text: "The ocean" },
+                      { id: "c", text: "Another country" },
+                    ],
+                    correctIds: ["a"],
+                  },
+                  explanation: "“I have **never been to Japan**.”",
+                },
+              },
+              {
                 kind: "question",
                 question: {
                   id: "c3u2l1-q1",
