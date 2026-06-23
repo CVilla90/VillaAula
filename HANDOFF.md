@@ -82,6 +82,17 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
 
 ## 2. STATUS LOG (newest first — UPDATE EVERY SESSION)
 
+### 2026-06-23 — Session 7 (listening pass — `LISTENING_PASS.md`)
+- 🎯 **Goal (Carlos):** distribute **short, casual listening** like speaking — **1 per unit, 4/level**
+  (10 new edge-tts clips). Comprehension = **mixed MCQ + T/F**. Spec: `LISTENING_PASS.md`.
+- ✅ **I1–I2 done — L1·U1 + Level 2 (U1/U2/U4).** Added a listening Content block + comprehension Q
+  to: L1 U1 `to-be` ("a quick hello", MCQ), L2 U1 `how-often` ("phone habits", T/F), L2 U2
+  `would-like` ("at the café", MCQ), L2 U4 `used-to-do` ("when I was a child", T/F). Generated the
+  4 MP3s via `tools/generate_audio.py` (tts venv). **L1 now has listening in all 4 units; L2 = 4/4.**
+  ✅ tsc + lint + 36 tests + build.
+- ⏭ **Next: I3 (Level 3 U1/U3/U4) → I4 (Level 4 U1/U2/U4) → I5 verify.** Candidate lessons in
+  `LISTENING_PASS.md`. Then HANDOFF wrap.
+
 ### 2026-06-23 — Session 6 (curricula loop — finish L3, author L4)
 - ✅ **C2 part 2 — Level 3 COMPLETE & WIRED LIVE.** Authored **Unit 3 "What If?"** (zero
   conditional · first conditional · connectors `unless/as long as/in case` · first-conditional +
