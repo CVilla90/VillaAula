@@ -1,31 +1,5 @@
 import Link from "next/link";
-
-const LEVELS = [
-  {
-    n: 1,
-    name: "Foundations",
-    focus: "be · routines · comparisons · can",
-    status: "active" as const,
-  },
-  {
-    n: 2,
-    name: "Everyday Stories",
-    focus: "past · future · some / any",
-    status: "active" as const,
-  },
-  {
-    n: 3,
-    name: "Telling More",
-    focus: "present perfect · adverbs · because",
-    status: "soon" as const,
-  },
-  {
-    n: 4,
-    name: "Real Conversations",
-    focus: "conditionals · should · phrasal verbs",
-    status: "soon" as const,
-  },
-];
+import { activeCourseCount, levelCatalog, levelRange } from "@/content/catalog";
 
 export default function LevelsPage() {
   return (
@@ -43,12 +17,13 @@ export default function LevelsPage() {
         Four levels, one path.
       </h1>
       <p className="mt-3 max-w-lg text-muted">
-        Start at the beginning and climb. Levels 1 and 2 are complete now — the
-        rest are on the way.
+        Start at the beginning and climb. {levelRange()}{" "}
+        {activeCourseCount > 1 ? "are" : "is"} complete now — the rest are on the
+        way.
       </p>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2">
-        {LEVELS.map((l) => {
+        {levelCatalog.map((l) => {
           const active = l.status === "active";
           const inner = (
             <>
@@ -58,7 +33,7 @@ export default function LevelsPage() {
                     active ? "text-coral" : "text-muted"
                   }`}
                 >
-                  LEVEL {l.n}
+                  LEVEL {l.level}
                 </span>
                 {active ? (
                   <span className="rounded-full bg-teal/10 px-2 py-0.5 text-[11px] font-semibold text-teal">
@@ -69,7 +44,7 @@ export default function LevelsPage() {
                 )}
               </div>
               <h2 className="mt-3 font-display text-xl font-bold text-ink">
-                {l.name}
+                {l.title}
               </h2>
               <p className="mt-1 font-mono text-xs text-muted">{l.focus}</p>
               <span
@@ -83,15 +58,15 @@ export default function LevelsPage() {
           );
           return active ? (
             <Link
-              key={l.n}
-              href={`/level/${l.n}`}
+              key={l.level}
+              href={l.href ?? `/level/${l.slug}`}
               className="flex flex-col rounded-2xl border border-coral/30 bg-paper p-5 shadow-lg shadow-coral/5 transition hover:-translate-y-0.5"
             >
               {inner}
             </Link>
           ) : (
             <div
-              key={l.n}
+              key={l.level}
               className="flex flex-col rounded-2xl border border-line bg-paper/50 p-5"
             >
               {inner}

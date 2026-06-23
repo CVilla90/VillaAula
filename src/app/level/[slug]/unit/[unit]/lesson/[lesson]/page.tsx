@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getCourse } from "@/content/level1";
+import { getCourse } from "@/content/catalog";
 import LessonPlayer from "@/components/exercise/LessonPlayer";
 
 export default async function LessonPage({

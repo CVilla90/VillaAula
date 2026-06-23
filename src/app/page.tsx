@@ -1,33 +1,12 @@
 import Link from "next/link";
 import HeroCloze from "@/components/HeroCloze";
 import AccountMenu from "@/components/auth/AccountMenu";
-
-const LEVELS = [
-  {
-    n: 1,
-    name: "Foundations",
-    focus: "be · routines · comparisons · can",
-    status: "active" as const,
-  },
-  {
-    n: 2,
-    name: "Everyday Stories",
-    focus: "past · future · some / any",
-    status: "active" as const,
-  },
-  {
-    n: 3,
-    name: "Telling More",
-    focus: "present perfect · adverbs · because",
-    status: "soon" as const,
-  },
-  {
-    n: 4,
-    name: "Real Conversations",
-    focus: "conditionals · should · phrasal verbs",
-    status: "soon" as const,
-  },
-];
+import {
+  activeCourseCount,
+  levelCatalog,
+  levelRange,
+  type LevelCatalogEntry,
+} from "@/content/catalog";
 
 const FEATURES = [
   {
@@ -153,8 +132,8 @@ export default function Home() {
           </p>
         </div>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {LEVELS.map((l) => (
-            <LevelCard key={l.n} {...l} />
+          {levelCatalog.map((l) => (
+            <LevelCard key={l.level} entry={l} />
           ))}
         </div>
       </section>
@@ -191,7 +170,8 @@ export default function Home() {
             Ready when you are.
           </h2>
           <p className="mx-auto mt-3 max-w-md text-white/85">
-            Levels 1 and 2 are ready end to end. Start free, no pressure.
+            {levelRange()} {activeCourseCount > 1 ? "are" : "is"} ready end to
+            end. Start free, no pressure.
           </p>
           <Link
             href="/level/1"
@@ -329,18 +309,8 @@ function ProgressRing({ percent }: { percent: number }) {
   );
 }
 
-function LevelCard({
-  n,
-  name,
-  focus,
-  status,
-}: {
-  n: number;
-  name: string;
-  focus: string;
-  status: "active" | "soon";
-}) {
-  const active = status === "active";
+function LevelCard({ entry }: { entry: LevelCatalogEntry }) {
+  const active = entry.status === "active";
   return (
     <div
       className={`group flex flex-col rounded-2xl border p-5 transition ${
@@ -353,7 +323,7 @@ function LevelCard({
         <span
           className={`font-mono text-xs ${active ? "text-coral" : "text-muted"}`}
         >
-          LEVEL {n}
+          LEVEL {entry.level}
         </span>
         {active ? (
           <span className="rounded-full bg-teal/10 px-2 py-0.5 text-[11px] font-semibold text-teal">
@@ -366,14 +336,18 @@ function LevelCard({
           </span>
         )}
       </div>
-      <h3 className="mt-3 font-display text-lg font-bold text-ink">{name}</h3>
-      <p className="mt-1 font-mono text-xs leading-relaxed text-muted">{focus}</p>
+      <h3 className="mt-3 font-display text-lg font-bold text-ink">
+        {entry.title}
+      </h3>
+      <p className="mt-1 font-mono text-xs leading-relaxed text-muted">
+        {entry.focus}
+      </p>
       <div className="mt-4 h-1.5 w-full overflow-hidden rounded-full bg-line">
         <div className="h-full rounded-full bg-coral" style={{ width: "0%" }} />
       </div>
       {active ? (
         <Link
-          href={`/level/${n}`}
+          href={entry.href ?? `/level/${entry.slug}`}
           className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-coral"
         >
           Start <span className="transition-transform group-hover:translate-x-0.5">→</span>

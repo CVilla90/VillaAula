@@ -111,8 +111,8 @@ export default function Syllabus({ course }: { course: Course }) {
             Final: {course.finalTest.title}
           </h2>
           <p className="mt-1 text-sm text-muted">
-            A compact review across all four units, followed by your conclusion
-            and diploma.
+            A compact review across all {course.units.length} units, followed by
+            your conclusion and diploma.
           </p>
           <div className="mt-4 grid gap-2">
             <Link

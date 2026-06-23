@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getCourse } from "@/content/level1";
+import { getCourse } from "@/content/catalog";
 import DiplomaPanel from "@/components/DiplomaPanel";
 import SaveProgressNudge from "@/components/auth/SaveProgressNudge";
 

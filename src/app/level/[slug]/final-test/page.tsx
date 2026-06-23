@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getCourse } from "@/content/level1";
+import { getCourse } from "@/content/catalog";
 import FinalTestPlayer from "@/components/exercise/FinalTestPlayer";
 
 export default async function FinalTestPage({
