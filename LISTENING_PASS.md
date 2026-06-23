@@ -19,7 +19,8 @@ L1 = U2/U3/U4 (3), L2 = U3 (1), L3 = U2 (1), L4 = U3 (1). Bring every unit to **
 1. Pick a lesson in the target unit that has **no speaking and no listening yet** (avoid doubling
    interaction types in one lesson); fit the transcript to that lesson's grammar/theme.
 2. Prepend to that lesson's `exercise.items`: an **audio Content block** then **one comprehension
-   question** (MCQ or true/false), before the existing grammar questions.
+   question**, before the existing grammar questions. **Vary the comprehension type across the 10
+   clips — mix multiple-choice ("what did you hear") and true/false** (Carlos, 2026-06-23).
    - **Transcript:** 1–3 **short, casual, everyday** sentences. Calibrate to level (L1 very simple →
      L4 natural/conversational). Original wording (§9).
    - **IDs:** L1 → `u{unit}-l{lesson}-a1` + `…-q{next}`; L2–L4 → `c{level}u{unit}l{lesson}-a1` +
