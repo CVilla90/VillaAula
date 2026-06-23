@@ -7,6 +7,7 @@ import { finalTestKey } from "@/lib/progress";
 import { useProgress } from "@/components/progress/ProgressProvider";
 import QuestionCard from "./QuestionCard";
 import ReadingBlock from "./ReadingBlock";
+import SpeakingQuestion from "./SpeakingQuestion";
 
 export default function FinalTestPlayer({
   course,
@@ -73,6 +74,15 @@ export default function FinalTestPlayer({
         {test.exercise.items.map((item) =>
           item.kind === "content" ? (
             <ReadingBlock key={item.content.id} content={item.content} />
+          ) : item.question.type === "speaking" ? (
+            <SpeakingQuestion
+              key={item.question.id}
+              question={item.question}
+              index={++qNum}
+              onAnswered={(id, ok) =>
+                setResults((current) => ({ ...current, [id]: ok }))
+              }
+            />
           ) : (
             <QuestionCard
               key={item.question.id}

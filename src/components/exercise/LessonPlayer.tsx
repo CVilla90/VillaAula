@@ -8,6 +8,7 @@ import { useProgress } from "@/components/progress/ProgressProvider";
 import GrammarNote from "./GrammarNote";
 import ReadingBlock from "./ReadingBlock";
 import QuestionCard from "./QuestionCard";
+import SpeakingQuestion from "./SpeakingQuestion";
 
 export default function LessonPlayer({
   course,
@@ -92,6 +93,13 @@ export default function LessonPlayer({
         {lesson.exercise.items.map((item) =>
           item.kind === "content" ? (
             <ReadingBlock key={item.content.id} content={item.content} />
+          ) : item.question.type === "speaking" ? (
+            <SpeakingQuestion
+              key={item.question.id}
+              question={item.question}
+              index={++qNum}
+              onAnswered={(id, ok) => setResults((r) => ({ ...r, [id]: ok }))}
+            />
           ) : (
             <QuestionCard
               key={item.question.id}

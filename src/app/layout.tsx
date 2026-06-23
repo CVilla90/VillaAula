@@ -3,6 +3,7 @@ import { Hanken_Grotesk, Inter, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { authConfigured } from "@/lib/auth/session";
 import { getCurrentUser } from "@/lib/auth/users";
+import { geminiConfigured } from "@/lib/ai/gemini";
 import { SessionProvider } from "@/components/auth/SessionProvider";
 import { ProgressProvider } from "@/components/progress/ProgressProvider";
 import { BRAND, META_DESCRIPTION, TAGLINE } from "@/lib/site";
@@ -37,6 +38,7 @@ export default async function RootLayout({
     signedIn: Boolean(user),
     name: user?.name ?? null,
     authEnabled,
+    speakingEnabled: geminiConfigured(),
   };
 
   return (

@@ -87,7 +87,21 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
     it correctly. Model id + audio multimodal + key all confirmed working (no committed live test —
     costs quota). ⚠️ content note: lenient `acceptedAnswers` should include homophones (Ana/Anna).
   - ✅ tsc + lint + build + **36 tests** green; `/api/speaking/analyze` route registered.
-- **Next:** S2 (MediaRecorder hook + `SpeakingQuestion` UI + dispatch with no-key fallback), then S3.
+- ✅ **Iteration S2 done (recorder + speaking UI + dispatch):**
+  - `hooks/useRecorder.ts`: MediaRecorder wrapper (start/stop, elapsed + hard cap, playback
+    object-URL, `unsupported`/`denied` states, full cleanup). One-time capability detection is a
+    post-mount effect (SSR-safe; lint rule disabled on that line with rationale).
+  - `components/exercise/SpeakingQuestion.tsx`: record → playback → "Check my answer" →
+    `POST /api/speaking/analyze` → shows "we heard …" + ✓/almost + feedback. Has a **Skip** (mic
+    denied / no mic → never traps the learner) and, when **speaking is disabled (no key)**, shows a
+    friendly note and auto-marks attempted so the lesson never blocks.
+  - `speakingEnabled` (= `geminiConfigured()`) now flows to the client via `SessionProvider`
+    (layout computes it server-side, like `authEnabled`). Dispatch added in **LessonPlayer** and
+    **FinalTestPlayer** (speaking → `SpeakingQuestion`, else `QuestionCard`). Route strips codec
+    params from the blob mime (`audio/webm;codecs=opus` → `audio/webm`) for Gemini.
+  - ✅ tsc + lint + build + 36 tests green. Full record→route round-trip verified in S3 (needs a
+    real L1 speaking question to exist).
+- **Next:** S3 (add 1–2 very-basic Level 1 speaking questions + live route smoke test), then Phase C.
 
 ### 2026-06-22 — Session 4 (de-hardcode / harden — planning)
 - 📋 Did a full read of `src/` and wrote **`REFACTOR.md`** — the de-hardcode/best-practices

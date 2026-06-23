@@ -40,7 +40,8 @@ export async function POST(request: Request) {
 
   const config = question.config as SpeakingConfig;
   const buffer = Buffer.from(await audio.arrayBuffer());
-  const mimeType = audio.type || "audio/webm";
+  // Strip codec params (e.g. "audio/webm;codecs=opus" -> "audio/webm") for Gemini.
+  const mimeType = (audio.type || "audio/webm").split(";")[0].trim();
 
   try {
     const result = await transcribeAndGrade(buffer, mimeType, config);

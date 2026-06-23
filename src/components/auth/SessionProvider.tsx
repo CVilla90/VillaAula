@@ -8,12 +8,15 @@ export interface SessionUser {
   name: string | null;
   /** Whether accounts are configured at all (DB + AUTH_SECRET present). */
   authEnabled: boolean;
+  /** Whether speaking exercises are live (GEMINI_API_KEY present). */
+  speakingEnabled: boolean;
 }
 
 const SessionContext = createContext<SessionUser>({
   signedIn: false,
   name: null,
   authEnabled: false,
+  speakingEnabled: false,
 });
 
 export function SessionProvider({
