@@ -49,6 +49,35 @@ export const level1: Course = {
             title: "Practice: am / is / are",
             items: [
               {
+                kind: "content",
+                content: {
+                  id: "u1-l1-a1",
+                  type: "audio",
+                  title: "Listen: a quick hello",
+                  transcript: "Hi! I'm Tom. I am from Canada, and I am a teacher.",
+                  voice: "en-US-GuyNeural",
+                  mediaUrl: "/audio/u1-l1-a1.mp3",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "l1-q5",
+                  type: "multiple_choice",
+                  prompt: "From the audio, what is Tom's job?",
+                  points: 1,
+                  config: {
+                    options: [
+                      { id: "a", text: "A teacher" },
+                      { id: "b", text: "A nurse" },
+                      { id: "c", text: "A doctor" },
+                    ],
+                    correctIds: ["a"],
+                  },
+                  explanation: "“I am **a teacher**,” Tom says.",
+                },
+              },
+              {
                 kind: "question",
                 question: {
                   id: "l1-q1",

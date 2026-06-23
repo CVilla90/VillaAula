@@ -64,6 +64,34 @@ CLIPS = [
         "friends for lunch, and in the afternoon I'm playing football. "
         "On Sunday I'm visiting my grandmother.",
     },
+    # ===== Listening pass (2026-06-23): 1 short casual clip per unit =====
+    # L1 U1 — to be (self-intro)
+    {
+        "id": "u1-l1-a1",
+        "voice": "en-US-GuyNeural",
+        "text": "Hi! I'm Tom. I am from Canada, and I am a teacher.",
+    },
+    # L2 U1 — adverbs of frequency (phone habits)
+    {
+        "id": "c2u1l2-a1",
+        "voice": "en-US-AriaNeural",
+        "text": "I usually check my phone in the morning. I often watch videos "
+        "at night, but I never use it during dinner.",
+    },
+    # L2 U2 — would like (ordering food)
+    {
+        "id": "c2u2l3-a1",
+        "voice": "en-US-AndrewNeural",
+        "text": "Hi! I'd like a cheese sandwich and an orange juice, please. "
+        "That's all, thank you.",
+    },
+    # L2 U4 — used to (childhood)
+    {
+        "id": "c2u4l2-a1",
+        "voice": "en-US-AvaMultilingualNeural",
+        "text": "When I was a child, I used to play outside every day. I used to "
+        "climb trees with my friends, but I don't do that now.",
+    },
 ]
 
 

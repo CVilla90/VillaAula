@@ -137,6 +137,29 @@ export const level2: Course = {
             title: "Practice: habits",
             items: [
               {
+                kind: "content",
+                content: {
+                  id: "c2u1l2-a1",
+                  type: "audio",
+                  title: "Listen: my phone habits",
+                  transcript:
+                    "I usually check my phone in the morning. I often watch videos at night, but I never use it during dinner.",
+                  voice: "en-US-AriaNeural",
+                  mediaUrl: "/audio/c2u1l2-a1.mp3",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u1l2-q4",
+                  type: "true_false",
+                  prompt: "From the audio: the speaker never uses the phone during dinner.",
+                  points: 1,
+                  config: { correct: true },
+                  explanation: "“…but I **never use it during dinner**.” ✓",
+                },
+              },
+              {
                 kind: "question",
                 question: {
                   id: "c2u1l2-q1",
@@ -525,6 +548,36 @@ export const level2: Course = {
             id: "c2u2l3-ex",
             title: "Practice: ordering",
             items: [
+              {
+                kind: "content",
+                content: {
+                  id: "c2u2l3-a1",
+                  type: "audio",
+                  title: "Listen: at the café",
+                  transcript:
+                    "Hi! I'd like a cheese sandwich and an orange juice, please. That's all, thank you.",
+                  voice: "en-US-AndrewNeural",
+                  mediaUrl: "/audio/c2u2l3-a1.mp3",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u2l3-q4",
+                  type: "multiple_choice",
+                  prompt: "From the audio, what does the person want to drink?",
+                  points: 1,
+                  config: {
+                    options: [
+                      { id: "a", text: "Orange juice" },
+                      { id: "b", text: "Coffee" },
+                      { id: "c", text: "Water" },
+                    ],
+                    correctIds: ["a"],
+                  },
+                  explanation: "“…and an **orange juice**, please.”",
+                },
+              },
               {
                 kind: "question",
                 question: {
@@ -1142,6 +1195,29 @@ export const level2: Course = {
             id: "c2u4l2-ex",
             title: "Practice: used to",
             items: [
+              {
+                kind: "content",
+                content: {
+                  id: "c2u4l2-a1",
+                  type: "audio",
+                  title: "Listen: when I was a child",
+                  transcript:
+                    "When I was a child, I used to play outside every day. I used to climb trees with my friends, but I don't do that now.",
+                  voice: "en-US-AvaMultilingualNeural",
+                  mediaUrl: "/audio/c2u4l2-a1.mp3",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u4l2-q4",
+                  type: "true_false",
+                  prompt: "From the audio: the speaker used to climb trees as a child.",
+                  points: 1,
+                  config: { correct: true },
+                  explanation: "“I **used to climb trees** with my friends…” ✓",
+                },
+              },
               {
                 kind: "question",
                 question: {
