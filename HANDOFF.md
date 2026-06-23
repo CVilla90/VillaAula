@@ -104,7 +104,17 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
   diploma content data, and `globals.css` (the canonical token source). Minor note: the logo
   SVG markup is still duplicated between `page.tsx` and `AuthShell` — a small `<Logo>` extraction
   for a later tidy. ✅ tsc + lint + build green; 11 routes intact.
-- **Next:** Iteration **C** (ID normalization + content validator), then **D**; then §6 content.
+- ✅ **Iteration C done (content validator):** new `src/content/validate.ts` — `validateCatalog`
+  (pure/isomorphic) checks unique course/unit/lesson slugs, **globally unique content/question
+  ids**, MCQ `correctIds ⊆ options`, non-empty open answers, well-formed match pairs, audio
+  blocks having mediaUrl-or-transcript, and finalTest `passingScore` within `1..questionCount`;
+  plus `assertValidCatalog` (throws) and a Node-only `validateAudioFiles` (mediaUrl exists under
+  `public/`). **Decision:** did *not* mass-rename existing IDs — they're already unique; the
+  checker enforces uniqueness + structural correctness, and the canonical ID scheme is documented
+  in the file header for new content (L3/L4). Compiles green (tsc/lint/build); **executed against
+  real content in Iteration D** (vitest), where any violation gets fixed.
+- **Next:** Iteration **D** (vitest harness + run the validator + grading/progress/auth tests);
+  then §6 content track.
 
 ### 2026-06-22 — Session 3 (autonomous `/loop`)
 **Decisions locked this session (Carlos):** ships **online on Replit** with **Replit's
