@@ -113,6 +113,27 @@ CLIPS = [
         "text": "You look really tired. I think you should take a break. And you "
         "have to drink more water. It's important.",
     },
+    # L4 U1 — reported speech (news from a friend)
+    {
+        "id": "c4u1l2-a1",
+        "voice": "en-US-AriaNeural",
+        "text": "My friend called me yesterday. She said she was moving to a new "
+        "city, and she told me she was really excited about it.",
+    },
+    # L4 U2 — second conditional (if I could)
+    {
+        "id": "c4u2l3-a1",
+        "voice": "en-US-AndrewNeural",
+        "text": "If I had more free time, I would learn to play the guitar. And if "
+        "I won the lottery, I would travel around the world.",
+    },
+    # L4 U4 — phrasal verbs (my routine)
+    {
+        "id": "c4u4l1-a1",
+        "voice": "en-US-GuyNeural",
+        "text": "I usually wake up at six, and I work out before breakfast. On "
+        "weekends, I like to hang out with my friends.",
+    },
 ]
 
 

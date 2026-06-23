@@ -124,6 +124,29 @@ export const level4: Course = {
             title: "Practice: reporting statements",
             items: [
               {
+                kind: "content",
+                content: {
+                  id: "c4u1l2-a1",
+                  type: "audio",
+                  title: "Listen: news from a friend",
+                  transcript:
+                    "My friend called me yesterday. She said she was moving to a new city, and she told me she was really excited about it.",
+                  voice: "en-US-AriaNeural",
+                  mediaUrl: "/audio/c4u1l2-a1.mp3",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c4u1l2-q4",
+                  type: "true_false",
+                  prompt: "From the audio: the friend said she was moving to a new city.",
+                  points: 1,
+                  config: { correct: true },
+                  explanation: "“She **said she was moving to a new city**…” ✓",
+                },
+              },
+              {
                 kind: "question",
                 question: {
                   id: "c4u1l2-q1",
@@ -497,6 +520,36 @@ export const level4: Course = {
             id: "c4u2l3-ex",
             title: "Practice: imagining",
             items: [
+              {
+                kind: "content",
+                content: {
+                  id: "c4u2l3-a1",
+                  type: "audio",
+                  title: "Listen: if I could…",
+                  transcript:
+                    "If I had more free time, I would learn to play the guitar. And if I won the lottery, I would travel around the world.",
+                  voice: "en-US-AndrewNeural",
+                  mediaUrl: "/audio/c4u2l3-a1.mp3",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c4u2l3-q4",
+                  type: "multiple_choice",
+                  prompt: "From the audio, what would the speaker do with more free time?",
+                  points: 1,
+                  config: {
+                    options: [
+                      { id: "a", text: "Learn the guitar" },
+                      { id: "b", text: "Travel the world" },
+                      { id: "c", text: "Buy a house" },
+                    ],
+                    correctIds: ["a"],
+                  },
+                  explanation: "“If I had more free time, I would **learn to play the guitar**.”",
+                },
+              },
               {
                 kind: "question",
                 question: {
@@ -1035,6 +1088,29 @@ export const level4: Course = {
             id: "c4u4l1-ex",
             title: "Practice: phrasal verbs",
             items: [
+              {
+                kind: "content",
+                content: {
+                  id: "c4u4l1-a1",
+                  type: "audio",
+                  title: "Listen: my routine",
+                  transcript:
+                    "I usually wake up at six, and I work out before breakfast. On weekends, I like to hang out with my friends.",
+                  voice: "en-US-GuyNeural",
+                  mediaUrl: "/audio/c4u4l1-a1.mp3",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c4u4l1-q4",
+                  type: "true_false",
+                  prompt: "From the audio: the speaker works out before breakfast.",
+                  points: 1,
+                  config: { correct: true },
+                  explanation: "“…I **work out before breakfast**.” ✓",
+                },
+              },
               {
                 kind: "question",
                 question: {
