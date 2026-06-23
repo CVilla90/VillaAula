@@ -88,4 +88,41 @@ All **Present Perfect** (have/has + past participle). Vocab: sports, jobs, life 
 
 ---
 
-## Level 4 — `s4u1–s4u4`: spine NOT yet extracted.
+## Level 4 — B1+/B2 (4 units). Source: `s4u1–s4u4`. Status: ✅ spine extracted, ✅ authored (`level4.ts`, 20 lessons, 4 speaking, 16-Q final), ✅ wired.
+
+> The most advanced level. Calibrate speaking UP (a full sentence or two). Readings can be a
+> little longer. §9 still binds: original prompts/readings/titles only.
+
+### Unit 1 — "Who said what?" (src title: *Who said what?*) — **Reported Speech**
+Theme arc: technology/gadgets, communication, news.
+1. **Looking back further** — Grammar: *present & past perfect simple (revision & expansion)*. Vocab: gadgets, technology. (read: a tech story)
+2. **Reported statements** — Grammar: *reported speech — statements (say/tell + backshift)*. Vocab: internet, communication.
+3. **Reported commands** — Grammar: *reported speech — orders, instructions, requests (tell/ask + to-infinitive)*. Vocab: orders, requests.
+4. **Reported questions** — Grammar: *reported speech — questions & other verb forms (ask if/whether)*. Vocab: requests, announcements.
+5. **Then & there** — Grammar: *reported speech — time & place references (now→then, here→there, this→that)*. Vocab: flights, airports. (speaking: report what someone said)
+
+### Unit 2 — "What would you…?" (src title: *What would you…?*) — **Verbals & unreal conditionals**
+Theme arc: entrepreneurship, innovation, brands, regret.
+1. **To do or…** — Grammar: *infinitives (verb + to-infinitive, infinitive of purpose)*. Vocab: business, safety.
+2. **…or doing?** — Grammar: *gerunds (verb + -ing, after prepositions)*. Vocab: habits, requests.
+3. **What would you do?** — Grammar: *second conditional (if + past, would + base — unreal present/future)*. Vocab: choices, money.
+4. **I wish…** — Grammar: *`I wish… / If only…` + past simple (present regret/desire)*. Vocab: regrets.
+5. **What would you have done?** — Grammar: *third conditional + `I wish/If only` + past perfect (past regret)*. Vocab: decisions. (speaking: a third-conditional regret)
+
+### Unit 3 — "Do you watch sports?" (src title: *Do you watch sports?*) — **Future-from-present, obligation, ability**
+Theme arc: sports, engineering, schedules, physical ability.
+1. **It starts at eight** — Grammar: *simple present for narration / timetables (scheduled events)*. Vocab: matches, schedules.
+2. **What are you doing this weekend?** — Grammar: *present simple vs. present continuous for future reference*. Vocab: plans, sports equipment.
+3. **Do I have to?** — Grammar: *`have to` — obligation & necessity (and `don't have to`)*. Vocab: gear, rules.
+4. **Always been able to** — Grammar: *`be able to` — ability across different tenses (could / was able to / will be able to)*. Vocab: skills, fitness.
+5. **Will I be able to?** — Grammar: *`be able to` — revision & expansion*. Vocab: progress, recovery. (speaking: talk about an ability)
+
+### Unit 4 — "How addictive is it?" (src title: *How addictive…?*) — **Media & connectors**
+Theme arc: TV, radio, newspapers, magazines, languages.
+1. **Take your chance** — Grammar: *phrasal verbs*. Vocab: chances, media.
+2. **Read all about it** — Grammar: *linking words & phrases (however / although / therefore…)*. Vocab: newspapers, opinions.
+3. **Better or worse?** — Grammar: *irregular comparatives & superlatives (good/better/best, bad/worse/worst, far/further)*. Vocab: TV, preferences.
+4. **Whatever you like** — Grammar: *`-ever` words (whatever / whoever / whenever / wherever / however)*. Vocab: radio, choices.
+5. **Here & there** — Grammar: *adverbs of place & word order with adverbs*. Vocab: magazines, reading habits.
+
+**L4 `LEVEL_META[4]` →** title "Real Conversations", focus `"reported speech · conditionals · gerunds & infinitives · linking words"`.
