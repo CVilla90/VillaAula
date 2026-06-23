@@ -1,6 +1,7 @@
 import type { Course, Question } from "@/lib/types";
 import { level1 } from "@/content/level1";
 import { level2 } from "@/content/level2";
+import { level3 } from "@/content/level3";
 
 /**
  * The course catalog — the single source of truth for "what levels exist."
@@ -13,7 +14,7 @@ import { level2 } from "@/content/level2";
  * two pages; see REFACTOR.md F1.)
  */
 
-export const courses: Course[] = [level1, level2];
+export const courses: Course[] = [level1, level2, level3];
 
 const courseBySlug = new Map(courses.map((c) => [c.slug, c]));
 const courseByLevel = new Map(courses.map((c) => [c.level, c]));
@@ -70,13 +71,17 @@ export const TOTAL_LEVELS = 4;
  * that aren't authored yet — an active level's title comes from its `Course`, so it
  * can never drift. `focus` is the one home for each card's grammar-spine label.
  *
- * NOTE (content track, REFACTOR.md §6): levels 2–4 focus labels are provisional —
- * the real curricula (reference/s2–s4) replace them when those courses are authored.
+ * NOTE (content track, REFACTOR.md §6): levels 1–3 are authored from the real
+ * curricula (reference/s1–s3). Level 4's label stays provisional until level4.ts
+ * is authored from reference/s4.
  */
 const LEVEL_META: Record<number, { title: string; focus: string }> = {
   1: { title: "Foundations", focus: "be · routines · comparisons · can" },
   2: { title: "Everyday Stories", focus: "habits · can · going to · quantity · past" },
-  3: { title: "Telling More", focus: "present perfect · adverbs · because" },
+  3: {
+    title: "Telling More",
+    focus: "past continuous · present perfect · conditionals · modals",
+  },
   4: { title: "Real Conversations", focus: "conditionals · should · phrasal verbs" },
 };
 
