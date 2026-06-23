@@ -50,7 +50,7 @@ Theme arc: the past in depth (irregulars, used to, duration, time markers).
 
 ---
 
-## Level 3 — B1 (4 units). Source: `s3u1–s3u4`. Status: ✅ spine extracted, authoring pending.
+## Level 3 — B1 (4 units). Source: `s3u1–s3u4`. Status: ✅ spine extracted · ⏳ authoring **Units 1–2 done** (`level3.ts`), Units 3–4 + full final pending · not yet wired into `courses`.
 
 ### Unit 1 — "In the Middle of It" (src: *What were you doing?*)
 All **Past Continuous** (was/were + -ing). Vocab: action verbs, work, safety.

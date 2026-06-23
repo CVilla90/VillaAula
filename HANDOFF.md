@@ -16,16 +16,22 @@
 - **Owner context:** This is one of Carlos's **personal** projects (like HolIA/Atina,
   MUSAI, Cátedra). It is **not** Creai work and **not** an official UACH project. Keep
   those worlds separate (see his `user_identity` memory).
-- **Status:** **Phases 0–3 substantially DONE (2026-06-22, autonomous `/loop`).** Level 1
-  (Units 1–4 + final + diploma) and now **Level 2 (Everyday Stories — A2: past/future/quantity,
-  2 units + final + diploma)** are live. **Auth + Postgres + server-persisted progress** built
-  (manual signup + Google OAuth, guest→account merge), plus **real edge-tts audio** on Level 1.
-  All four `/loop` steps (UI/UX → platform spine → audio → Level 2) are complete; build+lint green.
-  **Next action (Carlos):** follow **§17** to turn on auth/DB on Replit (Postgres + secrets +
-  `npm run db:push`) and smoke-test live — the auth/OAuth/DB runtime is the one thing the loop
-  couldn't test. **The forward plan is now §18 (ROADMAP)** — speaking exercises (reuse
-  AudioReviewer), AI-first authoring, tightened login-gating, real Level 2–4 curricula (pending
-  Carlos's `s2`/`s3`/`s4` uploads), mobile/PWA, and the `CVilla90` repo.
+- **Status (2026-06-22, latest first — full log in §2):**
+  - ✅ **De-hardcode/harden pass (REFACTOR.md A–D):** course catalog is a single source of truth,
+    brand/palette centralized (`lib/site.ts`), a content **validator** (`content/validate.ts`) +
+    **vitest** suite (37 tests) guard correctness.
+  - ✅ **Speaking exercises (Phase S) DONE & LIVE-VERIFIED:** new `speaking` question type, browser
+    MediaRecorder → `POST /api/speaking/analyze` → **Gemini `gemini-3.1-flash-lite`** transcribes,
+    WISHUB's own `gradeOpen` grades. Inert without `GEMINI_API_KEY` (in gitignored `.env`). Live on
+    **Level 1** (2 questions). Plans/spec: `SPEAKING_AND_CURRICULA.md`; AudioReviewer was the concept ref.
+  - ✅ **Level 2 fully rebuilt** to its REAL `s2` curriculum spine (4 units, 20 lessons, 16-Q final,
+    4 speaking) — the old 2-unit "past/future/quantity" guess is gone. Extracted spines live in
+    `CURRICULA_SPINE.md`.
+  - ⏳ **Level 3 (B1) in progress:** Units 1–2 authored in `content/level3.ts` (not yet wired into
+    `courses`); Units 3–4 + go-live pending. **Level 4 not started.** Earlier: Auth + Postgres +
+    server-progress (manual + Google OAuth) + edge-tts audio on L1 — all built, untested-live.
+  - **Next:** see §2's **"TOMORROW — START HERE"** block. Carlos's go-live (auth/DB + `GEMINI_API_KEY`
+    on Replit per §17) still pending. Deferred engineering: REFACTOR.md §3-E / §3-F.
 - **Deadline pressure:** Carlos starts the first formal class **today (2026-06-22)**.
   Goal = something real and usable for Level 1, even if rough. Dirty hardcoding is OK.
 
@@ -139,9 +145,54 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
   (basic/interrupted/specific-time/while/atmosphere), U2 **Present Perfect** (ever-never/for-since/
   vs-simple-past/just-already-yet), U3 **Conditionals** (zero/first/connectors/+modals/preferences),
   U4 **Modals** (have-to-should/must/may-might/requests/modal+have). 7 src lessons in U4 collapse to 5.
-- **Next: C2 (author) — `content/level3.ts`** (4 units, B1, original, mixed types incl. speaking;
-  final/conclusion/diploma), import+register in `catalog.courses`, set `LEVEL_META[3]` (card
-  auto-activates). Likely 2 passes (U1-U2, U3-U4). Then C3 (L4), C4 (audio/polish).
+- ✅ **C2 (author, part 1) — Level 3 Units 1 & 2 authored** in `content/level3.ts`: **Unit 1 "In
+  the Middle of It"** (past continuous: basic / interrupted-`when` / specific-time / `while` /
+  atmosphere) and **Unit 2 "Have You Ever?"** (present perfect: basic / ever-never / for-since /
+  vs-simple-past / just-already-yet). 10 lessons, 100% original B1, 2 speaking + 1 reading, 10-Q
+  final (pass 8), conclusion, diploma. **Deliberately NOT wired into `courses` yet** (so the
+  Level 3 card stays "Soon" — no half-course shown to learners); a `validate.test.ts` case checks
+  the WIP content (`validateCatalog([level3])` → clean). ✅ tsc + lint + build + **37 tests** green.
+
+- 🌙 **STOPPED FOR THE NIGHT (2026-06-22). Clean state: working tree committed, build green, 37
+  tests pass.** Everything below is the menu for tomorrow.
+
+  **TOMORROW — START HERE (resume the loop):**
+  `/loop WISHUB\SPEAKING_AND_CURRICULA.md and WISHUB\HANDOFF.md — continue Phase C from C2 part 2`
+  1. **C2 part 2 — finish Level 3:** add **Units 3 & 4** to `content/level3.ts` (U3 conditionals:
+     zero/first/connectors `if-unless-when-as long as`/first+modals/preferences `would rather`;
+     U4 modals: have-to-should/must/may-might/requests/modal+have — spine in `CURRICULA_SPINE.md`).
+     Extend the final test to ~16 Q (pass 12), finalize the conclusion. **Then WIRE IT LIVE:** in
+     `content/catalog.ts` `import { level3 }` + add to `courses`, and set the real
+     `LEVEL_META[3].focus` (`"past continuous · present perfect · conditionals · modals"`). The
+     card auto-activates. Move the L3 validate test from the standalone case into the main
+     `courses` check (or just delete it — `courses` will cover it).
+  2. **C3 — Level 4:** extract `s4u1–s4u4` spine (crop+read via scratchpad `crop.py` + the tts
+     venv, 2×3 @2.5×; add to `CURRICULA_SPINE.md`), author `content/level4.ts`, wire into catalog.
+     (From thumbnails L4 ≈ simple past/irregulars, used-to, duration, last-ago at higher depth —
+     confirm by reading.)
+  3. **C4 — audio + polish:** generate edge-tts MP3s for the new listening/reading blocks
+     (`tools/generate_audio.py` — add CLIPS, run via the tts venv), set `mediaUrl`s, confirm
+     `validateAudioFiles` green. With 4 active levels, `levelRange()` auto-reads "Levels 1–4".
+     Optional: delete the now-orphaned `public/audio/l2-u1-a1.mp3` & `l2-u2-a1.mp3` (old L2).
+  4. **Then Carlos's go-live items** (unchanged): set `GEMINI_API_KEY` (speaking) + Postgres/auth
+     secrets on Replit per §17; smoke-test. Deferred engineering: REFACTOR.md §3-E (auth gating +
+     scores) and §3-F (TS→Postgres content).
+
+  **Reusable how-to (so tomorrow is fast):**
+  - **Read a dense syllabus PNG:** `tools/.ttsenv/Scripts/python.exe <scratchpad>/crop.py
+    reference/sNuM.png <scratchpad>/out 2 3 2.5` → Read the `r*c*.png` tiles (left tiles c0 =
+    Lesson/Grammar/Vocab = the spine).
+  - **Author a level:** copy the shape of `content/level2.ts` (now the canonical 4-unit example);
+    canonical IDs `c{level}u{n}l{n}` / `…-q{n}` / `…-c{n}`/`-a{n}`; one short exercise per lesson
+    (grammar note + ~3 mixed questions incl. **speaking**); §9 = original wording, **invent
+    reading titles** (don't reuse the book's). Calibrate per level (§18.B).
+  - **Speaking is DONE & live-verified** — just add `type:"speaking"` questions; closed
+    "repeat this phrase" targets with lenient `acceptedAnswers`; avoid number homophones.
+  - **Green gate every iteration:** `npx tsc --noEmit && npm run lint && npm test && (rm -rf
+    .next && npm run build)`. Commit per iteration. **Never `git add` `.env`** (guard:
+    `git status --short | grep -i '\.env$'`).
+  - **Secret:** `GEMINI_API_KEY` lives in gitignored `WISHUB/.env` (already set, verified
+    untracked). Next dev auto-loads it.
 
 ### 2026-06-22 — Session 4 (de-hardcode / harden — planning)
 - 📋 Did a full read of `src/` and wrote **`REFACTOR.md`** — the de-hardcode/best-practices

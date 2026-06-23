@@ -3,6 +3,7 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { courses } from "@/content/catalog";
+import { level3 } from "@/content/level3";
 import { validateCatalog, validateAudioFiles } from "@/content/validate";
 import type { Course } from "@/lib/types";
 
@@ -19,6 +20,13 @@ describe("real content", () => {
     const issues = validateAudioFiles(courses, {
       exists: (rel) => existsSync(path.join(publicDir, rel)),
     });
+    expect(issues, JSON.stringify(issues, null, 2)).toEqual([]);
+  });
+
+  // Level 3 is authored but not yet wired into `courses` (Units 3-4 pending).
+  // Validate it standalone so the WIP content is still integrity-checked.
+  it("Level 3 (work in progress) is structurally valid", () => {
+    const issues = validateCatalog([level3]);
     expect(issues, JSON.stringify(issues, null, 2)).toEqual([]);
   });
 });
