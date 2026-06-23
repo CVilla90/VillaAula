@@ -101,7 +101,21 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
     params from the blob mime (`audio/webm;codecs=opus` → `audio/webm`) for Gemini.
   - ✅ tsc + lint + build + 36 tests green. Full record→route round-trip verified in S3 (needs a
     real L1 speaking question to exist).
-- **Next:** S3 (add 1–2 very-basic Level 1 speaking questions + live route smoke test), then Phase C.
+- ✅ **Iteration S3 done (Level 1 speaking + full live verification):**
+  - Added two very-basic **"repeat this phrase" speaking questions** to Level 1 (closed targets so
+    the deterministic grading works): `l3-q4` "Good morning!" (greetings lesson) and `l4-q4` "The
+    sky is blue." (colors lesson). Validator/tests green over them.
+  - ✅ **Full route round-trip verified live** (dev server + real Gemini): TTS clip of the target →
+    `POST /api/speaking/analyze` → `{transcription, correct:true, feedback}`; a **mismatched** clip →
+    `correct:false` with helpful feedback; an **unknown questionId → 404** (server-side lookup
+    rejects it). Confirms formData→Buffer→`getQuestionById`→Gemini→`gradeOpen` end to end.
+  - ✅ tsc + lint + build + 36 tests green.
+- 🏁 **Phase S (speaking) COMPLETE & LIVE-VERIFIED.** The feature works end to end with
+  `GEMINI_API_KEY` set; without it, speaking degrades gracefully (friendly note, auto-pass, never
+  blocks). For Replit go-live, add `GEMINI_API_KEY` to Secrets (see §17 style). Speaking is also
+  ready to drop into L2/L3/L4 as they're authored.
+- **Next: Phase C** — C1 rebuild Level 2 to its real 4-unit `s2u1–s2u4` spine (read the dense PNGs
+  zoomed), then C2 (L3), C3 (L4), C4 (audio/polish).
 
 ### 2026-06-22 — Session 4 (de-hardcode / harden — planning)
 - 📋 Did a full read of `src/` and wrote **`REFACTOR.md`** — the de-hardcode/best-practices

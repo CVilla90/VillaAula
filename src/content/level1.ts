@@ -237,6 +237,20 @@ export const level1: Course = {
                   explanation: "*Goodbye* is for leaving, not arriving.",
                 },
               },
+              {
+                kind: "question",
+                question: {
+                  id: "l3-q4",
+                  type: "speaking",
+                  prompt: "Now say it out loud — greet someone in the morning:",
+                  points: 1,
+                  config: {
+                    target: "Good morning!",
+                    acceptedAnswers: ["good morning"],
+                    maxSeconds: 8,
+                  },
+                },
+              },
             ],
           },
         },
@@ -305,6 +319,20 @@ export const level1: Course = {
                   points: 1,
                   config: { acceptedAnswers: ["is", "'s"], charLimit: 6 },
                   explanation: "*It* takes **is** → *It's a green book.*",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "l4-q4",
+                  type: "speaking",
+                  prompt: "Say this sentence out loud:",
+                  points: 1,
+                  config: {
+                    target: "The sky is blue.",
+                    acceptedAnswers: ["the sky is blue", "sky is blue"],
+                    maxSeconds: 8,
+                  },
                 },
               },
             ],
