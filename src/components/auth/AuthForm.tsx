@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useActionState } from "react";
 import type { AuthState } from "@/lib/auth/actions";
+import { BRAND } from "@/lib/site";
 
 type Action = (
   state: AuthState | undefined,
@@ -145,7 +146,7 @@ export default function AuthForm({
       </form>
 
       <p className="mt-5 text-center text-sm text-muted">
-        {isSignup ? "Already have an account?" : "New to WISHUB?"}{" "}
+        {isSignup ? "Already have an account?" : `New to ${BRAND}?`}{" "}
         <Link href={switchHref} className="font-bold text-coral hover:text-coral-deep">
           {isSignup ? "Log in" : "Create one"}
         </Link>

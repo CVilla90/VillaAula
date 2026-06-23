@@ -7,6 +7,13 @@ import {
   levelRange,
   type LevelCatalogEntry,
 } from "@/content/catalog";
+import {
+  BACKRONYM,
+  BRAND_WORDMARK,
+  BYLINE,
+  COPYRIGHT_YEAR,
+  LEVEL_BAND,
+} from "@/lib/site";
 
 const FEATURES = [
   {
@@ -64,7 +71,7 @@ export default function Home() {
         <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:py-24">
           <div>
             <p className="animate-rise font-mono text-xs font-medium tracking-[0.22em] text-muted">
-              ENGLISH · A1 → A2 · SELF-PACED
+              ENGLISH · {LEVEL_BAND} · SELF-PACED
             </p>
             <h1
               className="animate-rise mt-5 font-display text-5xl font-extrabold leading-[1.03] tracking-tight text-ink sm:text-6xl"
@@ -188,10 +195,12 @@ export default function Home() {
           <div className="flex flex-col gap-2">
             <Logo />
             <p className="font-mono text-[11px] tracking-wide text-muted">
-              Web Interactive Study Hub for Universal Bilinguals
+              {BACKRONYM}
             </p>
           </div>
-          <p className="text-sm text-muted">Built by Carlos Villa · © 2026</p>
+          <p className="text-sm text-muted">
+            {BYLINE} · © {COPYRIGHT_YEAR}
+          </p>
         </div>
       </footer>
     </div>
@@ -209,7 +218,7 @@ function Logo() {
         </svg>
       </span>
       <span className="font-display text-xl font-extrabold tracking-tight text-ink">
-        wishub
+        {BRAND_WORDMARK}
       </span>
     </Link>
   );

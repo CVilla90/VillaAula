@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BRAND_WORDMARK } from "@/lib/site";
 
 /** Centered card chrome for the /login and /signup pages. */
 export default function AuthShell({ children }: { children: React.ReactNode }) {
@@ -12,7 +13,7 @@ export default function AuthShell({ children }: { children: React.ReactNode }) {
             </svg>
           </span>
           <span className="font-display text-xl font-extrabold tracking-tight text-ink">
-            wishub
+            {BRAND_WORDMARK}
           </span>
         </Link>
         {children}

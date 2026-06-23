@@ -95,7 +95,16 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
   `levels/page.tsx`); repointed the 4 route imports to `@/content/catalog`. Copy is now derived:
   `levelRange()`/`activeCourseCount` ("Levels 1 and 2 are ready"), and `Syllabus.tsx`'s false
   "all four units" → `{course.units.length}`. ✅ tsc + lint + build green; all 11 routes intact.
-- **Next:** Iteration **B** (shared site/brand/palette config), then **C**, **D**; then §6 content.
+- ✅ **Iteration B done (shared site/brand/palette config):** new `src/lib/site.ts` is the one
+  home for `BRAND`/wordmark/`BACKRONYM`/`TAGLINE`/`BYLINE`/`LEVEL_BAND`/diploma defaults and the
+  `PALETTE` (mirrors the `globals.css` tokens). Repointed `layout.tsx` (metadata), `page.tsx`
+  (logo, hero band, footer), `AuthShell`/`AuthForm` (wordmark + "New to WISHUB?"), and the
+  **diploma SVG now reads every colour from `PALETTE`** instead of re-hardcoding hex. Left alone
+  (correctly): internal storage keys/cookies (`wishub:completed`, `wishub_session`), per-course
+  diploma content data, and `globals.css` (the canonical token source). Minor note: the logo
+  SVG markup is still duplicated between `page.tsx` and `AuthShell` — a small `<Logo>` extraction
+  for a later tidy. ✅ tsc + lint + build green; 11 routes intact.
+- **Next:** Iteration **C** (ID normalization + content validator), then **D**; then §6 content.
 
 ### 2026-06-22 — Session 3 (autonomous `/loop`)
 **Decisions locked this session (Carlos):** ships **online on Replit** with **Replit's

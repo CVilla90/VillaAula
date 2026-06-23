@@ -5,6 +5,7 @@ import { authConfigured } from "@/lib/auth/session";
 import { getCurrentUser } from "@/lib/auth/users";
 import { SessionProvider } from "@/components/auth/SessionProvider";
 import { ProgressProvider } from "@/components/progress/ProgressProvider";
+import { BRAND, META_DESCRIPTION, TAGLINE } from "@/lib/site";
 
 const display = Hanken_Grotesk({
   variable: "--font-hanken",
@@ -23,9 +24,8 @@ const mono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "WISHUB — English that finally clicks",
-  description:
-    "A small, modern English course that skips the clutter. Short exercises, instant feedback, and the grammar tucked away until you want it.",
+  title: `${BRAND} — ${TAGLINE}`,
+  description: META_DESCRIPTION,
 };
 
 export default async function RootLayout({

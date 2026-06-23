@@ -12,6 +12,13 @@ import {
 import { useProgress } from "@/components/progress/ProgressProvider";
 import { useSessionUser } from "@/components/auth/SessionProvider";
 import { RichText } from "@/components/RichText";
+import {
+  BRAND,
+  DEFAULT_LEARNER_NAME,
+  DIPLOMA_ISSUER,
+  DIPLOMA_TITLE,
+  PALETTE,
+} from "@/lib/site";
 
 export default function DiplomaPanel({ course }: { course: Course }) {
   const { completed, markCompleted } = useProgress();
@@ -38,7 +45,7 @@ export default function DiplomaPanel({ course }: { course: Course }) {
     if (ready) markCompleted(courseKey(course.slug));
   }, [ready, course.slug, markCompleted]);
 
-  const displayName = name.trim() || accountName?.trim() || "WISHUB Learner";
+  const displayName = name.trim() || accountName?.trim() || DEFAULT_LEARNER_NAME;
 
   function downloadDiploma() {
     if (!ready) return;
@@ -50,9 +57,9 @@ export default function DiplomaPanel({ course }: { course: Course }) {
     const svg = buildDiplomaSvg({
       learner: displayName,
       courseTitle: course.title,
-      diplomaTitle: course.diploma?.title ?? "WISHUB Diploma",
+      diplomaTitle: course.diploma?.title ?? DIPLOMA_TITLE,
       subtitle: course.diploma?.subtitle ?? `Level ${course.level}`,
-      issuer: course.diploma?.issuer ?? "WISHUB",
+      issuer: course.diploma?.issuer ?? DIPLOMA_ISSUER,
       date: today,
       level: course.level,
     });
@@ -120,7 +127,7 @@ export default function DiplomaPanel({ course }: { course: Course }) {
               DIPLOMA
             </p>
             <h2 className="mt-2 font-display text-2xl font-extrabold text-ink">
-              {course.diploma?.title ?? "WISHUB Diploma"}
+              {course.diploma?.title ?? DIPLOMA_TITLE}
             </h2>
             <label className="mt-4 block max-w-sm">
               <span className="text-xs font-semibold text-muted">
@@ -130,7 +137,7 @@ export default function DiplomaPanel({ course }: { course: Course }) {
                 type="text"
                 value={name}
                 onChange={(event) => setName(event.target.value)}
-                placeholder="WISHUB Learner"
+                placeholder={DEFAULT_LEARNER_NAME}
                 className="mt-1 w-full rounded-xl border border-line bg-paper px-4 py-2.5 text-ink outline-none transition focus:border-coral"
               />
             </label>
@@ -217,20 +224,20 @@ function buildDiplomaSvg({
   level: number;
 }) {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100">
-  <rect width="1600" height="1100" fill="#fbf4ec"/>
-  <rect x="90" y="90" width="1420" height="920" rx="36" fill="#ffffff" stroke="#ff5a4d" stroke-width="10"/>
-  <rect x="132" y="132" width="1336" height="836" rx="24" fill="none" stroke="#ece0d4" stroke-width="4"/>
-  <text x="800" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="46" font-weight="700" fill="#ff5a4d" letter-spacing="8">WISHUB</text>
-  <text x="800" y="350" text-anchor="middle" font-family="Arial, sans-serif" font-size="68" font-weight="800" fill="#2a211b">${escapeXml(diplomaTitle)}</text>
-  <text x="800" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" fill="#8a7a6e">${escapeXml(subtitle)}</text>
-  <text x="800" y="535" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" fill="#8a7a6e">Awarded to</text>
-  <text x="800" y="635" text-anchor="middle" font-family="Georgia, serif" font-size="82" font-weight="700" fill="#2a211b">${escapeXml(learner)}</text>
-  <text x="800" y="725" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" fill="#8a7a6e">for completing ${escapeXml(courseTitle)}</text>
-  <line x1="360" y1="845" x2="650" y2="845" stroke="#2a211b" stroke-width="3"/>
-  <line x1="950" y1="845" x2="1240" y2="845" stroke="#2a211b" stroke-width="3"/>
-  <text x="505" y="890" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#8a7a6e">${escapeXml(issuer)}</text>
-  <text x="1095" y="890" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#8a7a6e">${escapeXml(date)}</text>
-  <circle cx="800" cy="842" r="66" fill="#16a394"/>
-  <text x="800" y="861" text-anchor="middle" font-family="Arial, sans-serif" font-size="54" font-weight="800" fill="#ffffff">${level}</text>
+  <rect width="1600" height="1100" fill="${PALETTE.cream}"/>
+  <rect x="90" y="90" width="1420" height="920" rx="36" fill="${PALETTE.paper}" stroke="${PALETTE.coral}" stroke-width="10"/>
+  <rect x="132" y="132" width="1336" height="836" rx="24" fill="none" stroke="${PALETTE.line}" stroke-width="4"/>
+  <text x="800" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="46" font-weight="700" fill="${PALETTE.coral}" letter-spacing="8">${escapeXml(BRAND)}</text>
+  <text x="800" y="350" text-anchor="middle" font-family="Arial, sans-serif" font-size="68" font-weight="800" fill="${PALETTE.ink}">${escapeXml(diplomaTitle)}</text>
+  <text x="800" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" fill="${PALETTE.muted}">${escapeXml(subtitle)}</text>
+  <text x="800" y="535" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" fill="${PALETTE.muted}">Awarded to</text>
+  <text x="800" y="635" text-anchor="middle" font-family="Georgia, serif" font-size="82" font-weight="700" fill="${PALETTE.ink}">${escapeXml(learner)}</text>
+  <text x="800" y="725" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" fill="${PALETTE.muted}">for completing ${escapeXml(courseTitle)}</text>
+  <line x1="360" y1="845" x2="650" y2="845" stroke="${PALETTE.ink}" stroke-width="3"/>
+  <line x1="950" y1="845" x2="1240" y2="845" stroke="${PALETTE.ink}" stroke-width="3"/>
+  <text x="505" y="890" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="${PALETTE.muted}">${escapeXml(issuer)}</text>
+  <text x="1095" y="890" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="${PALETTE.muted}">${escapeXml(date)}</text>
+  <circle cx="800" cy="842" r="66" fill="${PALETTE.teal}"/>
+  <text x="800" y="861" text-anchor="middle" font-family="Arial, sans-serif" font-size="54" font-weight="800" fill="${PALETTE.paper}">${level}</text>
 </svg>`;
 }
