@@ -6,13 +6,11 @@ import { hashPassword, verifyPassword } from "./password";
 import { authConfigured, createSession, deleteSession } from "./session";
 import { isAdminEmail } from "./users";
 import { safeNext } from "./google";
+import { validateSignup } from "./validation";
 
 export interface AuthState {
   error?: string;
 }
-
-const USERNAME_RE = /^[a-zA-Z0-9_.-]{3,32}$/;
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function isUniqueViolation(error: unknown): boolean {
   return (
@@ -38,15 +36,8 @@ export async function signupAction(
   const email = emailRaw ? emailRaw.toLowerCase() : null;
   const next = safeNext(String(formData.get("next") ?? ""));
 
-  if (!USERNAME_RE.test(username)) {
-    return { error: "Username must be 3–32 characters: letters, numbers, . _ or -." };
-  }
-  if (password.length < 8) {
-    return { error: "Password must be at least 8 characters." };
-  }
-  if (email && !EMAIL_RE.test(email)) {
-    return { error: "That email doesn't look right." };
-  }
+  const invalid = validateSignup({ username, password, email });
+  if (invalid) return { error: invalid };
 
   const prisma = getPrisma();
   const passwordHash = await hashPassword(password);
