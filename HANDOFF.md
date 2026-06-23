@@ -82,6 +82,27 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
 
 ## 2. STATUS LOG (newest first — UPDATE EVERY SESSION)
 
+### 2026-06-23 — Session 8 (auth hardening — building the login feature)
+- 🧭 **Decision (Carlos):** the **Google OAuth client is owned by his personal Gmail**, not
+  `cavilla@uach.mx` — keeps the personal project off the UACH Workspace rail (control/longevity) and
+  avoids Internal/External + admin-policy friction. Consent screen = **External, Published**, basic
+  scopes only (no verification). Both emails stay in `ADMIN_EMAILS`. (See §17 step 4.)
+- 🔎 **Audit:** the full auth scaffold (Prisma User/Progress, jose JWT sessions, bcrypt, dual-auth
+  Server Actions, Google OAuth code-flow with CSRF state + account-linking, providers, login/signup
+  UI) was **already built** in Session 3 and is correct — no rebuild needed.
+- ✅ **Hardened the security core (testable without a DB):** extracted `lib/auth/token.ts` (pure JWT
+  sign/verify, no `next/headers`) and `lib/auth/validation.ts` (pure signup rules). `session.ts` now
+  does cookie I/O only + re-exports token primitives (callers unchanged); `signupAction` uses
+  `validateSignup()`. New `lib/auth/auth.test.ts` — **10 tests** (JWT round-trip, wrong-secret /
+  tampered / unset-secret rejection, sign-throws-without-secret, bcrypt, validation). **46 tests** total.
+- ✅ **Verified guest mode (prod server):** `/login` + `/signup` → 200 (render "accounts saved on this
+  device"); `/api/auth/google` → 307 `/login?error=google_disabled` when unconfigured.
+- ⚠️ **Still untested live** (no local Postgres here): the signup/login/OAuth **runtime** + DB writes.
+  Query shapes are typechecked against the schema; crypto is unit-tested. Carlos's go-live smoke test
+  (§17 step 6) is the final confirmation once `DATABASE_URL` + the OAuth client are set.
+- ⏭ **Offered next:** §18.E gating — login REQUIRED for diploma/grades, remove the free-text diploma
+  name (use account name), persist real exam scores.
+
 ### 2026-06-23 — Session 7 (listening pass — `LISTENING_PASS.md`)
 - 🎯 **Goal (Carlos):** distribute **short, casual listening** like speaking — **1 per unit, 4/level**
   (10 new edge-tts clips). Comprehension = **mixed MCQ + T/F**. Spec: `LISTENING_PASS.md`.
@@ -876,10 +897,20 @@ OAuth creds). To turn it on:
    - `ADMIN_EMAILS` — `cavilla@uach.mx` (default).
    - *(optional)* `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` for Google sign-in.
 3. **Create the tables**: `npm run db:push` (idempotent; no migrations folder needed yet).
-4. **(optional) Google OAuth**: at <https://console.cloud.google.com/apis/credentials> create
-   an OAuth 2.0 **Web** client. The Authorized redirect URI must be **exactly**
-   `<NEXT_PUBLIC_APP_URL>/api/auth/google/callback`. Without these secrets the
-   "Continue with Google" button just hides; username/password still works.
+4. **(optional) Google OAuth**: create the OAuth client under Carlos's **personal Gmail**
+   (`carlosavillah90@gmail.com`), **NOT** `cavilla@uach.mx` — WISHUB is a personal project, and a
+   Workspace-owned client would be subject to UACH admin policy + Internal/External limits and could
+   die if that account is deactivated (decision 2026-06-23).
+   - Console → new project "WISHUB". **OAuth consent screen → User type: External.** App name
+     "WISHUB", support + developer email = his. Scopes are only `openid email profile` (basic) → **no
+     Google verification needed**, so **Publish** the app (or add the friend as a Test user) so any
+     Gmail can sign in.
+   - **Credentials → Create OAuth client ID → Web application.** Authorized redirect URI must be
+     **exactly** `<NEXT_PUBLIC_APP_URL>/api/auth/google/callback`. Add **both** the local
+     (`http://localhost:3000/api/auth/google/callback`) and the Replit
+     (`https://<repl>.replit.app/api/auth/google/callback`) URIs so dev + prod both work.
+   - Copy Client ID + secret → `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET`. Without these the
+     "Continue with Google" button just hides; username/password still works.
 5. **Deploy** (Autoscale). `postinstall` runs `prisma generate`. Keep the Secrets present at
    build time (Replit does) so the cookie-reading layout renders dynamically.
 6. **Smoke test live**: sign up (username+password) → redirect to `/levels` → finish a lesson →
