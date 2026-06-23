@@ -27,11 +27,15 @@
   - ✅ **Level 2 fully rebuilt** to its REAL `s2` curriculum spine (4 units, 20 lessons, 16-Q final,
     4 speaking) — the old 2-unit "past/future/quantity" guess is gone. Extracted spines live in
     `CURRICULA_SPINE.md`.
-  - ⏳ **Level 3 (B1) in progress:** Units 1–2 authored in `content/level3.ts` (not yet wired into
-    `courses`); Units 3–4 + go-live pending. **Level 4 not started.** Earlier: Auth + Postgres +
-    server-progress (manual + Google OAuth) + edge-tts audio on L1 — all built, untested-live.
-  - **Next:** see §2's **"TOMORROW — START HERE"** block. Carlos's go-live (auth/DB + `GEMINI_API_KEY`
-    on Replit per §17) still pending. Deferred engineering: REFACTOR.md §3-E / §3-F.
+  - ✅ **Level 3 (B1) COMPLETE & LIVE (2026-06-23):** 4 units / 20 lessons / 4 speaking, 16-Q final
+    (pass 12), wired into `courses` — the L3 card auto-activated. Spine: past continuous → present
+    perfect → conditionals → modals.
+  - ⏳ **Level 4 (A2/B1 past depth) NOT started** — `content/level4.ts` to be authored from
+    `reference/s4u1–s4u4` (spine not yet extracted). Earlier: Auth + Postgres + server-progress
+    (manual + Google OAuth) + edge-tts audio on L1 — all built, untested-live.
+  - **Next:** **C3 — author Level 4** (extract `s4` spine → `level4.ts` → wire), then **C4 audio/polish**.
+    Carlos's go-live (auth/DB + `GEMINI_API_KEY` on Replit per §17) still pending. Deferred
+    engineering: REFACTOR.md §3-E / §3-F.
 - **Deadline pressure:** Carlos starts the first formal class **today (2026-06-22)**.
   Goal = something real and usable for Level 1, even if rough. Dirty hardcoding is OK.
 
@@ -75,6 +79,19 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
 ---
 
 ## 2. STATUS LOG (newest first — UPDATE EVERY SESSION)
+
+### 2026-06-23 — Session 6 (curricula loop — finish L3, author L4)
+- ✅ **C2 part 2 — Level 3 COMPLETE & WIRED LIVE.** Authored **Unit 3 "What If?"** (zero
+  conditional · first conditional · connectors `unless/as long as/in case` · first-conditional +
+  modals · preferences `would rather/prefer/better`) and **Unit 4 "What Should I Do?"** (should vs
+  have to · must/mustn't · may/might/need to · polite requests could/would · modal+have:
+  must/should/might have). Now **4 units / 20 lessons / 4 speaking / 1 new reading**; final test
+  extended **10→16 Q (pass 12)**, conclusion finalized. **Wired into `catalog.ts`** (`courses` +
+  real `LEVEL_META[3].focus`); the Level 3 card auto-activates. Removed the standalone
+  `validate.test.ts` L3 case (the `courses` test covers it now). ✅ tsc + lint + **36 tests** +
+  build green; 12 routes. `levelRange()` now reads "Levels 1–3" everywhere automatically.
+- ⏭ **Next this session: C3 — Level 4** (extract `s4u1–s4u4` spine → `content/level4.ts` → wire),
+  then **C4** (edge-tts audio for new listening blocks + final polish).
 
 ### 2026-06-22 — Session 5 (speaking + curricula loop — `SPEAKING_AND_CURRICULA.md`)
 - ✅ **Iteration S1 done (speaking model + AI service + analyze route):**
