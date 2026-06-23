@@ -70,6 +70,33 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
 
 ## 2. STATUS LOG (newest first — UPDATE EVERY SESSION)
 
+### 2026-06-22 — Session 4 (de-hardcode / harden — planning)
+- 📋 Did a full read of `src/` and wrote **`REFACTOR.md`** — the de-hardcode/best-practices
+  punch-list. Headline finding: the **course catalog is hand-typed in 3 disconnected places**
+  (`page.tsx` + `levels/page.tsx` `LEVELS` arrays) while the real courses live as data, and it
+  already lies (`Syllabus.tsx` says "all four units" — Level 2 has 2). Plan is 6 loop-ready
+  iterations: **A** catalog single-source-of-truth → **B** shared site/brand/palette config →
+  **C** content integrity + ID normalization + validator → **D** vitest + core unit tests →
+  **E** `⚠ BEHAVIOR` auth-gating + real exam scores (HANDOFF §18.E) → **F** `⚠ BEHAVIOR` the big
+  TS→Postgres relational content model (§7/§18.I). A–D are behavior-preserving and fully
+  loop-verifiable; **E & F deferred to a later session (live DB / UX — can't be loop-verified).**
+- ✅ **Scope locked (Carlos):** the loop runs **A → B → C → D, then stops.** E/F later.
+- 📥 **Carlos uploaded the real curricula for ALL FOUR levels** to `reference/`
+  (`s1u1…s4u4` — **every level is a 4-unit program**). This **unblocks HANDOFF §18.A / §13**
+  (was pending). Consequences captured in `REFACTOR.md §6` (a **content track after the loop**):
+  the shipped **Level 2 is wrong** (only 2 units, generic A2 inference) → **rebuild to
+  `s2u1–s2u4`**; **author Levels 3 & 4 from scratch** (`s3`/`s4`). ⚠️ the source PNGs are dense
+  and downscale poorly — read them zoomed/cropped before authoring.
+- Working tree clean on `master` (own git repo, no remote) → every loop iteration is reversible.
+- ✅ **Iteration A done (catalog = single source of truth):** new `src/content/catalog.ts` owns
+  `courses` + `getCourse` (moved out of `content/level1.ts`) and a derived **`levelCatalog`** —
+  active levels come from the real `Course` data, levels 3–4 are `status:"soon"` stubs that
+  auto-light-up when authored. **Killed both hand-typed `LEVELS` arrays** (`page.tsx` +
+  `levels/page.tsx`); repointed the 4 route imports to `@/content/catalog`. Copy is now derived:
+  `levelRange()`/`activeCourseCount` ("Levels 1 and 2 are ready"), and `Syllabus.tsx`'s false
+  "all four units" → `{course.units.length}`. ✅ tsc + lint + build green; all 11 routes intact.
+- **Next:** Iteration **B** (shared site/brand/palette config), then **C**, **D**; then §6 content.
+
 ### 2026-06-22 — Session 3 (autonomous `/loop`)
 **Decisions locked this session (Carlos):** ships **online on Replit** with **Replit's
 default Postgres** (real DB by the time the friend uses it). Auth = **dual**: in-app
