@@ -1,9 +1,13 @@
-# WISHUB — Listening pass (loop spec)
+# WISHUB — Listening pass (loop spec) — 🏁 COMPLETE (2026-06-23)
 
 > Goal (Carlos, 2026-06-23): distribute **short, casual listening exercises** across the program
 > the way **speaking** already is — **~1 per unit, 4 per level**. Same loop protocol as the
 > curricula pass: one iteration per turn, **green gate** (`tsc` + `lint` + `npm test` + `build`)
 > before each commit, commit per iteration, append to `HANDOFF.md §2`.
+>
+> **STATUS: DONE.** All 10 new clips added (L1·U1; L2 U1/U2/U4; L3 U1/U3/U4; L4 U1/U2/U4),
+> 5 MCQ + 5 T/F, every unit now has 1 listening. Verified on the prod server. See HANDOFF §2
+> (Session 7). The candidate-lesson list below records what was actually used.
 
 ## Why / current state (audit 2026-06-23)
 Speaking sits 1-per-unit in L2/L3/L4 (4 each); L1 has 2 (both U1). Listening is lopsided:

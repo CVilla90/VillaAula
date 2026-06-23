@@ -85,13 +85,20 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
 ### 2026-06-23 — Session 7 (listening pass — `LISTENING_PASS.md`)
 - 🎯 **Goal (Carlos):** distribute **short, casual listening** like speaking — **1 per unit, 4/level**
   (10 new edge-tts clips). Comprehension = **mixed MCQ + T/F**. Spec: `LISTENING_PASS.md`.
-- ✅ **I1–I2 done — L1·U1 + Level 2 (U1/U2/U4).** Added a listening Content block + comprehension Q
-  to: L1 U1 `to-be` ("a quick hello", MCQ), L2 U1 `how-often` ("phone habits", T/F), L2 U2
-  `would-like` ("at the café", MCQ), L2 U4 `used-to-do` ("when I was a child", T/F). Generated the
-  4 MP3s via `tools/generate_audio.py` (tts venv). **L1 now has listening in all 4 units; L2 = 4/4.**
-  ✅ tsc + lint + 36 tests + build.
-- ⏭ **Next: I3 (Level 3 U1/U3/U4) → I4 (Level 4 U1/U2/U4) → I5 verify.** Candidate lessons in
-  `LISTENING_PASS.md`. Then HANDOFF wrap.
+- 🏁 **DONE — 10 listening clips added, 1 per unit across all 4 levels (5 MCQ + 5 T/F).** Each is a
+  short casual edge-tts clip + comprehension Q, in a lesson that had no speaking/listening:
+  - **L1**: U1 `to-be` ("a quick hello", MCQ). *(U2/U3/U4 already had listening.)*
+  - **L2**: U1 `how-often` (T/F) · U2 `would-like` (MCQ) · U4 `used-to-do` (T/F). *(U3 already had it.)*
+  - **L3**: U1 `interrupted` (MCQ) · U3 `preferences` (T/F) · U4 `advice-obligation` (MCQ). *(U2 had it.)*
+  - **L4**: U1 `reported-statements` (T/F) · U2 `second-conditional` (MCQ) · U4 `phrasal-verbs` (T/F).
+    *(U3 had it.)*
+  - **Every unit in the program now has exactly 1 listening + (L2–L4) 1 speaking.** 16 MP3s in
+    `public/audio/`; `tools/generate_audio.py` CLIPS updated.
+  - ✅ tsc + lint + 36 tests (`validateAudioFiles` covers all 16) + build. **Verified on the prod
+    server**: sampled one lesson per level → audio `<source>` + comprehension question both render;
+    all 10 new MP3s serve 200.
+- 🌙 **Loop wound down here (2026-06-23). Listening pass complete; clean tree, build green.** Next
+  remains **Carlos's go-live (§17)** + deferred REFACTOR §3-E/§3-F (need live DB).
 
 ### 2026-06-23 — Session 6 (curricula loop — finish L3, author L4)
 - ✅ **C2 part 2 — Level 3 COMPLETE & WIRED LIVE.** Authored **Unit 3 "What If?"** (zero
