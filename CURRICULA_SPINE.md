@@ -50,5 +50,42 @@ Theme arc: the past in depth (irregulars, used to, duration, time markers).
 
 ---
 
-## Level 3 — `s3u1–s3u4`: spine NOT yet extracted (B1; reported speech, conditionals seen in thumbnails).
+## Level 3 — B1 (4 units). Source: `s3u1–s3u4`. Status: ✅ spine extracted, authoring pending.
+
+### Unit 1 — "In the Middle of It" (src: *What were you doing?*)
+All **Past Continuous** (was/were + -ing). Vocab: action verbs, work, safety.
+1. **Were you working?** — Past Continuous (basic: an action in progress in the past).
+2. **…when it happened** — Past Continuous interrupted by the Simple Past (*when*).
+3. **At 9 a.m.** — Past Continuous at a specific past time.
+4. **While I was…** — two Past Continuous actions at once (*while*).
+5. **Setting the scene** — Past Continuous for atmosphere/background.
+
+### Unit 2 — "Have You Ever?" (src: *Have you ever swum there?*)
+All **Present Perfect** (have/has + past participle). Vocab: sports, jobs, life experiences.
+1. **What have you done?** — Present Perfect (experience, basic form + irregular participles).
+2. **Ever / never** — Present Perfect with *ever* and *never*.
+3. **For / since** — Present Perfect with *for* and *since* (duration up to now).
+4. **Then vs. now** — Present Perfect vs. Simple Past (finished time → simple past).
+5. **Just / already / yet** — Present Perfect with *just*, *already*, *yet*.
+
+### Unit 3 — "What If?" (src: *What will happen if you…?*)
+**Conditionals** + preferences. Vocab: pollution, places, vacation activities.
+1. **Zero conditional** — facts/results (*if + present, present*).
+2. **First conditional** — real future (*if + present, will*).
+3. **Connectors** — *if / unless / when / as long as / in case*.
+4. **First conditional + modals** — *if…, can/should…*.
+5. **Preferences** — *I'd rather / I'd prefer / I'd like to / I'd better*.
+
+### Unit 4 — "What Should I Do?" (src: *What should I do?* — 7 sub-topics collapsed to 5)
+**Modals**. Vocab: safety/rules, jobs/duties, requests, customs.
+1. **Advice & obligation** — *have to / should*.
+2. **Rules** — *must / mustn't*.
+3. **Possibility** — *may / might / need to*.
+4. **Polite requests** — *can / could / would you…*.
+5. **Looking back** — modal + *have*: *must have* (deduction), *should have* (regret), *might have* (past possibility).
+
+**L3 `LEVEL_META[3]` →** title "Telling More", focus `"past continuous · present perfect · conditionals · modals"`.
+
+---
+
 ## Level 4 — `s4u1–s4u4`: spine NOT yet extracted.

@@ -135,9 +135,13 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
   past duration · last/ago). Extended the final test to **16 questions (pass 12)** across all units;
   full conclusion + diploma. 4 speaking questions total, 100% original, A2-calibrated. ✅ tsc + lint +
   build + 36 tests (validator over all of L2) green.
-- **Next: C2 — Level 3.** Extract the `s3u1–s3u4` spine (crop+read like L2; add to
-  `CURRICULA_SPINE.md`), then author `content/level3.ts` (B1), register in `courses`, set
-  `LEVEL_META[3]` (status auto-flips to active). Then C3 (L4), C4 (audio/polish).
+- ✅ **C2 (extract) — Level 3 spine captured** in `CURRICULA_SPINE.md` (B1): U1 **Past Continuous**
+  (basic/interrupted/specific-time/while/atmosphere), U2 **Present Perfect** (ever-never/for-since/
+  vs-simple-past/just-already-yet), U3 **Conditionals** (zero/first/connectors/+modals/preferences),
+  U4 **Modals** (have-to-should/must/may-might/requests/modal+have). 7 src lessons in U4 collapse to 5.
+- **Next: C2 (author) — `content/level3.ts`** (4 units, B1, original, mixed types incl. speaking;
+  final/conclusion/diploma), import+register in `catalog.courses`, set `LEVEL_META[3]` (card
+  auto-activates). Likely 2 passes (U1-U2, U3-U4). Then C3 (L4), C4 (audio/polish).
 
 ### 2026-06-22 — Session 4 (de-hardcode / harden — planning)
 - 📋 Did a full read of `src/` and wrote **`REFACTOR.md`** — the de-hardcode/best-practices
