@@ -106,6 +106,36 @@ export const level3: Course = {
             title: "Practice: interruptions",
             items: [
               {
+                kind: "content",
+                content: {
+                  id: "c3u1l2-a1",
+                  type: "audio",
+                  title: "Listen: a sudden call",
+                  transcript:
+                    "I was cooking dinner when the phone rang. It was my brother. He was calling from the airport to say hello.",
+                  voice: "en-US-AndrewNeural",
+                  mediaUrl: "/audio/c3u1l2-a1.mp3",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c3u1l2-q4",
+                  type: "multiple_choice",
+                  prompt: "From the audio, what was the speaker doing when the phone rang?",
+                  points: 1,
+                  config: {
+                    options: [
+                      { id: "a", text: "Cooking dinner" },
+                      { id: "b", text: "Sleeping" },
+                      { id: "c", text: "Driving" },
+                    ],
+                    correctIds: ["a"],
+                  },
+                  explanation: "“I **was cooking dinner** when the phone rang.”",
+                },
+              },
+              {
                 kind: "question",
                 question: {
                   id: "c3u1l2-q1",
@@ -965,6 +995,29 @@ export const level3: Course = {
             title: "Practice: preferences",
             items: [
               {
+                kind: "content",
+                content: {
+                  id: "c3u3l5-a1",
+                  type: "audio",
+                  title: "Listen: tonight's plan",
+                  transcript:
+                    "I'd rather stay home tonight. I'm a bit tired, and I'd prefer to watch a movie than go out.",
+                  voice: "en-US-AriaNeural",
+                  mediaUrl: "/audio/c3u3l5-a1.mp3",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c3u3l5-q4",
+                  type: "true_false",
+                  prompt: "From the audio: the speaker would rather go out tonight.",
+                  points: 1,
+                  config: { correct: false },
+                  explanation: "They'd **rather stay home** and watch a movie.",
+                },
+              },
+              {
                 kind: "question",
                 question: {
                   id: "c3u3l5-q1",
@@ -1035,6 +1088,36 @@ export const level3: Course = {
             id: "c3u4l1-ex",
             title: "Practice: advice vs. obligation",
             items: [
+              {
+                kind: "content",
+                content: {
+                  id: "c3u4l1-a1",
+                  type: "audio",
+                  title: "Listen: some advice",
+                  transcript:
+                    "You look really tired. I think you should take a break. And you have to drink more water. It's important.",
+                  voice: "en-US-GuyNeural",
+                  mediaUrl: "/audio/c3u4l1-a1.mp3",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c3u4l1-q4",
+                  type: "multiple_choice",
+                  prompt: "From the audio, what does the speaker advise?",
+                  points: 1,
+                  config: {
+                    options: [
+                      { id: "a", text: "Take a break" },
+                      { id: "b", text: "Work harder" },
+                      { id: "c", text: "Go running" },
+                    ],
+                    correctIds: ["a"],
+                  },
+                  explanation: "“I think you **should take a break**.”",
+                },
+              },
               {
                 kind: "question",
                 question: {

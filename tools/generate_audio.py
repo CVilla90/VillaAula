@@ -92,6 +92,27 @@ CLIPS = [
         "text": "When I was a child, I used to play outside every day. I used to "
         "climb trees with my friends, but I don't do that now.",
     },
+    # L3 U1 — past continuous interrupted (a sudden call)
+    {
+        "id": "c3u1l2-a1",
+        "voice": "en-US-AndrewNeural",
+        "text": "I was cooking dinner when the phone rang. It was my brother. "
+        "He was calling from the airport to say hello.",
+    },
+    # L3 U3 — preferences (tonight's plan)
+    {
+        "id": "c3u3l5-a1",
+        "voice": "en-US-AriaNeural",
+        "text": "I'd rather stay home tonight. I'm a bit tired, and I'd prefer "
+        "to watch a movie than go out.",
+    },
+    # L3 U4 — should / have to (some advice)
+    {
+        "id": "c3u4l1-a1",
+        "voice": "en-US-GuyNeural",
+        "text": "You look really tired. I think you should take a break. And you "
+        "have to drink more water. It's important.",
+    },
 ]
 
 
