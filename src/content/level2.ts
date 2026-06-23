@@ -703,14 +703,659 @@ export const level2: Course = {
         },
       ],
     },
+    // ============================== UNIT 3 ==============================
+    {
+      id: "c2u3",
+      slug: "3",
+      number: 3,
+      title: "Back Then",
+      summary:
+        "Step into the past: how and where things happen, the people involved, and what was true yesterday.",
+      lessons: [
+        // ---- L1: adverbs + purpose ----
+        {
+          id: "c2u3l1",
+          slug: "how-where",
+          title: "How and where",
+          topic: "adverbs · purpose (to + verb)",
+          grammarNote: [
+            "**Adverbs of manner** say *how* — many add **-ly**: *quick → quickly, careful →",
+            "carefully*. (Careful: *good → **well***.)",
+            "**Adverbs of place** say *where*: here, there, nearby, everywhere.",
+            "",
+            "To say *why*, use **to + base verb** (a purpose): *I went out **to** buy milk.*",
+          ].join("\n"),
+          exercise: {
+            id: "c2u3l1-ex",
+            title: "Practice: how & why",
+            items: [
+              {
+                kind: "question",
+                question: {
+                  id: "c2u3l1-q1",
+                  type: "multiple_choice",
+                  prompt: "She drives ___.",
+                  points: 1,
+                  config: {
+                    options: [
+                      { id: "a", text: "careful" },
+                      { id: "b", text: "carefully" },
+                      { id: "c", text: "care" },
+                    ],
+                    correctIds: ["b"],
+                  },
+                  explanation: "Adverb of manner: *careful → **carefully***.",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u3l1-q2",
+                  type: "open",
+                  prompt: "Say why: “I went to the station ___ catch a train.” (one word)",
+                  points: 1,
+                  config: { acceptedAnswers: ["to"], charLimit: 6 },
+                  explanation: "Purpose = **to** + base verb.",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u3l1-q3",
+                  type: "true_false",
+                  prompt: "“He speaks English good.” — Is this correct?",
+                  points: 1,
+                  config: { correct: false },
+                  explanation: "Use the adverb **well**: *He speaks English well.*",
+                },
+              },
+            ],
+          },
+        },
+        // ---- L2: subject / object pronouns ----
+        {
+          id: "c2u3l2",
+          slug: "pronouns",
+          title: "Him and her",
+          topic: "subject & object pronouns",
+          grammarNote: [
+            "**Subject** pronouns do the action (before the verb): I, you, he, she, it, we, they.",
+            "**Object** pronouns receive it (after a verb or preposition):",
+            "me, you, **him**, **her**, it, us, **them**.",
+            "*__She__ loves __him__. · I called __them__. · This is for __me__.*",
+          ].join("\n"),
+          exercise: {
+            id: "c2u3l2-ex",
+            title: "Practice: pronouns",
+            items: [
+              {
+                kind: "question",
+                question: {
+                  id: "c2u3l2-q1",
+                  type: "multiple_choice",
+                  prompt: "I saw ___ at the party. (Daniel)",
+                  points: 1,
+                  config: {
+                    options: [
+                      { id: "a", text: "he" },
+                      { id: "b", text: "him" },
+                      { id: "c", text: "his" },
+                    ],
+                    correctIds: ["b"],
+                  },
+                  explanation: "Object of *saw* → **him**.",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u3l2-q2",
+                  type: "open",
+                  prompt: "Replace “Ana”: “I called ___.” (object pronoun)",
+                  points: 1,
+                  config: { acceptedAnswers: ["her"], charLimit: 6 },
+                  explanation: "Ana → object pronoun **her**.",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u3l2-q3",
+                  type: "match",
+                  prompt: "Match each subject pronoun to its object form.",
+                  points: 1,
+                  config: {
+                    pairs: [
+                      { left: "I", right: "me" },
+                      { left: "he", right: "him" },
+                      { left: "they", right: "them" },
+                    ],
+                  },
+                  explanation: "I→me, he→him, they→them.",
+                },
+              },
+            ],
+          },
+        },
+        // ---- L3: was / were ----
+        {
+          id: "c2u3l3",
+          slug: "was-were",
+          title: "Were you there?",
+          topic: "past of to be · was / were",
+          grammarNote: [
+            "The past of **to be** has two shapes:",
+            "- I / he / she / it → **was**",
+            "- you / we / they → **were**",
+            "",
+            "Negative: **wasn't / weren't**. Question moves it first: *__Were__ you home?*",
+            "Past time words: *yesterday, last night, two days ago.*",
+          ].join("\n"),
+          exercise: {
+            id: "c2u3l3-ex",
+            title: "Practice: was / were",
+            items: [
+              {
+                kind: "question",
+                question: {
+                  id: "c2u3l3-q1",
+                  type: "multiple_choice",
+                  prompt: "They ___ at the cinema last night.",
+                  points: 1,
+                  config: {
+                    options: [
+                      { id: "a", text: "was" },
+                      { id: "b", text: "were" },
+                      { id: "c", text: "are" },
+                    ],
+                    correctIds: ["b"],
+                  },
+                  explanation: "*They* → **were**.",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u3l3-q2",
+                  type: "open",
+                  prompt: "Negative, one word: “It ___ cold.” (was not)",
+                  points: 1,
+                  config: { acceptedAnswers: ["wasn't", "wasnt"], charLimit: 10 },
+                  explanation: "**wasn't** = was not.",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u3l3-q3",
+                  type: "speaking",
+                  prompt: "Say this about yesterday:",
+                  points: 1,
+                  config: {
+                    target: "I was at home yesterday.",
+                    acceptedAnswers: ["i was at home yesterday"],
+                    maxSeconds: 9,
+                  },
+                },
+              },
+            ],
+          },
+        },
+        // ---- L4: simple past regular ----
+        {
+          id: "c2u3l4",
+          slug: "simple-past-regular",
+          title: "Did he invent it?",
+          topic: "simple past · regular verbs",
+          grammarNote: [
+            "For finished past actions, regular verbs add **-ed**:",
+            "*work → work**ed***, *play → play**ed***.",
+            "Spelling: *study → stud**ied***, *stop → stop**ped***.",
+          ].join("\n"),
+          exercise: {
+            id: "c2u3l4-ex",
+            title: "Practice: -ed past",
+            items: [
+              {
+                kind: "question",
+                question: {
+                  id: "c2u3l4-q1",
+                  type: "open",
+                  prompt: "Past of **play**: ___",
+                  points: 1,
+                  config: { acceptedAnswers: ["played"], charLimit: 10 },
+                  explanation: "Regular: **played**.",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u3l4-q2",
+                  type: "multiple_choice",
+                  prompt: "Past of **study**:",
+                  points: 1,
+                  config: {
+                    options: [
+                      { id: "a", text: "studyed" },
+                      { id: "b", text: "studied" },
+                      { id: "c", text: "studed" },
+                    ],
+                    correctIds: ["b"],
+                  },
+                  explanation: "*y → ied*: **studied**.",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u3l4-q3",
+                  type: "true_false",
+                  prompt: "The past of “invent” is “invented”.",
+                  points: 1,
+                  config: { correct: true },
+                  explanation: "Regular verb + **-ed**: invented. ✓",
+                },
+              },
+            ],
+          },
+        },
+        // ---- L5: simple past questions ----
+        {
+          id: "c2u3l5",
+          slug: "simple-past-questions",
+          title: "Did you do it?",
+          topic: "simple past · questions",
+          grammarNote: [
+            "Past questions use **did + base verb** (the main verb goes back to base):",
+            "*__Did__ you watch the game?*",
+            "Short answers: **Yes, I did. / No, I didn't.**",
+            "Negative: **didn't + base verb**: *I **didn't go**.*",
+          ].join("\n"),
+          exercise: {
+            id: "c2u3l5-ex",
+            title: "Practice: did",
+            items: [
+              {
+                kind: "question",
+                question: {
+                  id: "c2u3l5-q1",
+                  type: "multiple_choice",
+                  prompt: "___ you watch the movie?",
+                  points: 1,
+                  config: {
+                    options: [
+                      { id: "a", text: "Did" },
+                      { id: "b", text: "Do" },
+                      { id: "c", text: "Was" },
+                    ],
+                    correctIds: ["a"],
+                  },
+                  explanation: "Past question: **Did** you watch…?",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u3l5-q2",
+                  type: "open",
+                  prompt: "Short answer: “Did she come?” → “No, she ___.” (did not)",
+                  points: 1,
+                  config: {
+                    acceptedAnswers: ["didn't", "didnt", "did not"],
+                    charLimit: 10,
+                  },
+                  explanation: "**No, she didn't.**",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u3l5-q3",
+                  type: "true_false",
+                  prompt: "“Did you went home?” — Is this correct?",
+                  points: 1,
+                  config: { correct: false },
+                  explanation: "After *did*, use the base verb: *Did you **go** home?*",
+                },
+              },
+            ],
+          },
+        },
+      ],
+    },
+    // ============================== UNIT 4 ==============================
+    {
+      id: "c2u4",
+      slug: "4",
+      number: 4,
+      title: "When It Happened",
+      summary:
+        "Tell fuller past stories: irregular verbs, what you used to do, how long things lasted, and when.",
+      lessons: [
+        // ---- L1: simple past irregular ----
+        {
+          id: "c2u4l1",
+          slug: "past-irregular",
+          title: "What did you do?",
+          topic: "simple past · irregular verbs",
+          grammarNote: [
+            "Many common verbs are **irregular** — they don't take *-ed*, you just learn them:",
+            "*go → **went**, have → **had**, see → **saw**, make → **made**, eat → **ate**,",
+            "take → **took**, get → **got**.*",
+          ].join("\n"),
+          exercise: {
+            id: "c2u4l1-ex",
+            title: "Practice: irregular past",
+            items: [
+              {
+                kind: "question",
+                question: {
+                  id: "c2u4l1-q1",
+                  type: "open",
+                  prompt: "Past of **go**: ___",
+                  points: 1,
+                  config: { acceptedAnswers: ["went"], charLimit: 8 },
+                  explanation: "Irregular: **went**.",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u4l1-q2",
+                  type: "multiple_choice",
+                  prompt: "Past of **have**:",
+                  points: 1,
+                  config: {
+                    options: [
+                      { id: "a", text: "haved" },
+                      { id: "b", text: "had" },
+                      { id: "c", text: "has" },
+                    ],
+                    correctIds: ["b"],
+                  },
+                  explanation: "Irregular: **had**.",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u4l1-q3",
+                  type: "match",
+                  prompt: "Match each verb to its past form.",
+                  points: 1,
+                  config: {
+                    pairs: [
+                      { left: "see", right: "saw" },
+                      { left: "make", right: "made" },
+                      { left: "take", right: "took" },
+                    ],
+                  },
+                  explanation: "see→saw, make→made, take→took.",
+                },
+              },
+            ],
+          },
+        },
+        // ---- L2: used to (actions) ----
+        {
+          id: "c2u4l2",
+          slug: "used-to-do",
+          title: "What did you use to do?",
+          topic: "used to · past habits",
+          grammarNote: [
+            "**used to + base verb** = a habit in the past that **stopped**:",
+            "*I **used to** play soccer every day (but not now).*",
+            "",
+            "Negative: **didn't use to**. Question: *__Did__ you **use to**…?* (no *d* after *did*).",
+          ].join("\n"),
+          exercise: {
+            id: "c2u4l2-ex",
+            title: "Practice: used to",
+            items: [
+              {
+                kind: "question",
+                question: {
+                  id: "c2u4l2-q1",
+                  type: "multiple_choice",
+                  prompt: "When I was a child, I ___ to walk to school.",
+                  points: 1,
+                  config: {
+                    options: [
+                      { id: "a", text: "use" },
+                      { id: "b", text: "used" },
+                      { id: "c", text: "uses" },
+                    ],
+                    correctIds: ["b"],
+                  },
+                  explanation: "Affirmative: **used to** walk.",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u4l2-q2",
+                  type: "open",
+                  prompt: "Negative: “She ___ use to smoke.” (did not)",
+                  points: 1,
+                  config: {
+                    acceptedAnswers: ["didn't", "didnt", "did not"],
+                    charLimit: 10,
+                  },
+                  explanation: "**didn't use to** (base form after *didn't*).",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u4l2-q3",
+                  type: "true_false",
+                  prompt: "“used to” talks about the present.",
+                  points: 1,
+                  config: { correct: false },
+                  explanation: "It's about **past** habits that stopped.",
+                },
+              },
+            ],
+          },
+        },
+        // ---- L3: used to (states) ----
+        {
+          id: "c2u4l3",
+          slug: "used-to-be",
+          title: "What did it use to be?",
+          topic: "used to · past states",
+          grammarNote: [
+            "**used to** also describes **past states** (not only actions):",
+            "*This **used to be** a farm. · There **used to be** a cinema here.*",
+            "The form is the same: **used to + base verb** (often *be*).",
+          ].join("\n"),
+          exercise: {
+            id: "c2u4l3-ex",
+            title: "Practice: used to be",
+            items: [
+              {
+                kind: "question",
+                question: {
+                  id: "c2u4l3-q1",
+                  type: "multiple_choice",
+                  prompt: "There ___ to be a park here.",
+                  points: 1,
+                  config: {
+                    options: [
+                      { id: "a", text: "use" },
+                      { id: "b", text: "used" },
+                      { id: "c", text: "using" },
+                    ],
+                    correctIds: ["b"],
+                  },
+                  explanation: "**There used to be**…",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u4l3-q2",
+                  type: "open",
+                  prompt: "Complete: “My town used to ___ very small.” (one word)",
+                  points: 1,
+                  config: { acceptedAnswers: ["be"], charLimit: 6 },
+                  explanation: "used to + base verb: **be**.",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u4l3-q3",
+                  type: "true_false",
+                  prompt: "“I used to be afraid of dogs” describes a past state.",
+                  points: 1,
+                  config: { correct: true },
+                  explanation: "A state that was true before, not now. ✓",
+                },
+              },
+            ],
+          },
+        },
+        // ---- L4: simple past duration ----
+        {
+          id: "c2u4l4",
+          slug: "past-duration",
+          title: "How long did it last?",
+          topic: "simple past · duration",
+          grammarNote: [
+            "To say **how long** something continued, use **for + a period**:",
+            "*The dinosaurs lived **for** millions of years. · We waited **for** an hour.*",
+            "Ask: *__How long__ did it last?* → *It lasted **for** two days.*",
+          ].join("\n"),
+          exercise: {
+            id: "c2u4l4-ex",
+            title: "Practice: how long",
+            items: [
+              {
+                kind: "content",
+                content: {
+                  id: "c2u4l4-c1",
+                  type: "reading",
+                  emoji: "🦕",
+                  title: "A long, long time",
+                  body: "Dinosaurs were not a quick chapter of history. They lived on Earth for about 165 million years — far longer than humans, who appeared only a few hundred thousand years ago.",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u4l4-q1",
+                  type: "multiple_choice",
+                  prompt: "Dinosaurs lived ___ millions of years.",
+                  points: 1,
+                  config: {
+                    options: [
+                      { id: "a", text: "for" },
+                      { id: "b", text: "since" },
+                      { id: "c", text: "during" },
+                    ],
+                    correctIds: ["a"],
+                  },
+                  explanation: "Duration = **for** + period.",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u4l4-q2",
+                  type: "open",
+                  prompt: "Question: “How ___ did the film last?” (one word)",
+                  points: 1,
+                  config: { acceptedAnswers: ["long"], charLimit: 8 },
+                  explanation: "**How long** asks about duration.",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u4l4-q3",
+                  type: "true_false",
+                  prompt: "“How long did it lasted?” — Is this correct?",
+                  points: 1,
+                  config: { correct: false },
+                  explanation: "After *did*, base verb: *How long did it **last**?*",
+                },
+              },
+            ],
+          },
+        },
+        // ---- L5: last / ago ----
+        {
+          id: "c2u4l5",
+          slug: "last-ago",
+          title: "When did it happen?",
+          topic: "past time · last / ago",
+          grammarNote: [
+            "**last** + a time word = the most recent one (no preposition):",
+            "*last night, last week, last year.*",
+            "**ago** counts back from now, after the period:",
+            "*two days **ago**, a week **ago**.*",
+          ].join("\n"),
+          exercise: {
+            id: "c2u4l5-ex",
+            title: "Practice: last / ago",
+            items: [
+              {
+                kind: "question",
+                question: {
+                  id: "c2u4l5-q1",
+                  type: "multiple_choice",
+                  prompt: "I saw her two days ___.",
+                  points: 1,
+                  config: {
+                    options: [
+                      { id: "a", text: "ago" },
+                      { id: "b", text: "last" },
+                      { id: "c", text: "before" },
+                    ],
+                    correctIds: ["a"],
+                  },
+                  explanation: "Counting back from now → **ago**.",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u4l5-q2",
+                  type: "open",
+                  prompt: "“___ night I watched a film.” (one word)",
+                  points: 1,
+                  config: { acceptedAnswers: ["last"], charLimit: 8 },
+                  explanation: "**Last** night — the most recent one.",
+                },
+              },
+              {
+                kind: "question",
+                question: {
+                  id: "c2u4l5-q3",
+                  type: "speaking",
+                  prompt: "Say this about your weekend:",
+                  points: 1,
+                  config: {
+                    target: "I visited my family last weekend.",
+                    acceptedAnswers: ["i visited my family last weekend"],
+                    maxSeconds: 10,
+                  },
+                },
+              },
+            ],
+          },
+        },
+      ],
+    },
   ],
   finalTest: {
     id: "c2-final",
     slug: "final-test",
     title: "Level 2 review",
     intro:
-      "A quick check across Units 1 and 2 — directions, habits, ability, what's happening now, plans, and quantity. Score 8 of 10 to earn your diploma.",
-    passingScore: 8,
+      "A compact review across all four units — directions and habits, ability and the present moment, plans and quantity, and the past. Score 12 of 16 to earn your diploma.",
+    passingScore: 12,
     exercise: {
       id: "c2-final-ex",
       title: "Level 2 final",
@@ -866,17 +1511,111 @@ export const level2: Course = {
             explanation: "Count bananas, not water or money.",
           },
         },
+        {
+          kind: "question",
+          question: {
+            id: "c2-final-q11",
+            type: "open",
+            prompt: "Past of **be**: “They ___ happy.” (one word)",
+            points: 1,
+            config: { acceptedAnswers: ["were"], charLimit: 6 },
+            explanation: "*They* → **were**.",
+          },
+        },
+        {
+          kind: "question",
+          question: {
+            id: "c2-final-q12",
+            type: "multiple_choice",
+            prompt: "I called ___ yesterday. (Ana)",
+            points: 1,
+            config: {
+              options: [
+                { id: "a", text: "she" },
+                { id: "b", text: "her" },
+                { id: "c", text: "hers" },
+              ],
+              correctIds: ["b"],
+            },
+            explanation: "Object pronoun for Ana → **her**.",
+          },
+        },
+        {
+          kind: "question",
+          question: {
+            id: "c2-final-q13",
+            type: "open",
+            prompt: "Past of **work**: ___",
+            points: 1,
+            config: { acceptedAnswers: ["worked"], charLimit: 10 },
+            explanation: "Regular: **worked**.",
+          },
+        },
+        {
+          kind: "question",
+          question: {
+            id: "c2-final-q14",
+            type: "multiple_choice",
+            prompt: "Past of **go**:",
+            points: 1,
+            config: {
+              options: [
+                { id: "a", text: "goed" },
+                { id: "b", text: "went" },
+                { id: "c", text: "gone" },
+              ],
+              correctIds: ["b"],
+            },
+            explanation: "Irregular: **went**.",
+          },
+        },
+        {
+          kind: "question",
+          question: {
+            id: "c2-final-q15",
+            type: "multiple_choice",
+            prompt: "When I was young, I ___ to live by the sea.",
+            points: 1,
+            config: {
+              options: [
+                { id: "a", text: "use" },
+                { id: "b", text: "used" },
+                { id: "c", text: "using" },
+              ],
+              correctIds: ["b"],
+            },
+            explanation: "Past habit/state: **used to**.",
+          },
+        },
+        {
+          kind: "question",
+          question: {
+            id: "c2-final-q16",
+            type: "multiple_choice",
+            prompt: "I met him a week ___.",
+            points: 1,
+            config: {
+              options: [
+                { id: "a", text: "last" },
+                { id: "b", text: "ago" },
+                { id: "c", text: "since" },
+              ],
+              correctIds: ["b"],
+            },
+            explanation: "Counting back from now → **ago**.",
+          },
+        },
       ],
     },
   },
   conclusion: {
-    title: "Halfway through Level 2",
+    title: "Everyday Stories complete",
     body:
-      "You can give directions, talk about your habits and abilities, describe what's happening now, make plans, and handle food and quantity. Next, Units 3 and 4 take you into the **past** — what happened, and when.",
+      "You can move through time in English now: give directions and talk about your habits, describe what's happening, make plans for the future, handle food and quantity, and tell stories about the past — was/were, the simple past, used to, and time markers like last and ago. That's the backbone of real conversation.",
     nextSteps: [
-      "Give someone directions to your home, out loud.",
-      "Say three things you are going to do this week.",
-      "Notice some / any and how much / how many when you shop.",
+      "Tell someone three things you did yesterday, out loud.",
+      "Say what you used to do when you were a child.",
+      "Make a plan for next week using “going to”.",
     ],
   },
   diploma: {

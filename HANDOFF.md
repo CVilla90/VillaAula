@@ -129,9 +129,15 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
   **2 speaking** + 2 readings; new canonical IDs (`c2u1l1`…). 10-Q final (pass 8), conclusion,
   diploma. Updated `LEVEL_META[2].focus`. ✅ tsc + lint + build + 36 tests (validator over the new
   content) green. (Old `l2-u1-a1.mp3`/`l2-u2-a1.mp3` now unreferenced — regenerated in C4.)
-- **Next: C1 (part 3) — author Level 2 Units 3 & 4** (was/were, simple past regular+irregular,
-  used-to, duration, last/ago) + extend the final test to cover all 4 units. Then C2 (L3), C3 (L4),
-  C4 (audio/polish).
+- ✅ **C1 COMPLETE — Level 2 fully rebuilt (4 units, 20 lessons).** Added **Unit 3 "Back Then"**
+  (adverbs+purpose · subject/object pronouns · was/were · simple-past regular · simple-past
+  questions) and **Unit 4 "When It Happened"** (irregular past · used-to actions · used-to states ·
+  past duration · last/ago). Extended the final test to **16 questions (pass 12)** across all units;
+  full conclusion + diploma. 4 speaking questions total, 100% original, A2-calibrated. ✅ tsc + lint +
+  build + 36 tests (validator over all of L2) green.
+- **Next: C2 — Level 3.** Extract the `s3u1–s3u4` spine (crop+read like L2; add to
+  `CURRICULA_SPINE.md`), then author `content/level3.ts` (B1), register in `courses`, set
+  `LEVEL_META[3]` (status auto-flips to active). Then C3 (L4), C4 (audio/polish).
 
 ### 2026-06-22 — Session 4 (de-hardcode / harden — planning)
 - 📋 Did a full read of `src/` and wrote **`REFACTOR.md`** — the de-hardcode/best-practices

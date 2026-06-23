@@ -12,7 +12,7 @@
 
 ---
 
-## Level 2 — A2 (4 units). Source: `s2u1–s2u4`. Status: spine extracted ✅, authoring pending.
+## Level 2 — A2 (4 units). Source: `s2u1–s2u4`. Status: ✅ spine extracted, ✅ authored (20 lessons, 4 speaking, 16-Q final).
 
 ### Unit 1 — "Getting Around" (src title: *How often do you play?*)
 Theme arc: technology, directions, daily tech habits, abilities, what's happening now.
