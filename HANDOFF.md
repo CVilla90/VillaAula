@@ -113,8 +113,21 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
   checker enforces uniqueness + structural correctness, and the canonical ID scheme is documented
   in the file header for new content (L3/L4). Compiles green (tsc/lint/build); **executed against
   real content in Iteration D** (vitest), where any violation gets fixed.
-- **Next:** Iteration **D** (vitest harness + run the validator + grading/progress/auth tests);
-  then §6 content track.
+- ✅ **Iteration D done (test harness — FINAL loop step):** added **vitest** (`vitest.config.ts`
+  with the `@/`→`src` alias; `npm test`/`test:watch`). **34 tests across 4 files**, all green:
+  `grading.test.ts` (normalize accents/punct/case + all 4 graders + dispatch + wrong-type safety),
+  `progress.test.ts` (key builders, `isCourseComplete`, server-safe localStorage), `google.test.ts`
+  (`safeNext` open-redirect cases), and `validate.test.ts` — which **runs the validator over the
+  REAL content** (proves no dup ids, valid MCQ keys, in-range passing scores) **and checks every
+  audio `mediaUrl` exists on disk**, plus negative cases. Content came back clean. ✅ tsc + lint +
+  build green; 11 routes intact.
+- 🏁 **A–D loop COMPLETE (2026-06-22).** The de-hardcode/harden pass is done: catalog is a single
+  source of truth, brand/palette centralized, content integrity is enforced by a validator + a
+  test suite. All behavior-preserving; 4 clean commits on `master`. **Deferred (a later session):**
+  Iteration **E** (auth gating + real exam scores, REFACTOR.md §3-E) and **F** (TS→Postgres content
+  model) — both need the live DB. **Next concrete work = the §6 content track:** rebuild Level 2 to
+  its real 4-unit `s2u1–s2u4` spine, author Levels 3 & 4 from `s3`/`s4` (read the dense PNGs zoomed),
+  each registered in `courses` and checked by the validator.
 
 ### 2026-06-22 — Session 3 (autonomous `/loop`)
 **Decisions locked this session (Carlos):** ships **online on Replit** with **Replit's
