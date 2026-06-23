@@ -114,8 +114,16 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
   `GEMINI_API_KEY` set; without it, speaking degrades gracefully (friendly note, auto-pass, never
   blocks). For Replit go-live, add `GEMINI_API_KEY` to Secrets (see §17 style). Speaking is also
   ready to drop into L2/L3/L4 as they're authored.
-- **Next: Phase C** — C1 rebuild Level 2 to its real 4-unit `s2u1–s2u4` spine (read the dense PNGs
-  zoomed), then C2 (L3), C3 (L4), C4 (audio/polish).
+- ✅ **C1 (part 1) — Level 2 spine extracted.** Cropped+upscaled `s2u1–s2u4` (scratchpad
+  `crop.py` via the tts venv; 2×3 tiles at 2.5× = fully legible) and read the real 4-unit A2 spine
+  into **`CURRICULA_SPINE.md`** (the authoring contract): U1 directions/present-simple+frequency/
+  can/present-continuous · U2 going-to/will/quantity(some-any, there is-are, how much-many)/
+  articles · U3 adverbs+purpose/subject-object pronouns/was-were/simple-past-regular+questions ·
+  U4 simple-past irregulars/used-to/duration/last-ago. Confirms the **shipped 2-unit L2 was a wrong
+  guess** — full rebuild justified. ⚠️ §9: invent original reading titles (don't reuse the book's).
+- **Next: C1 (part 2) — author the new 4-unit `level2.ts`** from `CURRICULA_SPINE.md` (original,
+  A2-calibrated, mixed types incl. speaking; final/conclusion/diploma), update `LEVEL_META[2].focus`,
+  validator+tests green. Then C2 (extract+author L3), C3 (L4), C4 (audio/polish).
 
 ### 2026-06-22 — Session 4 (de-hardcode / harden — planning)
 - 📋 Did a full read of `src/` and wrote **`REFACTOR.md`** — the de-hardcode/best-practices
