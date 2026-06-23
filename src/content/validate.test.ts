@@ -93,3 +93,62 @@ describe("validateCatalog catches problems", () => {
     expect(issues.some((i) => /no acceptedAnswers/.test(i.message))).toBe(true);
   });
 });
+
+describe("validateCatalog checks speaking questions", () => {
+  function speakingCourse(config: unknown): Course {
+    return {
+      id: "s",
+      slug: "s",
+      level: 8,
+      title: "S",
+      intro: "",
+      acceptsGuests: false,
+      units: [
+        {
+          id: "u",
+          slug: "1",
+          number: 1,
+          title: "U",
+          summary: "",
+          lessons: [
+            {
+              id: "l",
+              slug: "a",
+              title: "L",
+              topic: "",
+              grammarNote: "",
+              exercise: {
+                id: "ex",
+                title: "E",
+                items: [
+                  {
+                    kind: "question",
+                    question: {
+                      id: "sp",
+                      type: "speaking",
+                      prompt: "Say it",
+                      config: config as never,
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      ],
+    };
+  }
+
+  it("accepts a well-formed speaking question", () => {
+    const ok = validateCatalog([
+      speakingCourse({ target: "My name is Ana", acceptedAnswers: ["my name is ana"] }),
+    ]);
+    expect(ok).toEqual([]);
+  });
+
+  it("flags a missing target and empty acceptedAnswers", () => {
+    const bad = validateCatalog([speakingCourse({ target: "", acceptedAnswers: [] })]);
+    expect(bad.some((i) => /no target phrase/.test(i.message))).toBe(true);
+    expect(bad.some((i) => /no acceptedAnswers/.test(i.message))).toBe(true);
+  });
+});

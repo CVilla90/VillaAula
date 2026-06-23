@@ -84,5 +84,9 @@ export function gradeQuestion(q: Question, response: QuestionResponse): boolean 
           : {},
         q.config as MatchConfig,
       );
+    case "speaking":
+      // Speaking is graded asynchronously server-side (lib/ai/gemini.ts) from a
+      // transcription, not through this synchronous path.
+      return false;
   }
 }

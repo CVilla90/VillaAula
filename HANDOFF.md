@@ -70,6 +70,25 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
 
 ## 2. STATUS LOG (newest first — UPDATE EVERY SESSION)
 
+### 2026-06-22 — Session 5 (speaking + curricula loop — `SPEAKING_AND_CURRICULA.md`)
+- ✅ **Iteration S1 done (speaking model + AI service + analyze route):**
+  - `lib/types.ts`: new `speaking` question type + `SpeakingConfig` (`target`, `acceptedAnswers`,
+    `maxSeconds`). `content/validate.ts` validates it (non-empty target + answers) — exhaustive
+    switches in `grading.ts`/`QuestionCard.tsx` updated with safe `speaking` cases.
+  - `lib/ai/gemini.ts`: `@google/genai` lazy client (inert without `GEMINI_API_KEY`, like
+    `lib/db.ts`), `geminiConfigured()`, `GEMINI_MODEL = "gemini-3.1-flash-lite"` (matches SUSAI).
+    **Design choice:** Gemini ONLY transcribes; WISHUB's own `gradeOpen` decides correctness
+    (lenient, deterministic, testable — better than letting the model score).
+  - `POST /api/speaking/analyze` (Next `formData()`, no multer): looks the `SpeakingConfig` up from
+    content **by `questionId`** (never trusts client answers), 10 MB cap, friendly 503 without a key.
+  - `.env.example` gained `GEMINI_API_KEY`; real key stored in **gitignored `.env`** (verified not
+    tracked). `npm i @google/genai`.
+  - ✅ **Live Gemini call smoke-tested:** generated a TTS clip → `gemini-3.1-flash-lite` transcribed
+    it correctly. Model id + audio multimodal + key all confirmed working (no committed live test —
+    costs quota). ⚠️ content note: lenient `acceptedAnswers` should include homophones (Ana/Anna).
+  - ✅ tsc + lint + build + **36 tests** green; `/api/speaking/analyze` route registered.
+- **Next:** S2 (MediaRecorder hook + `SpeakingQuestion` UI + dispatch with no-key fallback), then S3.
+
 ### 2026-06-22 — Session 4 (de-hardcode / harden — planning)
 - 📋 Did a full read of `src/` and wrote **`REFACTOR.md`** — the de-hardcode/best-practices
   punch-list. Headline finding: the **course catalog is hand-typed in 3 disconnected places**

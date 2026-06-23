@@ -24,6 +24,7 @@ import type {
   MultipleChoiceConfig,
   TrueFalseConfig,
   MatchConfig,
+  SpeakingConfig,
   Exercise,
 } from "@/lib/types";
 
@@ -85,6 +86,18 @@ function validateQuestion(q: Question): string[] {
       }
       if (!(c.pairs ?? []).every((p) => nonEmpty(p.left) && nonEmpty(p.right))) {
         out.push("match has a blank left/right");
+      }
+      break;
+    }
+    case "speaking": {
+      const c = q.config as SpeakingConfig;
+      if (!nonEmpty(c.target)) {
+        out.push("speaking question has no target phrase");
+      }
+      if (!Array.isArray(c.acceptedAnswers) || c.acceptedAnswers.length === 0) {
+        out.push("speaking question has no acceptedAnswers");
+      } else if (!c.acceptedAnswers.every(nonEmpty)) {
+        out.push("speaking question has a blank accepted answer");
       }
       break;
     }

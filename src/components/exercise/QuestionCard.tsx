@@ -123,6 +123,9 @@ function initialValue(q: Question): Value {
       return null;
     case "match":
       return {};
+    case "speaking":
+      // Speaking renders via SpeakingQuestion, not QuestionCard.
+      return null;
   }
 }
 
@@ -143,6 +146,8 @@ function isReady(q: Question, v: Value): boolean {
         cfg.pairs.every((p) => Boolean((v as Record<string, string>)[p.left]))
       );
     }
+    case "speaking":
+      return false;
   }
 }
 

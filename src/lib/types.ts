@@ -11,7 +11,8 @@ export type QuestionType =
   | "open"
   | "multiple_choice"
   | "true_false"
-  | "match";
+  | "match"
+  | "speaking";
 
 /** Open input — graded by normalization against accepted answers (no AI in MVP). */
 export interface OpenConfig {
@@ -49,11 +50,27 @@ export interface MatchConfig {
   pairs: MatchPair[];
 }
 
+/**
+ * Speaking input — the learner records themselves saying `target`; the audio is
+ * transcribed by Gemini and the transcript is graded with the same normalization
+ * as an open answer (lenient by design at low levels — HANDOFF §18.C). No AI
+ * "score": correctness is deterministic via `acceptedAnswers`.
+ */
+export interface SpeakingConfig {
+  /** What the learner is asked to say, shown in the prompt area. */
+  target: string;
+  /** Transcripts that count as correct (normalized match), like OpenConfig. */
+  acceptedAnswers: string[];
+  /** UI cap on recording length (seconds). */
+  maxSeconds?: number;
+}
+
 export type QuestionConfig =
   | OpenConfig
   | MultipleChoiceConfig
   | TrueFalseConfig
-  | MatchConfig;
+  | MatchConfig
+  | SpeakingConfig;
 
 export interface Question {
   id: string;

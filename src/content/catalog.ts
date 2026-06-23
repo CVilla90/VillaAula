@@ -1,4 +1,4 @@
-import type { Course } from "@/lib/types";
+import type { Course, Question } from "@/lib/types";
 import { level1 } from "@/content/level1";
 import { level2 } from "@/content/level2";
 
@@ -20,6 +20,30 @@ const courseByLevel = new Map(courses.map((c) => [c.level, c]));
 
 export function getCourse(slug: string): Course | undefined {
   return courseBySlug.get(slug);
+}
+
+/**
+ * Find a question by id across every course. Used server-side (e.g. the speaking
+ * analyze route) so grading reads the authoritative config from content, never
+ * values supplied by the client. Lazily built + cached.
+ */
+let questionIndex: Map<string, Question> | null = null;
+export function getQuestionById(id: string): Question | undefined {
+  if (!questionIndex) {
+    questionIndex = new Map();
+    for (const course of courses) {
+      const exercises = [
+        ...course.units.flatMap((u) => u.lessons.map((l) => l.exercise)),
+        ...(course.finalTest ? [course.finalTest.exercise] : []),
+      ];
+      for (const ex of exercises) {
+        for (const item of ex.items) {
+          if (item.kind === "question") questionIndex.set(item.question.id, item.question);
+        }
+      }
+    }
+  }
+  return questionIndex.get(id);
 }
 
 /* --------------------------- level catalog --------------------------- */
