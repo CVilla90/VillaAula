@@ -16,10 +16,10 @@
 - **Owner context:** This is one of Carlos's **personal** projects (like HolIA/Atina,
   MUSAI, Cátedra). It is **not** Creai work and **not** an official UACH project. Keep
   those worlds separate (see his `user_identity` memory).
-- **Status (2026-06-22, latest first — full log in §2):**
+- **Status (2026-06-23, latest first — full log in §2):**
   - ✅ **De-hardcode/harden pass (REFACTOR.md A–D):** course catalog is a single source of truth,
     brand/palette centralized (`lib/site.ts`), a content **validator** (`content/validate.ts`) +
-    **vitest** suite (37 tests) guard correctness.
+    **vitest** suite (grown to **46 tests** by Session 8) guard correctness.
   - ✅ **Speaking exercises (Phase S) DONE & LIVE-VERIFIED:** new `speaking` question type, browser
     MediaRecorder → `POST /api/speaking/analyze` → **Gemini `gemini-3.1-flash-lite`** transcribes,
     WISHUB's own `gradeOpen` grades. Inert without `GEMINI_API_KEY` (in gitignored `.env`). Live on
@@ -27,19 +27,33 @@
   - ✅ **Level 2 fully rebuilt** to its REAL `s2` curriculum spine (4 units, 20 lessons, 16-Q final,
     4 speaking) — the old 2-unit "past/future/quantity" guess is gone. Extracted spines live in
     `CURRICULA_SPINE.md`.
-  - 🏁 **ALL FOUR LEVELS CONTENT-COMPLETE & LIVE (2026-06-23) — Phase C done.** Levels 1–4 each =
+  - 🏁 **ALL FOUR LEVELS CONTENT-COMPLETE & LIVE — Phase C done (Session 6).** Levels 1–4 each =
     4 units / 20 lessons, every level with a 16-Q final (pass 12, except L1/L2 per their spec),
-    conclusion, diploma, speaking questions, and ≥1 edge-tts listening block. `levelRange()` now
-    reads "Levels 1–4" everywhere. Spines: L1 foundations · L2 A2 (habits→past) · L3 B1 (past
-    continuous→present perfect→conditionals→modals) · L4 B1+/B2 (reported speech→conditionals &
-    verbals→future/ability→media language). All authored from the real curricula (`reference/s1–s4`,
-    spines in `CURRICULA_SPINE.md`). Runtime-smoke-tested (all routes 200, content renders).
-  - **Next (Carlos / deferred):** Carlos's **go-live** (auth/DB + `GEMINI_API_KEY` on Replit per §17)
-    is the real remaining unblock. Deferred engineering: REFACTOR.md §3-E (auth gating + real exam
-    scores) and §3-F (TS→Postgres content) — both need the live DB. Optional content round-2: more
-    speaking/listening per level, §18.B calibration audit.
-- **Deadline pressure:** Carlos starts the first formal class **today (2026-06-22)**.
-  Goal = something real and usable for Level 1, even if rough. Dirty hardcoding is OK.
+    conclusion, diploma, speaking questions, and listening. `levelRange()` reads "Levels 1–4".
+    Spines: L1 foundations · L2 A2 (habits→past) · L3 B1 (past continuous→present perfect→
+    conditionals→modals) · L4 B1+/B2 (reported speech→conditionals & verbals→future/ability→media).
+    All authored from the real curricula (`reference/s1–s4`, spines in `CURRICULA_SPINE.md`).
+  - 🏁 **Listening pass done (Session 7, `LISTENING_PASS.md`):** **1 short casual edge-tts listening
+    + comprehension Q per unit** across all 4 levels (10 new clips, 5 MCQ + 5 T/F) — now at parity
+    with speaking. 16 MP3s in `public/audio/`. Verified on the prod server.
+  - ✅ **Login feature — scaffold built + security core hardened (Session 8).** Full dual auth
+    (manual username/password + Google OAuth) + Prisma `User`/`Progress` + JWT sessions was already
+    built (Session 3) and audited correct. Session 8 extracted the crypto/validation into pure
+    testable modules (`lib/auth/token.ts`, `validation.ts`) + **10 unit tests** (46 total). Guest mode
+    verified (login/signup render, OAuth degrades gracefully). **⚠️ live signup/login/OAuth runtime
+    still untested** (no Postgres in dev) — needs Carlos's go-live to confirm.
+    **🔑 Decision: OAuth client owned by personal Gmail, not `cavilla@uach.mx`** (see §17 step 4).
+  - **NEXT SESSION — START HERE:**
+    1. **Carlos (in progress):** finish creating the **Google OAuth client** (§17 step 4) + run the
+       full **go-live** on Replit (Postgres + `AUTH_SECRET` + `NEXT_PUBLIC_APP_URL` + `GOOGLE_*` +
+       `GEMINI_API_KEY`, then `npm run db:push`), and smoke-test signup/login/OAuth/speaking (§17 step 6).
+    2. **Offered & ready to build — §18.E auth gating:** make login **required** for diploma + saved
+       grades, **remove the free-text diploma name** (use the account name), and **persist real exam
+       scores**. Mostly verifiable without the live DB; this makes accounts actually matter.
+    3. Optional later: §3-F (TS→Postgres content bank), §18.B calibration audit, mobile/PWA (§18.G).
+- **History note:** the first formal class was **2026-06-22**; the original "ship a rough Level 1
+  fast" pressure is long past — the product is now content-complete (L1–L4) and hardened. Current
+  focus is the **login go-live**, not content.
 
 ---
 
