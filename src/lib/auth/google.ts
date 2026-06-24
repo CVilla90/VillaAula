@@ -68,3 +68,45 @@ export function safeNext(next: string | null | undefined, fallback = "/levels"):
   if (next && next.startsWith("/") && !next.startsWith("//")) return next;
   return fallback;
 }
+
+/* --------------------------- account linking ---------------------------- */
+// Pure helpers (no DB) so the "manual account becomes Google-linked" rule is
+// unit-testable. The callback route does the actual Prisma I/O around these.
+
+/** Minimal user shape needed to decide OAuth linking/merging. */
+export interface LinkableUser {
+  id: string;
+  googleId: string | null;
+  email: string | null;
+  name: string | null;
+  image: string | null;
+}
+
+/**
+ * Which existing account (if any) a Google sign-in should attach to: prefer the
+ * account already bound to this Google id, otherwise the one that signed up with
+ * the same email — so a manual `friend@gmail.com` account "becomes" Google-linked
+ * the first time they click Continue with Google (same for the admin emails).
+ */
+export function pickLinkedUser<T extends { googleId: string | null }>(
+  byGoogleId: T | null | undefined,
+  byEmail: T | null | undefined,
+): T | null {
+  return byGoogleId ?? byEmail ?? null;
+}
+
+/**
+ * Fields to write when linking/refreshing an existing account from a Google
+ * profile: fill in anything still missing, never overwrite what the user set.
+ */
+export function mergeGoogleProfile(
+  existing: LinkableUser,
+  profile: GoogleProfile,
+): { googleId: string; image: string | null; name: string | null; email: string | null } {
+  return {
+    googleId: existing.googleId ?? profile.sub,
+    image: existing.image ?? profile.picture ?? null,
+    name: existing.name ?? profile.name ?? null,
+    email: existing.email ?? profile.email?.toLowerCase() ?? null,
+  };
+}

@@ -6,7 +6,7 @@ import { SignJWT, jwtVerify } from "jose";
  * read/write wrappers (createSession/getSession/deleteSession) live in ./session.
  */
 
-export const SESSION_COOKIE = "wishub_session";
+export const SESSION_COOKIE = "villaaula_session";
 const ALG = "HS256";
 export const MAX_AGE_S = 60 * 60 * 24 * 30; // 30 days
 

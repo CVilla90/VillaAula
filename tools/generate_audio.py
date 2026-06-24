@@ -1,5 +1,5 @@
 """
-Pre-generate WISHUB lesson audio with edge-tts (free, no API key) — the approach
+Pre-generate VillaAula lesson audio with edge-tts (free, no API key) — the approach
 borrowed from BoardCraft (HANDOFF §10). Writes MP3s into `public/audio/<id>.mp3`.
 
 These are authoring-time assets: run this once (or when a transcript changes),
@@ -7,7 +7,7 @@ commit the MP3s, and set `mediaUrl: "/audio/<id>.mp3"` on the matching Content
 block in src/content. The player (AudioBlock) prefers real <audio> when mediaUrl
 is set, and falls back to the browser voice otherwise.
 
-Run (Windows, from WISHUB/):
+Run (Windows, from VillaAula/):
     py -3 -m venv tools/.ttsenv
     tools/.ttsenv/Scripts/python -m pip install edge-tts
     tools/.ttsenv/Scripts/python tools/generate_audio.py

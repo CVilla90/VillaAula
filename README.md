@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# VillaAula
 
-## Getting Started
+A lightweight, content-agnostic micro-LMS. Pick a level, work through
+lessons (reading, audio, speaking, and four quiz types), pass the final check,
+and download a diploma. Built with **Next.js 16 (App Router) + React 19 +
+Tailwind v4**, first-party auth (`jose` JWT + bcrypt) with optional Google
+OAuth, **Prisma + Postgres** for accounts/progress/grades, and **Gemini** for
+speaking-exercise transcription.
 
-First, run the development server:
+> Personal project of Carlos Villa. See **`HANDOFF.md`** for the full design,
+> status log, and decisions — it is the source of truth.
+
+## Develop
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install        # also runs `prisma generate` (postinstall)
+npm run dev        # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+With no `DATABASE_URL` / `AUTH_SECRET`, the app runs in **guest mode**: lessons
+work and progress saves to `localStorage` — no accounts. Add the env below to
+turn on accounts, persisted grades, and the admin dashboard.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run lint       # eslint
+npm test           # vitest (62 tests)
+npm run build      # production build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Environment
 
-## Learn More
+Copy `.env.example` → `.env` and fill in. Real secrets never get committed
+(`.gitignore` excludes `.env*`, keeps `.env.example`).
 
-To learn more about Next.js, take a look at the following resources:
+| Var | Needed for |
+|---|---|
+| `DATABASE_URL` | Accounts, progress, grades (Postgres). |
+| `AUTH_SECRET` | Signing the session JWT (`openssl rand -base64 32`). |
+| `NEXT_PUBLIC_APP_URL` | Base URL used to build the OAuth redirect. |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | "Continue with Google" (optional). |
+| `ADMIN_EMAILS` | Comma-separated admin allowlist (gates `/admin`). |
+| `GEMINI_API_KEY` | Speaking-exercise grading (optional; degrades gracefully). |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Admin dashboard
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Signed-in admins (an `ADMIN_EMAILS` address or a DB `role: "admin"`) get an
+**Admin** nav link to:
 
-## Deploy on Vercel
+- **`/admin`** — every learner with their catalog progress, levels completed,
+  final-check grades, and last-active date.
+- **`/admin/users/[id]`** — a per-learner, per-level breakdown with unit-by-unit
+  lesson completion and the recorded final grade.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deploy (Replit Autoscale)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`.replit` is committed and tuned for Next.js: **Autoscale** target,
+`nodejs-20` + `postgresql-16` modules, `PORT=5000`, `5000 → 80`. Next.js honors
+`PORT` and binds `0.0.0.0` by default, so no extra flags are needed.
+
+1. Add Replit's **PostgreSQL** (sets `DATABASE_URL` automatically).
+2. Add the Secrets above (`AUTH_SECRET`, `NEXT_PUBLIC_APP_URL`, `ADMIN_EMAILS`,
+   optionally `GOOGLE_*` / `GEMINI_API_KEY`).
+3. `npm run db:push` (creates tables; idempotent).
+4. Deploy. Replit runs `npm install` (→ `prisma generate`), then
+   `npm run build`, then `npm run start`. **Do not** add `npm install` to the
+   build command.
+
+Full runbook (incl. Google OAuth) is in `HANDOFF.md` §17.

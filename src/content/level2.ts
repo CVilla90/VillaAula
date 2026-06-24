@@ -1725,8 +1725,8 @@ export const level2: Course = {
     ],
   },
   diploma: {
-    title: "WISHUB Everyday Stories Diploma",
+    title: "VillaAula Everyday Stories Diploma",
     subtitle: "Level 2 (A2)",
-    issuer: "WISHUB",
+    issuer: "VillaAula",
   },
 };

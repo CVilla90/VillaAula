@@ -1,5 +1,5 @@
 /**
- * Deterministic grading for WISHUB (MVP). No AI / no network — just normalization
+ * Deterministic grading for VillaAula (MVP). No AI / no network — just normalization
  * and comparison. A Gemini semantic fallback for open answers is a later phase
  * (HANDOFF §4), gated per-question.
  */

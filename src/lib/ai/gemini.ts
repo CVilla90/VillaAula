@@ -4,7 +4,7 @@ import type { SpeakingConfig } from "@/lib/types";
 
 /**
  * Speaking-exercise AI. Design choice (we took the *concept* from AudioReviewer
- * but not its approach): Gemini does ONE job — transcribe the clip — and WISHUB's
+ * but not its approach): Gemini does ONE job — transcribe the clip — and VillaAula's
  * own deterministic `gradeOpen` decides correctness against the question's
  * accepted answers. That keeps grading lenient, predictable, and testable, and
  * never lets the model hand out an arbitrary score.
@@ -40,7 +40,7 @@ export interface SpeakingResult {
   feedback: string;
 }
 
-/** Transcribe a spoken clip, then grade the transcript with WISHUB's own rules. */
+/** Transcribe a spoken clip, then grade the transcript with VillaAula's own rules. */
 export async function transcribeAndGrade(
   audio: Buffer,
   mimeType: string,

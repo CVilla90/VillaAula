@@ -4,10 +4,11 @@
  * (REFACTOR.md F7). Plain constants (no React), safe to import anywhere.
  */
 
-export const BRAND = "WISHUB";
-/** Lowercase wordmark used in the logo + footer. */
-export const BRAND_WORDMARK = "wishub";
-export const BACKRONYM = "Web Interactive Study Hub for Universal Bilinguals";
+export const BRAND = "VillaAula";
+/** Wordmark used in the logo + footer. */
+export const BRAND_WORDMARK = "VillaAula";
+/** Small descriptive line under the footer logo (replaces the old WISHUB backronym). */
+export const BRAND_NOTE = "A little classroom of your own";
 export const TAGLINE = "English that finally clicks";
 export const META_DESCRIPTION =
   "A small, modern English course that skips the clutter. Short exercises, instant feedback, and the grammar tucked away until you want it.";
@@ -19,9 +20,9 @@ export const BYLINE = "Built by Carlos Villa";
 export const COPYRIGHT_YEAR = 2026;
 
 /** Diploma fallbacks when a course doesn't override them (see Course.diploma). */
-export const DIPLOMA_TITLE = "WISHUB Diploma";
-export const DIPLOMA_ISSUER = "WISHUB";
-export const DEFAULT_LEARNER_NAME = "WISHUB Learner";
+export const DIPLOMA_TITLE = "VillaAula Diploma";
+export const DIPLOMA_ISSUER = "VillaAula";
+export const DEFAULT_LEARNER_NAME = "VillaAula Learner";
 
 /**
  * The design palette — mirrors the `@theme` tokens in globals.css. Keep in sync;

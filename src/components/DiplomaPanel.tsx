@@ -11,6 +11,7 @@ import {
 } from "@/lib/progress";
 import { useProgress } from "@/components/progress/ProgressProvider";
 import { useSessionUser } from "@/components/auth/SessionProvider";
+import type { ExamResultView } from "@/lib/auth/exam-actions";
 import { RichText } from "@/components/RichText";
 import {
   BRAND,
@@ -20,10 +21,20 @@ import {
   PALETTE,
 } from "@/lib/site";
 
-export default function DiplomaPanel({ course }: { course: Course }) {
+export default function DiplomaPanel({
+  course,
+  savedExam,
+}: {
+  course: Course;
+  savedExam?: ExamResultView | null;
+}) {
   const { completed, markCompleted } = useProgress();
-  const { name: accountName } = useSessionUser();
+  const { name: accountName, signedIn, authEnabled } = useSessionUser();
   const [name, setName] = useState(accountName ?? "");
+  // Accounts are on but this visitor is a guest → they may audit, but the diploma
+  // (and its name) belongs to a real account. See HANDOFF §18.E.
+  const mustLogin = authEnabled && !signedIn;
+  const claimNext = encodeURIComponent(`/level/${course.slug}/conclusion`);
   const lessonKeys = useMemo(
     () =>
       course.units.flatMap((unit) =>
@@ -45,7 +56,11 @@ export default function DiplomaPanel({ course }: { course: Course }) {
     if (ready) markCompleted(courseKey(course.slug));
   }, [ready, course.slug, markCompleted]);
 
-  const displayName = name.trim() || accountName?.trim() || DEFAULT_LEARNER_NAME;
+  // Signed in → the diploma is issued in the account's name (no free-text). In the
+  // no-account fallback (no DB), keep the editable name input.
+  const displayName = signedIn
+    ? accountName?.trim() || DEFAULT_LEARNER_NAME
+    : name.trim() || DEFAULT_LEARNER_NAME;
 
   function downloadDiploma() {
     if (!ready) return;
@@ -67,7 +82,7 @@ export default function DiplomaPanel({ course }: { course: Course }) {
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = url;
-    anchor.download = `wishub-level-${course.level}-diploma.svg`;
+    anchor.download = `villaaula-level-${course.level}-diploma.svg`;
     anchor.click();
     URL.revokeObjectURL(url);
   }
@@ -88,13 +103,19 @@ export default function DiplomaPanel({ course }: { course: Course }) {
           />
           <StatusPill
             label="Final check"
-            value={finalDone ? "Complete" : "Pending"}
+            value={
+              savedExam
+                ? `${savedExam.score} / ${savedExam.total}`
+                : finalDone
+                  ? "Complete"
+                  : "Pending"
+            }
             complete={finalDone}
           />
           <StatusPill
             label="Diploma"
-            value={ready ? "Unlocked" : "Locked"}
-            complete={ready}
+            value={mustLogin ? "Log in" : ready ? "Unlocked" : "Locked"}
+            complete={ready && !mustLogin}
           />
         </div>
       </div>
@@ -120,55 +141,90 @@ export default function DiplomaPanel({ course }: { course: Course }) {
         </div>
       )}
 
-      <div className="rounded-2xl border border-coral/30 bg-coral/5 p-5">
-        <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-          <div className="min-w-0 flex-1">
-            <p className="font-mono text-xs tracking-[0.18em] text-coral">
-              DIPLOMA
-            </p>
-            <h2 className="mt-2 font-display text-2xl font-extrabold text-ink">
-              {course.diploma?.title ?? DIPLOMA_TITLE}
-            </h2>
-            <label className="mt-4 block max-w-sm">
-              <span className="text-xs font-semibold text-muted">
-                Learner name
-              </span>
-              <input
-                type="text"
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-                placeholder={DEFAULT_LEARNER_NAME}
-                className="mt-1 w-full rounded-xl border border-line bg-paper px-4 py-2.5 text-ink outline-none transition focus:border-coral"
-              />
-            </label>
+      {mustLogin ? (
+        <div className="rounded-2xl border border-coral/30 bg-coral/5 p-5">
+          <p className="font-mono text-xs tracking-[0.18em] text-coral">DIPLOMA</p>
+          <h2 className="mt-2 font-display text-2xl font-extrabold text-ink">
+            {course.diploma?.title ?? DIPLOMA_TITLE}
+          </h2>
+          <p className="mt-2 max-w-md text-sm leading-relaxed text-muted">
+            Your diploma is issued in your account&rsquo;s name. Log in or create a
+            free account to save your progress and claim it — anything you&rsquo;ve
+            done as a guest comes with you.
+          </p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <Link
+              href={`/login?next=${claimNext}`}
+              className="rounded-full border border-line bg-paper px-5 py-2.5 text-sm font-semibold text-ink transition hover:border-coral hover:text-coral"
+            >
+              Log in
+            </Link>
+            <Link
+              href={`/signup?next=${claimNext}`}
+              className="rounded-full bg-coral px-5 py-2.5 text-sm font-bold text-white transition hover:bg-coral-deep"
+            >
+              Create account
+            </Link>
           </div>
-          <button
-            type="button"
-            onClick={downloadDiploma}
-            disabled={!ready}
-            className="rounded-full bg-coral px-6 py-3 font-display text-sm font-bold text-white transition enabled:hover:bg-coral-deep disabled:cursor-not-allowed disabled:opacity-45"
-          >
-            Download diploma
-          </button>
         </div>
-        {!ready && (
-          <div className="mt-4 flex flex-wrap gap-3 text-sm text-muted">
-            {!lessonsDone && (
-              <Link href={`/level/${course.slug}`} className="font-bold text-coral">
-                Finish lessons
-              </Link>
-            )}
-            {!finalDone && course.finalTest && (
-              <Link
-                href={`/level/${course.slug}/final-test`}
-                className="font-bold text-coral"
-              >
-                Take final check
-              </Link>
-            )}
+      ) : (
+        <div className="rounded-2xl border border-coral/30 bg-coral/5 p-5">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+            <div className="min-w-0 flex-1">
+              <p className="font-mono text-xs tracking-[0.18em] text-coral">
+                DIPLOMA
+              </p>
+              <h2 className="mt-2 font-display text-2xl font-extrabold text-ink">
+                {course.diploma?.title ?? DIPLOMA_TITLE}
+              </h2>
+              {signedIn ? (
+                <p className="mt-4 text-sm text-muted">
+                  Issued to{" "}
+                  <span className="font-semibold text-ink">{displayName}</span>
+                </p>
+              ) : (
+                <label className="mt-4 block max-w-sm">
+                  <span className="text-xs font-semibold text-muted">
+                    Learner name
+                  </span>
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(event) => setName(event.target.value)}
+                    placeholder={DEFAULT_LEARNER_NAME}
+                    className="mt-1 w-full rounded-xl border border-line bg-paper px-4 py-2.5 text-ink outline-none transition focus:border-coral"
+                  />
+                </label>
+              )}
+            </div>
+            <button
+              type="button"
+              onClick={downloadDiploma}
+              disabled={!ready}
+              className="rounded-full bg-coral px-6 py-3 font-display text-sm font-bold text-white transition enabled:hover:bg-coral-deep disabled:cursor-not-allowed disabled:opacity-45"
+            >
+              Download diploma
+            </button>
           </div>
-        )}
-      </div>
+          {!ready && (
+            <div className="mt-4 flex flex-wrap gap-3 text-sm text-muted">
+              {!lessonsDone && (
+                <Link href={`/level/${course.slug}`} className="font-bold text-coral">
+                  Finish lessons
+                </Link>
+              )}
+              {!finalDone && course.finalTest && (
+                <Link
+                  href={`/level/${course.slug}/final-test`}
+                  className="font-bold text-coral"
+                >
+                  Take final check
+                </Link>
+              )}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

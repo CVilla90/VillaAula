@@ -8,7 +8,7 @@ import {
   type LevelCatalogEntry,
 } from "@/content/catalog";
 import {
-  BACKRONYM,
+  BRAND_NOTE,
   BRAND_WORDMARK,
   BYLINE,
   COPYRIGHT_YEAR,
@@ -158,7 +158,7 @@ export default function Home() {
               not like homework.
             </h2>
             <p className="mt-4 max-w-sm text-muted">
-              The old way buries you in menus and rules. WISHUB does the opposite:
+              The old way buries you in menus and rules. VillaAula does the opposite:
               you practice first, and the theory is one tap away.
             </p>
           </div>
@@ -195,7 +195,7 @@ export default function Home() {
           <div className="flex flex-col gap-2">
             <Logo />
             <p className="font-mono text-[11px] tracking-wide text-muted">
-              {BACKRONYM}
+              {BRAND_NOTE}
             </p>
           </div>
           <p className="text-sm text-muted">

@@ -6,7 +6,13 @@ import {
   sessionCookieOptions,
   signSessionToken,
 } from "@/lib/auth/session";
-import { fetchGoogleProfile, safeNext, appUrl } from "@/lib/auth/google";
+import {
+  fetchGoogleProfile,
+  safeNext,
+  appUrl,
+  pickLinkedUser,
+  mergeGoogleProfile,
+} from "@/lib/auth/google";
 import { isAdminEmail } from "@/lib/auth/users";
 
 // Step 2 of Google sign-in: verify state, exchange the code for the profile,
@@ -24,8 +30,8 @@ export async function GET(request: Request) {
   const saved = request.headers
     .get("cookie")
     ?.split(/;\s*/)
-    .find((c) => c.startsWith("wishub_oauth="))
-    ?.slice("wishub_oauth=".length);
+    .find((c) => c.startsWith("villaaula_oauth="))
+    ?.slice("villaaula_oauth=".length);
 
   if (!code || !state || !saved) return fail("oauth");
   const [savedState, savedNext] = decodeURIComponent(saved).split("|");
@@ -37,24 +43,26 @@ export async function GET(request: Request) {
   const email = profile.email?.toLowerCase() ?? null;
   const prisma = getPrisma();
 
-  // Find by Google id first, then link an existing account by email, else create.
-  // NOTE: linking by email assumes the manual signup's email is trustworthy. We
-  // don't verify emails (by design — no email provider yet), so at this small scale
-  // that's an accepted trade-off; revisit if WISHUB ever opens to strangers.
-  let user = await prisma.user.findUnique({ where: { googleId: profile.sub } });
-  if (!user && email) {
-    user = await prisma.user.findUnique({ where: { email } });
-  }
+  // Resolve which account this Google identity belongs to:
+  //   1) one already linked to this Google id, else
+  //   2) a manual/email account with the same address — first OAuth login links it,
+  //   3) otherwise create a fresh Google account below.
+  // NOTE: linking by email trusts the signup email. We don't verify emails yet (no
+  // email provider), which is an accepted trade-off at this small, invite-only
+  // scale; revisit if VillaAula ever opens to strangers.
+  const byGoogleId = await prisma.user.findUnique({
+    where: { googleId: profile.sub },
+  });
+  const byEmail =
+    !byGoogleId && email
+      ? await prisma.user.findUnique({ where: { email } })
+      : null;
+  let user = pickLinkedUser(byGoogleId, byEmail);
 
   if (user) {
     user = await prisma.user.update({
       where: { id: user.id },
-      data: {
-        googleId: user.googleId ?? profile.sub,
-        image: user.image ?? profile.picture ?? null,
-        name: user.name ?? profile.name ?? null,
-        email: user.email ?? email,
-      },
+      data: mergeGoogleProfile(user, profile),
     });
   } else {
     user = await prisma.user.create({
@@ -71,6 +79,6 @@ export async function GET(request: Request) {
   const token = await signSessionToken({ userId: user.id, role: user.role });
   const res = NextResponse.redirect(new URL(safeNext(savedNext), base));
   res.cookies.set(SESSION_COOKIE, token, sessionCookieOptions());
-  res.cookies.delete("wishub_oauth");
+  res.cookies.delete("villaaula_oauth");
   return res;
 }

@@ -8,15 +8,37 @@
 
 ## 0. START HERE (30-second orientation)
 
-- **Product:** **WISHUB** — a lightweight, content-agnostic micro-LMS. First real use:
+- **Product:** **VillaAula** — a lightweight, content-agnostic micro-LMS. First real use:
   Carlos teaching a friend ESL (English) as a fast *skim* of a beginner course.
-- **Brand / product name:** `WISHUB`. Directory / repo: `WISHUB`.
-- **Official backronym:** **W**eb **I**nteractive **S**tudy **H**ub for **U**niversal **B**ilinguals.
+- **Brand / product name:** `VillaAula` (renamed from **WISHUB** on 2026-06-23). The code
+  **directory is now `Brainstorm/VillaAula/`** (renamed from `WISHUB` on 2026-06-23, Session 11 —
+  the earlier "keep the folder as WISHUB to avoid churn" decision was reversed at Carlos's request).
+  GitHub repo: **`CVilla90/VillaAula`** (https://github.com/CVilla90/VillaAula.git). Deploy URL is
+  `villaaula.replit.app`. Nothing in the code depended on the folder name (all imports use the `@/`
+  alias / relative paths), and no other project references it — see the Session 11 log.
+- **Name meaning:** *Villa* (Carlos's surname; also Spanish for a small house/town) + *Aula*
+  (Spanish for *classroom*). It's a name, not an acronym — the old WISHUB backronym is retired.
 - **Admin / owner:** Carlos — `cavilla@uach.mx` (hard-coded super-admin via env allowlist).
 - **Owner context:** This is one of Carlos's **personal** projects (like HolIA/Atina,
   MUSAI, Cátedra). It is **not** Creai work and **not** an official UACH project. Keep
   those worlds separate (see his `user_identity` memory).
 - **Status (2026-06-23, latest first — full log in §2):**
+  - ✅ **Admin dashboard + Replit deploy prep (Session 10).** Admins (allowlisted email / DB role)
+    get **`/admin`** (learner roster: progress bar, levels-complete, final-grade pills, last active)
+    and **`/admin/users/[id]`** (per-level breakdown + unit-by-unit lesson ticks + recorded grade),
+    all behind `requireAdmin()`; an "Admin" nav link shows only for admins. Pure analytics in
+    `lib/admin/stats.ts` (+8 tests → **62**). Added **`.replit`** (Next.js-tuned Autoscale + Postgres,
+    `PORT=5000`) so the repo is push-ready for Replit. Green gate clean; DB-backed admin views need a
+    live smoke test at go-live (no Postgres in dev).
+  - ✅ **Rebrand WISHUB → VillaAula + auth gating (Session 9).** Whole product rebranded
+    (brand strings, diploma titles/issuers, cookies/storage keys with a legacy-localStorage
+    migration, package name). **Account-linking hardened:** signup **email is now required**
+    (unverified) so a manual `friend@gmail.com` / admin account auto-links the first time they
+    use Google OAuth; pure `pickLinkedUser`/`mergeGoogleProfile` helpers + tests (**54 tests**).
+    **§18.E auth gating shipped:** diploma is **login-gated** (guests audit, can't claim), the
+    **free-text name input is gone for signed-in users** (uses the account name), and **real exam
+    grades persist** (new `ExamResult` model + `recordExamResult`/`getExamResult`). ⚠️ the DB-backed
+    parts (linking, exam grades) are **built but untested live** — confirm on go-live.
   - ✅ **De-hardcode/harden pass (REFACTOR.md A–D):** course catalog is a single source of truth,
     brand/palette centralized (`lib/site.ts`), a content **validator** (`content/validate.ts`) +
     **vitest** suite (grown to **46 tests** by Session 8) guard correctness.
@@ -46,11 +68,16 @@
   - **NEXT SESSION — START HERE:**
     1. **Carlos (in progress):** finish creating the **Google OAuth client** (§17 step 4) + run the
        full **go-live** on Replit (Postgres + `AUTH_SECRET` + `NEXT_PUBLIC_APP_URL` + `GOOGLE_*` +
-       `GEMINI_API_KEY`, then `npm run db:push`), and smoke-test signup/login/OAuth/speaking (§17 step 6).
-    2. **Offered & ready to build — §18.E auth gating:** make login **required** for diploma + saved
-       grades, **remove the free-text diploma name** (use the account name), and **persist real exam
-       scores**. Mostly verifiable without the live DB; this makes accounts actually matter.
-    3. Optional later: §3-F (TS→Postgres content bank), §18.B calibration audit, mobile/PWA (§18.G).
+       `GEMINI_API_KEY`, then `npm run db:push` — schema now includes `ExamResult`), and smoke-test
+       signup/login/OAuth/speaking (§17 step 6). ⚠️ **redirect URI is `/api/auth/google/callback`**
+       (NOT `/callback`) and `ADMIN_EMAILS` should list **both** his emails.
+    2. ✅ **§18.E auth gating — DONE (Session 9).** Login-gated diploma, account-name diploma, and
+       persisted exam grades all shipped. The DB-backed paths still need a **live smoke test** at
+       go-live (no Postgres in dev) — verify a signed-in learner's grade row + the gated/ungated
+       diploma states once `DATABASE_URL` is set.
+    3. ✅ **Admin grades/progress dashboard — DONE (Session 10).** `/admin` + `/admin/users/[id]`
+       (see §12 + §2). Confirm it against real accounts at go-live (no Postgres in dev).
+    4. Optional later: §3-F (TS→Postgres content bank), §18.B calibration audit, mobile/PWA (§18.G).
 - **History note:** the first formal class was **2026-06-22**; the original "ship a rough Level 1
   fast" pressure is long past — the product is now content-complete (L1–L4) and hardened. Current
   focus is the **login go-live**, not content.
@@ -95,6 +122,94 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
 ---
 
 ## 2. STATUS LOG (newest first — UPDATE EVERY SESSION)
+
+### 2026-06-23 — Session 11 (directory rename WISHUB → VillaAula + GitHub repo)
+- 📁 **Directory renamed `WISHUB` → `VillaAula`** (reverses the Session 9 "keep the folder to avoid
+  churn" call, at Carlos's request so the folder matches the brand). **Verified safe before renaming:**
+  - A full scan found **zero references to the folder name in any other project** (no BoardCraft /
+    AudioReviewer / sibling cross-link) — so nothing external breaks.
+  - In-project, **no code depends on the folder name**: all imports use the `@/` alias or relative
+    paths; `tsconfig`/`.replit`/configs use no absolute paths. The only literal `wishub` strings left
+    in code are the **deliberate localStorage legacy-migration key** `wishub:completed` in
+    `lib/progress.ts` (must stay — carries old guest progress forward) and a historical comment.
+  - Fixed leftovers: `package-lock.json` `name` `wishub`→`villaaula`; `tools/generate_audio.py`
+    path/brand comments → VillaAula.
+- 🔒 **Caught + gitignored a real secret** (carried from Session 10): a downloaded Google OAuth
+  `client_secret_*.apps.googleusercontent.com.json` was sitting untracked in the repo root; added
+  `client_secret*.json` / `*-credentials.json` to `.gitignore` so a push can't leak it.
+- 🐙 **GitHub repo created by Carlos: `CVilla90/VillaAula`** (https://github.com/CVilla90/VillaAula.git).
+  Remote wired + initial push of the rebrand/admin/deploy work.
+- ⚙️ **Rename mechanics (Windows note for future sessions):** the folder couldn't be renamed while
+  **Cursor** had it open as the workspace (the editor's file watcher holds a handle on the open root
+  folder; killing the integrated terminals was NOT enough). Resolution = free the folder in Cursor
+  (close folder / quit), then `Rename-Item`. Kill any leftover `next dev` node processes first too.
+
+### 2026-06-23 — Session 10 (admin dashboard + Replit deploy prep)
+- 🎛️ **Admin dashboard shipped (Carlos's request #1 — "see how a user is doing").** An admin
+  (allowlisted email or DB `role:"admin"`) now has a full progress/grades cockpit:
+  - **`/admin`** — learner roster: every account with a progress bar (lessons done / total across
+    the whole catalog), levels-complete count, **final-check grade pills** (L1 14/16, colored
+    teal=passed / coral=not yet), last-active date, and quick stats (learners / started / finished).
+  - **`/admin/users/[id]`** — per-learner breakdown: header card, joined/last-active, and a
+    **per-level section** with progress bar, the recorded final grade (score/total · passed ·
+    attempts), and a **unit-by-unit lesson tick list** so you can see exactly which lessons are done.
+  - **Security:** every entry point goes through `requireAdmin()` (`lib/admin/data.ts`) which
+    redirects when accounts are off (no DB), signed-out (`/login?next=/admin`), or non-admin (`/`).
+    Both pages are `force-dynamic` (read the session cookie). An **"Admin" link** appears in the
+    nav only for admins (`isAdmin` now flows through `SessionProvider` → set in `layout.tsx`).
+  - **Pure analytics core:** `lib/admin/stats.ts` (`courseLessonKeys`/`summarizeCourse`/
+    `summarizeLearner`) turns progress keys + `ExamResult`s + the catalog into the summaries —
+    no React/Prisma, fully unit-tested. **+8 tests → 62 total.**
+- 🚀 **Replit deploy prep (Carlos's request #2).** Added **`.replit`** (tuned for Next.js 16, not the
+  Python pattern): `modules = nodejs-20 + web + postgresql-16`, **Autoscale** deployment with
+  `build = npm run build` / `run = npm run start`, `[env] PORT = "5000"`, port `5000 → 80`, and a dev
+  workflow. Key Next-on-Replit quirks captured: **Next honors `PORT`** (verified in the bundled docs)
+  and **binds `0.0.0.0` by default**, so no `-H`/`-p` flags needed; **don't add `npm install` to the
+  build** (Replit runs it, which fires `postinstall: prisma generate`). The repo is now **push-ready
+  for Replit** — `.gitignore` already excludes `.env*`/`node_modules`/`.next` and keeps `.env.example`.
+- ✅ **Green gate:** `tsc` + `eslint` + **62 tests** + `next build` (14 routes; `/admin` + `/admin/
+  users/[id]` both correctly `ƒ` dynamic) all clean. **Runtime smoke (no-DB dev):** `/` → 200, no
+  Admin link for guests; `/admin` → **307 → `/`** (guard fires when accounts are off). DB-backed admin
+  views (real rows) still need a **live smoke test at go-live** (no Postgres in dev), same as §18.E.
+- **NEXT:** Carlos's go-live (§17) — now also confirms the admin dashboard against real accounts.
+
+### 2026-06-23 — Session 9 (rebrand → VillaAula + auth gating §18.E)
+- 🏷️ **Rebrand WISHUB → VillaAula** (Carlos's call; deploy URL already `villaaula.replit.app`):
+  - Brand source of truth `lib/site.ts`: `BRAND`/`BRAND_WORDMARK` = `VillaAula`; the WISHUB
+    backronym is retired and replaced by `BRAND_NOTE` ("A little classroom of your own") in the
+    footer. Diploma defaults + all 4 per-course diploma `title`/`issuer` strings, the diploma SVG
+    issuer, and the download filename (`villaaula-level-N-diploma.svg`) updated. Landing copy +
+    internal code comments swept. `package.json` name → `villaaula`; prisma/.env headers updated.
+  - **Internal keys renamed** (clean break — app isn't live): session cookie `villaaula_session`,
+    OAuth state cookie `villaaula_oauth`, localStorage `villaaula:completed`. Added a **one-time
+    legacy migration** in `progress.ts` so any existing `wishub:completed` local progress carries
+    over. **Directory/repo stays `WISHUB`** (only the brand changed).
+- 🔗 **Account-linking hardened (Carlos's request #2):** so a friend who signs up manually with
+  `friend@gmail.com` (and the admin emails) gets **auto-linked** when Google OAuth goes live:
+  - **Signup email is now REQUIRED** (still *unverified* — no email provider) — `validation.ts`
+    + the signup form field. Without an email there's nothing to link on later.
+  - Extracted pure, testable helpers `pickLinkedUser` (Google-id match wins, else email match) and
+    `mergeGoogleProfile` (fills missing fields, never overwrites the user's own) into `auth/google.ts`;
+    the callback route now uses them. The existing find-by-googleId→link-by-email→create flow is
+    unchanged in behavior, just clearer + covered.
+  - `.env.example` `ADMIN_EMAILS` now lists **both** `cavilla@uach.mx,carlosavillah90@gmail.com`.
+  - **+8 unit tests** (linking helpers + email-required validation + `isAdminEmail` for both admin
+    emails, case-insensitive) → **54 tests** total, all green.
+- 🎓 **§18.E auth gating shipped** (the "NEXT SESSION" build item):
+  - **Diploma is login-gated.** When accounts are enabled, a guest on the conclusion page sees a
+    "log in / create account to claim" card instead of the download; the free-text name input is
+    **removed for signed-in users** (diploma is issued in the **account name**). The no-DB fallback
+    (pure-guest/localStorage mode) keeps the editable name + local diploma so dev/no-DB deploys work.
+  - **Real exam grades persist:** new Prisma **`ExamResult`** model (`score`/`total`/`passed`/
+    `attempts`, unique per user+course) + `auth/exam-actions.ts` (`recordExamResult`/`getExamResult`).
+    `FinalTestPlayer` records the grade on pass (signed-in only); the conclusion's "Final check"
+    pill now shows the saved `score / total`. Ran `prisma generate`; **`db:push` needed at go-live**.
+- ✅ **Green gate:** `tsc` + `eslint` + **54 tests** + `next build` (12 routes) all clean. **Runtime
+  smoke (no-DB dev server):** `/` shows VillaAula ×8 / zero WISHUB + footer note; `/login`,
+  `/signup` (guest "coming soon" card + VillaAula wordmark), `/level/1/conclusion` ("VillaAula
+  Foundations Diploma") all 200.
+- ⚠️ **Untested live** (no Postgres in dev): the OAuth linking runtime + exam-grade writes/reads +
+  the signed-in/guest diploma gate. Carlos's go-live (§17) is the confirmation.
 
 ### 2026-06-23 — Session 8 (auth hardening — building the login feature)
 - 🧭 **Decision (Carlos):** the **Google OAuth client is owned by his personal Gmail**, not
@@ -839,6 +954,10 @@ Drizzle + Postgres back · Multer audio uploads. **Reuse for WISHUB speaking exe
   personal Gmail.
 - Admin can **create / edit / remove** courses/units/lessons/content/questions — but the intended
   primary path is **AI-first generation**, with manual CRUD as the rare fallback (see §18.D).
+- **Admin dashboard (live, Session 10):** `/admin` (learner roster — progress, levels complete,
+  final-grade pills, last active) and `/admin/users/[id]` (per-level breakdown + unit-by-unit lesson
+  ticks + recorded grade). Gated by `requireAdmin()` (`src/lib/admin/data.ts`); the "Admin" nav link
+  shows only for admins. Analytics are pure + tested in `src/lib/admin/stats.ts`.
 
 ---
 
@@ -863,10 +982,10 @@ auth (**dual: manual + Google open to all accounts**) · audio (edge-tts, pre-ge
 ## 14. REPO / FOLDER STRUCTURE
 
 ```
-Brainstorm/WISHUB/             # project root — the Next.js app lives here (scaffold in Phase 0)
+Brainstorm/VillaAula/          # project root — the Next.js app lives here (renamed from WISHUB, Session 11)
   HANDOFF.md                   # this file
   reference/                   # source book screenshots (s1u1..s1u4.png) — reference only, do not copy content
-  (Phase 0 adds: package.json, src/, public/, etc.)
+  src/  public/  prisma/  tools/  .replit  package.json  …
 ```
 
 ---
@@ -874,15 +993,15 @@ Brainstorm/WISHUB/             # project root — the Next.js app lives here (sc
 ## 15. DEV COMMANDS (fill in after scaffold)
 
 ```powershell
-# from Brainstorm/WISHUB
+# from Brainstorm/VillaAula
 npm install         # once
 npm run dev         # http://localhost:3000 (Next.js 16, Turbopack)
 npm run build       # production build
 npm run lint        # eslint
 ```
-Note: scaffolded via create-next-app into a lowercase temp dir, then moved into `WISHUB/`
-(npm forbids capitals in the package name; `package.json` name is `wishub`). Source book
-screenshots live in `reference/`.
+Note: scaffolded via create-next-app into a lowercase temp dir, then moved into the project
+folder (npm forbids capitals in the package name; `package.json` name is `villaaula`). The folder
+was renamed `WISHUB`→`VillaAula` in Session 11. Source book screenshots live in `reference/`.
 
 ---
 
@@ -904,19 +1023,26 @@ screenshots live in `reference/`.
 Dual auth + server-persisted progress is **built but untested live** (the loop has no DB or
 OAuth creds). To turn it on:
 
+> **Replit config is committed (`.replit`, Session 10).** It targets **Autoscale**, declares the
+> **nodejs-20 + web + postgresql-16** modules, builds with `npm run build`, runs `npm run start`,
+> sets `PORT=5000`, and maps `5000 → 80`. Next.js honors `PORT` and binds `0.0.0.0` by default, so
+> no flags are needed. **Do not** add `npm install` to the build — Replit runs it automatically (and
+> that triggers `postinstall: prisma generate`). So the Replit-side steps are just: add Postgres,
+> set Secrets, `db:push`, deploy.
+
 1. **Add Postgres** on Replit (built-in PostgreSQL) → it sets `DATABASE_URL` automatically.
 2. **Set Secrets** (Replit "Secrets" = env vars):
    - `AUTH_SECRET` — `openssl rand -base64 32`, paste the output.
-   - `NEXT_PUBLIC_APP_URL` — the deploy URL, e.g. `https://wishub.<user>.replit.app`.
-   - `ADMIN_EMAILS` — `cavilla@uach.mx` (default).
+   - `NEXT_PUBLIC_APP_URL` — the deploy URL: `https://villaaula.replit.app` (no trailing slash).
+   - `ADMIN_EMAILS` — `cavilla@uach.mx,carlosavillah90@gmail.com` (both of Carlos's emails).
    - *(optional)* `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` for Google sign-in.
 3. **Create the tables**: `npm run db:push` (idempotent; no migrations folder needed yet).
 4. **(optional) Google OAuth**: create the OAuth client under Carlos's **personal Gmail**
-   (`carlosavillah90@gmail.com`), **NOT** `cavilla@uach.mx` — WISHUB is a personal project, and a
+   (`carlosavillah90@gmail.com`), **NOT** `cavilla@uach.mx` — VillaAula is a personal project, and a
    Workspace-owned client would be subject to UACH admin policy + Internal/External limits and could
    die if that account is deactivated (decision 2026-06-23).
-   - Console → new project "WISHUB". **OAuth consent screen → User type: External.** App name
-     "WISHUB", support + developer email = his. Scopes are only `openid email profile` (basic) → **no
+   - Console → new project "VillaAula". **OAuth consent screen → User type: External.** App name
+     "VillaAula", support + developer email = his. Scopes are only `openid email profile` (basic) → **no
      Google verification needed**, so **Publish** the app (or add the friend as a Test user) so any
      Gmail can sign in.
    - **Credentials → Create OAuth client ID → Web application.** Authorized redirect URI must be
@@ -929,7 +1055,9 @@ OAuth creds). To turn it on:
    build time (Replit does) so the cookie-reading layout renders dynamically.
 6. **Smoke test live**: sign up (username+password) → redirect to `/levels` → finish a lesson →
    reload → progress persists → (if configured) try Google → pass the final check → download
-   the diploma. Check Replit logs if anything misbehaves.
+   the diploma. Then sign in as an **admin email** (`ADMIN_EMAILS`) and open **`/admin`** → confirm
+   the learner shows up with their progress + grade, and `/admin/users/[id]` shows the breakdown.
+   Check Replit logs if anything misbehaves.
 
 Without any of this, the app still runs in **guest/localStorage mode** (no accounts), so
 local dev and a no-DB deploy both keep working.
@@ -977,7 +1105,10 @@ local dev and a no-DB deploy both keep working.
 - Learners are always **human**. The §7 content schema is the AI's output contract. Same Gemini
   dependency as (C).
 
-### E. Auth gating tightened (decision 2026-06-22 — supersedes the guest-friendly model)
+### E. Auth gating tightened — ✅ DONE (Session 9, 2026-06-23) · needs live DB smoke test
+> Shipped: login-gated diploma, account-name diploma (free-text input removed for signed-in users),
+> and persisted real exam grades (`ExamResult` model). The no-DB fallback keeps local diplomas.
+> (Original decision 2026-06-22 — supersedes the guest-friendly model.)
 - **Login is REQUIRED to: save progress, save exam grades, and generate a diploma.**
 - The **diploma name comes from the authenticated account** — **remove the free-text name input**
   in `DiplomaPanel` (so anonymous users can't print diplomas under arbitrary names).

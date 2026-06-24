@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getCourse } from "@/content/catalog";
 import DiplomaPanel from "@/components/DiplomaPanel";
 import SaveProgressNudge from "@/components/auth/SaveProgressNudge";
+import { getExamResult } from "@/lib/auth/exam-actions";
 
 export default async function ConclusionPage({
   params,
@@ -13,6 +14,9 @@ export default async function ConclusionPage({
   const course = getCourse(slug);
 
   if (!course) notFound();
+
+  // Real saved grade for signed-in learners (null for guests / no DB).
+  const savedExam = await getExamResult(course.slug);
 
   return (
     <main className="mx-auto max-w-2xl px-5 py-10">
@@ -33,7 +37,7 @@ export default async function ConclusionPage({
         level is complete.
       </p>
       <SaveProgressNudge />
-      <DiplomaPanel course={course} />
+      <DiplomaPanel course={course} savedExam={savedExam} />
     </main>
   );
 }

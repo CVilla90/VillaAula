@@ -15,6 +15,6 @@ export async function GET(request: Request) {
   const state = crypto.randomUUID();
 
   const res = NextResponse.redirect(googleAuthUrl(state));
-  res.cookies.set("wishub_oauth", `${state}|${next}`, sessionCookieOptions(600));
+  res.cookies.set("villaaula_oauth", `${state}|${next}`, sessionCookieOptions(600));
   return res;
 }

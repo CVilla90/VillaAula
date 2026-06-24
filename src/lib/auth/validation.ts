@@ -10,7 +10,10 @@ export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export interface SignupInput {
   username: string;
   password: string;
-  /** Optional; null when the learner leaves it blank. */
+  /**
+   * Required (but NOT verified — no email provider yet). We collect it so a manual
+   * account can be linked to Google OAuth later by matching email; null when blank.
+   */
   email: string | null;
 }
 
@@ -26,7 +29,10 @@ export function validateSignup({
   if (password.length < 8) {
     return "Password must be at least 8 characters.";
   }
-  if (email && !EMAIL_RE.test(email)) {
+  if (!email) {
+    return "Email is required so you can switch to Google sign-in later.";
+  }
+  if (!EMAIL_RE.test(email)) {
     return "That email doesn't look right.";
   }
   return null;

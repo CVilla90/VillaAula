@@ -113,11 +113,12 @@ export default function AuthForm({
 
         {isSignup && (
           <Field
-            label="Email (optional)"
+            label="Email"
             name="email"
             type="email"
-            placeholder="for recovery later"
+            placeholder="so you can use Google later"
             autoComplete="email"
+            required
           />
         )}
 

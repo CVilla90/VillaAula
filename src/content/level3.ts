@@ -1683,8 +1683,8 @@ export const level3: Course = {
     ],
   },
   diploma: {
-    title: "WISHUB Telling More Diploma",
+    title: "VillaAula Telling More Diploma",
     subtitle: "Level 3 (B1)",
-    issuer: "WISHUB",
+    issuer: "VillaAula",
   },
 };

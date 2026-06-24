@@ -34,6 +34,11 @@ yarn-error.log*
 .env*
 !.env.example
 
+# Google OAuth client secret downloads — NEVER commit (paste the values into
+# Secrets / .env instead). These contain a real client_secret.
+client_secret*.json
+*-credentials.json
+
 # vercel
 .vercel
 

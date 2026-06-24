@@ -68,7 +68,7 @@ function renderInline(
 }
 
 /**
- * Tiny markdown renderer for the subset WISHUB content uses: paragraphs,
+ * Tiny markdown renderer for the subset VillaAula content uses: paragraphs,
  * "- " bullet lists, and inline bold/italic/code/blank. No HTML injection.
  */
 export function RichText({

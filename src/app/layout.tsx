@@ -37,6 +37,7 @@ export default async function RootLayout({
   const session = {
     signedIn: Boolean(user),
     name: user?.name ?? null,
+    isAdmin: user?.isAdmin ?? false,
     authEnabled,
     speakingEnabled: geminiConfigured(),
   };

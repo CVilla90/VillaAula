@@ -1688,8 +1688,8 @@ export const level4: Course = {
     ],
   },
   diploma: {
-    title: "WISHUB Real Conversations Diploma",
+    title: "VillaAula Real Conversations Diploma",
     subtitle: "Level 4 (B1+/B2)",
-    issuer: "WISHUB",
+    issuer: "VillaAula",
   },
 };

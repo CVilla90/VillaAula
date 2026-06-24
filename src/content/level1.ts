@@ -7,9 +7,9 @@ import {
 } from "@/content/level1-phase2";
 
 /**
- * Level 1 — original WISHUB content. Inspired by the A1 grammar progression only
+ * Level 1 — original VillaAula content. Inspired by the A1 grammar progression only
  * (HANDOFF §9): the sequence of grammar points is universal/uncopyrightable, but
- * every prompt, reading, name, and example here is written fresh for WISHUB.
+ * every prompt, reading, name, and example here is written fresh for VillaAula.
  */
 export const level1: Course = {
   id: "level-1",

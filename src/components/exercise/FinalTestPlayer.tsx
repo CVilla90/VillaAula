@@ -5,6 +5,8 @@ import Link from "next/link";
 import type { Course, FinalTest } from "@/lib/types";
 import { finalTestKey } from "@/lib/progress";
 import { useProgress } from "@/components/progress/ProgressProvider";
+import { useSessionUser } from "@/components/auth/SessionProvider";
+import { recordExamResult } from "@/lib/auth/exam-actions";
 import QuestionCard from "./QuestionCard";
 import ReadingBlock from "./ReadingBlock";
 import SpeakingQuestion from "./SpeakingQuestion";
@@ -22,6 +24,7 @@ export default function FinalTestPlayer({
   );
   const [results, setResults] = useState<Record<string, boolean>>({});
   const { markCompleted } = useProgress();
+  const { signedIn } = useSessionUser();
   const savedRef = useRef(false);
 
   const answered = Object.keys(results).length;
@@ -33,8 +36,17 @@ export default function FinalTestPlayer({
     if (passed && !savedRef.current) {
       savedRef.current = true;
       markCompleted(finalTestKey(course.slug));
+      // Persist the real grade for signed-in learners (guests stay local pass/fail).
+      if (signedIn) {
+        recordExamResult({
+          courseSlug: course.slug,
+          score: correctCount,
+          total,
+          passed: true,
+        }).catch(() => {});
+      }
     }
-  }, [passed, course.slug, markCompleted]);
+  }, [passed, course.slug, markCompleted, signedIn, correctCount, total]);
 
   let qNum = 0;
 

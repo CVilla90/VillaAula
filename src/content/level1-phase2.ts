@@ -1256,7 +1256,7 @@ export const level1Conclusion: CourseConclusion = {
 };
 
 export const level1Diploma: DiplomaConfig = {
-  title: "WISHUB Foundations Diploma",
+  title: "VillaAula Foundations Diploma",
   subtitle: "Level 1: Beginner English Foundations",
-  issuer: "WISHUB",
+  issuer: "VillaAula",
 };

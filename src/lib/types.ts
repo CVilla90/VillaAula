@@ -1,5 +1,5 @@
 /**
- * WISHUB content model (MVP, file-backed).
+ * VillaAula content model (MVP, file-backed).
  *
  * Mirrors the DB schema in HANDOFF.md §7: Content and Question are the reusable
  * primitives; an Exercise is an ordered list of items that each reference either

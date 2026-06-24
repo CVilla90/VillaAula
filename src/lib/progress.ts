@@ -10,7 +10,9 @@
  * localStorage progress use one shared key space (migration = a straight insert).
  */
 
-const KEY = "wishub:completed";
+const KEY = "villaaula:completed";
+/** Older brand key(s) read once and migrated forward, so existing local progress survives the rebrand. */
+const LEGACY_KEYS = ["wishub:completed"];
 
 export function lessonKey(
   courseSlug: string,
@@ -44,9 +46,18 @@ export function isCourseComplete(
 export function getLocalCompleted(): Record<string, boolean> {
   if (typeof window === "undefined") return {};
   try {
-    return JSON.parse(
-      window.localStorage.getItem(KEY) ?? "{}",
-    ) as Record<string, boolean>;
+    const raw = window.localStorage.getItem(KEY);
+    if (raw) return JSON.parse(raw) as Record<string, boolean>;
+    // One-time migration from a previous brand key (e.g. the old "wishub:completed").
+    for (const legacy of LEGACY_KEYS) {
+      const old = window.localStorage.getItem(legacy);
+      if (old) {
+        window.localStorage.setItem(KEY, old);
+        window.localStorage.removeItem(legacy);
+        return JSON.parse(old) as Record<string, boolean>;
+      }
+    }
+    return {};
   } catch {
     return {};
   }

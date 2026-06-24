@@ -7,7 +7,7 @@ const WORD = "clicks";
 /**
  * The hero's signature: the headline is a live fill-in-the-blank exercise —
  * the actual mechanic of the product. The blank types itself in, then the
- * answer is "accepted" (coral -> teal + check), mirroring a real WISHUB answer.
+ * answer is "accepted" (coral -> teal + check), mirroring a real VillaAula answer.
  */
 export default function HeroCloze() {
   const [count, setCount] = useState(0);

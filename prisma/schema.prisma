@@ -1,4 +1,4 @@
-// WISHUB data — Phase 3 platform spine.
+// VillaAula data — Phase 3 platform spine.
 // Content (courses/units/lessons/questions) still lives in typed TS files
 // (src/content/*) for now; only users + their progress are persisted here.
 // Ships on Replit with its default Postgres (DATABASE_URL provided by Replit).
@@ -32,6 +32,7 @@ model User {
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   progress     Progress[]
+  examResults  ExamResult[]
 }
 
 /// One row per completed unit of progress. `key` mirrors the localStorage keys
@@ -45,5 +46,25 @@ model Progress {
   completedAt DateTime @default(now())
 
   @@unique([userId, key])
+  @@index([userId])
+}
+
+/// A learner's real grade on a course's final check (not just pass/fail). One row
+/// per (user, course); `score`/`total` are correct-answers / question-count, and
+/// `attempts` counts how many times they completed it. Login is required to record
+/// a grade (see HANDOFF §18.E), so guests never produce a row here.
+model ExamResult {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseSlug String
+  score      Int
+  total      Int
+  passed     Boolean
+  attempts   Int      @default(1)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([userId, courseSlug])
   @@index([userId])
 }

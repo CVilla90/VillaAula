@@ -6,7 +6,7 @@ import { logoutAction } from "@/lib/auth/actions";
 
 /** Nav control: "Log in" when signed out; name + "Log out" when signed in. */
 export default function AccountMenu() {
-  const { signedIn, name } = useSessionUser();
+  const { signedIn, name, isAdmin } = useSessionUser();
 
   if (!signedIn) {
     return (
@@ -21,6 +21,14 @@ export default function AccountMenu() {
 
   return (
     <div className="flex items-center gap-2">
+      {isAdmin && (
+        <Link
+          href="/admin"
+          className="rounded-full border border-coral/40 bg-coral/10 px-3 py-2 text-sm font-semibold text-coral transition hover:bg-coral/20"
+        >
+          Admin
+        </Link>
+      )}
       <span className="hidden max-w-[10rem] truncate text-sm font-semibold text-ink sm:block">
         {name ?? "You"}
       </span>

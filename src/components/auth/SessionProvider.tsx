@@ -6,6 +6,8 @@ import { createContext, useContext } from "react";
 export interface SessionUser {
   signedIn: boolean;
   name: string | null;
+  /** Signed-in user is an admin (allowlisted email or DB role) — gates the admin link. */
+  isAdmin: boolean;
   /** Whether accounts are configured at all (DB + AUTH_SECRET present). */
   authEnabled: boolean;
   /** Whether speaking exercises are live (GEMINI_API_KEY present). */
@@ -15,6 +17,7 @@ export interface SessionUser {
 const SessionContext = createContext<SessionUser>({
   signedIn: false,
   name: null,
+  isAdmin: false,
   authEnabled: false,
   speakingEnabled: false,
 });

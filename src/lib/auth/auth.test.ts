@@ -5,6 +5,12 @@ import {
 } from "@/lib/auth/token";
 import { hashPassword, verifyPassword } from "@/lib/auth/password";
 import { validateSignup } from "@/lib/auth/validation";
+import {
+  pickLinkedUser,
+  mergeGoogleProfile,
+  type LinkableUser,
+} from "@/lib/auth/google";
+import { isAdminEmail } from "@/lib/auth/users";
 
 const SECRET = "test-secret-at-least-32-characters-long-abcdef";
 
@@ -54,13 +60,16 @@ describe("password hashing (bcrypt)", () => {
 });
 
 describe("validateSignup", () => {
-  it("accepts valid input (with and without email)", () => {
+  it("accepts valid input with an email", () => {
     expect(
       validateSignup({ username: "carlos_90", password: "supersecret", email: "a@b.com" }),
     ).toBeNull();
+  });
+
+  it("now requires an email (so OAuth can link the account later)", () => {
     expect(
       validateSignup({ username: "ana", password: "12345678", email: null }),
-    ).toBeNull();
+    ).toMatch(/Email is required/);
   });
 
   it("rejects a too-short or malformed username", () => {
@@ -82,5 +91,65 @@ describe("validateSignup", () => {
     expect(
       validateSignup({ username: "carlos", password: "supersecret", email: "nope" }),
     ).toMatch(/email/);
+  });
+});
+
+describe("Google account linking", () => {
+  const manualAccount: LinkableUser = {
+    id: "u1",
+    googleId: null, // signed up manually, not yet Google-linked
+    email: "friend@gmail.com",
+    name: "Friend",
+    image: null,
+  };
+  const profile = {
+    sub: "google-123",
+    email: "Friend@Gmail.com", // Google may return mixed case
+    name: "Friend G.",
+    picture: "https://pic",
+  };
+
+  it("prefers the already-Google-linked account over an email match", () => {
+    const byGoogleId = { ...manualAccount, id: "byGoogle", googleId: "google-123" };
+    const byEmail = { ...manualAccount, id: "byEmail" };
+    expect(pickLinkedUser(byGoogleId, byEmail)?.id).toBe("byGoogle");
+  });
+
+  it("links a manual account found by email when no Google id matches", () => {
+    expect(pickLinkedUser(null, manualAccount)?.id).toBe("u1");
+  });
+
+  it("returns null when nothing matches (a fresh account will be created)", () => {
+    expect(pickLinkedUser(null, null)).toBeNull();
+  });
+
+  it("merges a profile onto a manual account: adds googleId, keeps the user's own name/email", () => {
+    const merged = mergeGoogleProfile(manualAccount, profile);
+    expect(merged.googleId).toBe("google-123"); // newly linked
+    expect(merged.name).toBe("Friend"); // user's chosen name preserved
+    expect(merged.email).toBe("friend@gmail.com"); // existing email preserved
+    expect(merged.image).toBe("https://pic"); // filled in from Google (was null)
+  });
+
+  it("fills email (lowercased) from the profile when the account had none", () => {
+    const merged = mergeGoogleProfile({ ...manualAccount, email: null }, profile);
+    expect(merged.email).toBe("friend@gmail.com");
+  });
+});
+
+describe("isAdminEmail (ADMIN_EMAILS allowlist)", () => {
+  beforeEach(() =>
+    vi.stubEnv("ADMIN_EMAILS", "cavilla@uach.mx,carlosavillah90@gmail.com"),
+  );
+  afterEach(() => vi.unstubAllEnvs());
+
+  it("recognizes both of Carlos's admin emails, case-insensitively", () => {
+    expect(isAdminEmail("cavilla@uach.mx")).toBe(true);
+    expect(isAdminEmail("Carlosavillah90@Gmail.com")).toBe(true);
+  });
+
+  it("treats a learner email and null as non-admin", () => {
+    expect(isAdminEmail("friend@gmail.com")).toBe(false);
+    expect(isAdminEmail(null)).toBe(false);
   });
 });
