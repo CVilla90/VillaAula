@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getCourse } from "@/content/catalog";
+import { programForCourse } from "@/content/programs";
 import LessonPlayer from "@/components/exercise/LessonPlayer";
 
 export default async function LessonPage({
@@ -15,5 +16,9 @@ export default async function LessonPage({
 
   if (!course || !unit || !lesson) notFound();
 
-  return <LessonPlayer course={course} unit={unit} lesson={lesson} />;
+  const courseNoun = programForCourse(course.slug)?.courseNoun ?? "Level";
+
+  return (
+    <LessonPlayer course={course} unit={unit} lesson={lesson} courseNoun={courseNoun} />
+  );
 }

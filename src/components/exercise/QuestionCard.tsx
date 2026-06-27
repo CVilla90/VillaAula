@@ -9,6 +9,8 @@ import type {
 } from "@/lib/types";
 import { gradeQuestion, type QuestionResponse } from "@/lib/grading";
 import { RichText } from "@/components/RichText";
+import { t } from "@/lib/i18n";
+import { useContentLang } from "@/components/i18n/ContentLang";
 
 type Value = string | string[] | boolean | Record<string, string> | null;
 
@@ -21,6 +23,7 @@ export default function QuestionCard({
   index: number;
   onAnswered: (id: string, correct: boolean) => void;
 }) {
+  const { lang } = useContentLang();
   const [value, setValue] = useState<Value>(() => initialValue(question));
   const [checked, setChecked] = useState(false);
   const [correct, setCorrect] = useState(false);
@@ -55,7 +58,7 @@ export default function QuestionCard({
           {index}
         </span>
         <p className="font-display text-base font-medium leading-snug text-ink">
-          <RichText md={question.prompt} inline variant="prompt" />
+          <RichText md={t(question.prompt, lang)} inline variant="prompt" />
         </p>
       </div>
 
@@ -89,7 +92,7 @@ export default function QuestionCard({
           </button>
         )}
         {question.hint && !checked && (
-          <span className="text-xs text-muted">Hint: {question.hint}</span>
+          <span className="text-xs text-muted">Hint: {t(question.hint, lang)}</span>
         )}
       </div>
 
@@ -103,7 +106,7 @@ export default function QuestionCard({
             {correct ? "Nice." : "Not quite."}
           </span>{" "}
           {question.explanation ? (
-            <RichText md={question.explanation} inline />
+            <RichText md={t(question.explanation, lang)} inline />
           ) : null}
         </div>
       )}
@@ -124,7 +127,8 @@ function initialValue(q: Question): Value {
     case "match":
       return {};
     case "speaking":
-      // Speaking renders via SpeakingQuestion, not QuestionCard.
+    case "draft_compare":
+      // Speaking and draft-compare render via their own components, not QuestionCard.
       return null;
   }
 }
@@ -147,6 +151,7 @@ function isReady(q: Question, v: Value): boolean {
       );
     }
     case "speaking":
+    case "draft_compare":
       return false;
   }
 }
@@ -213,13 +218,14 @@ function OpenInput({
   locked: boolean;
   onEnter: () => void;
 }) {
+  const { lang } = useContentLang();
   return (
     <input
       type="text"
       value={value}
       disabled={locked}
       maxLength={config.charLimit}
-      placeholder={config.placeholder ?? "Type your answer"}
+      placeholder={config.placeholder ? t(config.placeholder, lang) : "Type your answer"}
       onChange={(e) => onChange(e.target.value)}
       onKeyDown={(e) => {
         if (e.key === "Enter") {
@@ -243,6 +249,7 @@ function ChoiceInput({
   onChange: (v: Value) => void;
   locked: boolean;
 }) {
+  const { lang } = useContentLang();
   const selected = value[0];
   return (
     <div className="grid gap-2 sm:max-w-md">
@@ -267,7 +274,7 @@ function ChoiceInput({
             >
               {isSel ? "●" : ""}
             </span>
-            {opt.text}
+            {t(opt.text, lang)}
           </button>
         );
       })}

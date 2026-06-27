@@ -7,12 +7,15 @@
  * pool yet) — moving to Postgres later is mechanical because the shapes match.
  */
 
+import type { LocalizedText } from "@/lib/i18n";
+
 export type QuestionType =
   | "open"
   | "multiple_choice"
   | "true_false"
   | "match"
-  | "speaking";
+  | "speaking"
+  | "draft_compare";
 
 /** Open input — graded by normalization against accepted answers (no AI in MVP). */
 export interface OpenConfig {
@@ -22,12 +25,12 @@ export interface OpenConfig {
   /** Compare with case + punctuation intact (default false = normalized). */
   caseSensitive?: boolean;
   /** Placeholder shown in the empty field. */
-  placeholder?: string;
+  placeholder?: LocalizedText;
 }
 
 export interface ChoiceOption {
   id: string;
-  text: string;
+  text: LocalizedText;
 }
 
 export interface MultipleChoiceConfig {
@@ -65,23 +68,42 @@ export interface SpeakingConfig {
   maxSeconds?: number;
 }
 
+/**
+ * Draft & compare (HANDOFF §20.2) — a **non-graded** writing exercise. The learner
+ * drafts their own real text (a LinkedIn headline, an About summary, a message),
+ * then reveals a strong `model` answer and a self-check `checklist` to compare
+ * against. There's no right answer to grade against; it builds the muscle (and, in
+ * Phase 2, feeds the Career Kit). It auto-counts as "attempted" once revealed.
+ */
+export interface DraftCompareConfig {
+  /** Placeholder for the learner's textarea. */
+  placeholder?: LocalizedText;
+  /** A strong model answer, revealed after the learner writes their draft. */
+  model: LocalizedText;
+  /** Self-check bullet points shown alongside the model. */
+  checklist?: LocalizedText[];
+  /** Soft max length for the textarea. */
+  charLimit?: number;
+}
+
 export type QuestionConfig =
   | OpenConfig
   | MultipleChoiceConfig
   | TrueFalseConfig
   | MatchConfig
-  | SpeakingConfig;
+  | SpeakingConfig
+  | DraftCompareConfig;
 
 export interface Question {
   id: string;
   type: QuestionType;
   /** The thing the learner reads and answers. */
-  prompt: string;
-  hint?: string;
+  prompt: LocalizedText;
+  hint?: LocalizedText;
   points?: number;
   config: QuestionConfig;
   /** Shown after the learner answers (the "why"). */
-  explanation?: string;
+  explanation?: LocalizedText;
 }
 
 export type ContentType = "reading" | "image" | "svg" | "audio";
@@ -89,9 +111,9 @@ export type ContentType = "reading" | "image" | "svg" | "audio";
 export interface Content {
   id: string;
   type: ContentType;
-  title?: string;
+  title?: LocalizedText;
   /** Markdown / plain text for readings. */
-  body?: string;
+  body?: LocalizedText;
   /** For audio/image assets (pre-generated; Phase 2). */
   mediaUrl?: string;
   /** Text transcript for audio/read-aloud blocks. */
@@ -288,6 +310,14 @@ export interface Course {
   title: string;
   intro: string;
   acceptsGuests: boolean;
+  /**
+   * When true, the course's exercise/content fields are authored bilingually
+   * (`LocalizedText` `{en, es}`) and the lesson player shows an EN|ES toggle
+   * (HANDOFF §20.5). English-only courses omit this (their fields are plain strings).
+   */
+  bilingual?: boolean;
+  /** Optional Spanish version of `intro`, shown when bilingual + ES is selected. */
+  introEs?: string;
   units: Unit[];
   finalTest?: FinalTest;
   conclusion?: CourseConclusion;

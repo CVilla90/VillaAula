@@ -5,6 +5,8 @@ import type { Question, SpeakingConfig } from "@/lib/types";
 import { useRecorder } from "@/hooks/useRecorder";
 import { useSessionUser } from "@/components/auth/SessionProvider";
 import { RichText } from "@/components/RichText";
+import { t } from "@/lib/i18n";
+import { useContentLang } from "@/components/i18n/ContentLang";
 
 interface AnalyzeResult {
   transcription: string;
@@ -28,6 +30,7 @@ export default function SpeakingQuestion({
   onAnswered: (id: string, correct: boolean) => void;
 }) {
   const config = question.config as SpeakingConfig;
+  const { lang } = useContentLang();
   const { speakingEnabled } = useSessionUser();
   const { status, recording, seconds, maxSeconds, start, stop, reset } =
     useRecorder(config.maxSeconds ?? 15);
@@ -109,7 +112,7 @@ export default function SpeakingQuestion({
         </span>
         <div className="min-w-0 flex-1">
           <p className="font-display text-base font-medium leading-snug text-ink">
-            <RichText md={question.prompt} inline variant="prompt" />
+            <RichText md={t(question.prompt, lang)} inline variant="prompt" />
           </p>
           <p className="mt-3 inline-flex items-center gap-2 rounded-xl bg-cream/60 px-3.5 py-2">
             <MicIcon className="size-4 text-coral" />

@@ -6,19 +6,23 @@ import type { Course, Unit, Lesson } from "@/lib/types";
 import { lessonKey } from "@/lib/progress";
 import { getResource } from "@/content/resources";
 import { useProgress } from "@/components/progress/ProgressProvider";
+import { ContentLangToggle } from "@/components/i18n/ContentLang";
 import GrammarNote from "./GrammarNote";
 import ReadingBlock from "./ReadingBlock";
 import QuestionCard from "./QuestionCard";
 import SpeakingQuestion from "./SpeakingQuestion";
+import DraftCompare from "./DraftCompare";
 
 export default function LessonPlayer({
   course,
   unit,
   lesson,
+  courseNoun = "Level",
 }: {
   course: Course;
   unit: Unit;
   lesson: Lesson;
+  courseNoun?: string;
 }) {
   const total = useMemo(
     () => lesson.exercise.items.filter((i) => i.kind === "question").length,
@@ -57,10 +61,13 @@ export default function LessonPlayer({
           href={`/course/${course.slug}`}
           className="font-mono text-xs text-muted transition hover:text-coral"
         >
-          ← Level {course.level} · {unit.title}
+          ← {courseNoun} {course.level} · {unit.title}
         </Link>
-        <span className="font-mono text-xs text-muted">
-          Lesson {lessonIndex + 1} / {unit.lessons.length}
+        <span className="flex items-center gap-3">
+          {course.bilingual && <ContentLangToggle />}
+          <span className="font-mono text-xs text-muted">
+            Lesson {lessonIndex + 1} / {unit.lessons.length}
+          </span>
         </span>
       </div>
 
@@ -118,6 +125,13 @@ export default function LessonPlayer({
             <ReadingBlock key={item.content.id} content={item.content} />
           ) : item.question.type === "speaking" ? (
             <SpeakingQuestion
+              key={item.question.id}
+              question={item.question}
+              index={++qNum}
+              onAnswered={(id, ok) => setResults((r) => ({ ...r, [id]: ok }))}
+            />
+          ) : item.question.type === "draft_compare" ? (
+            <DraftCompare
               key={item.question.id}
               question={item.question}
               index={++qNum}

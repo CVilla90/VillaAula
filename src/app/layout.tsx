@@ -6,6 +6,7 @@ import { getCurrentUser } from "@/lib/auth/users";
 import { geminiConfigured } from "@/lib/ai/gemini";
 import { SessionProvider } from "@/components/auth/SessionProvider";
 import { ProgressProvider } from "@/components/progress/ProgressProvider";
+import { ContentLangProvider } from "@/components/i18n/ContentLang";
 import TopBar from "@/components/TopBar";
 import { BRAND } from "@/lib/site";
 import { featuredProgram } from "@/content/programs";
@@ -55,8 +56,10 @@ export default async function RootLayout({
       <body className="min-h-full">
         <SessionProvider value={session}>
           <ProgressProvider>
-            <TopBar />
-            {children}
+            <ContentLangProvider>
+              <TopBar />
+              {children}
+            </ContentLangProvider>
           </ProgressProvider>
         </SessionProvider>
       </body>

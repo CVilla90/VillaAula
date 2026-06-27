@@ -2,15 +2,20 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { Content } from "@/lib/types";
+import { t } from "@/lib/i18n";
+import { useContentLang } from "@/components/i18n/ContentLang";
 
 const SPEEDS = [0.75, 1, 1.15] as const;
 
 export default function AudioBlock({ content }: { content: Content }) {
+  const { lang } = useContentLang();
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [speed, setSpeed] = useState<(typeof SPEEDS)[number]>(0.75);
   const [speaking, setSpeaking] = useState(false);
   const [speechSupported, setSpeechSupported] = useState(false);
-  const transcript = content.transcript ?? content.body ?? "";
+  const transcript =
+    content.transcript ?? (content.body ? t(content.body, lang) : "");
+  const title = content.title ? t(content.title, lang) : "";
   const canReadAloud = !content.mediaUrl && transcript.length > 0 && speechSupported;
 
   useEffect(() => {
@@ -52,9 +57,9 @@ export default function AudioBlock({ content }: { content: Content }) {
           <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">
             Audio
           </p>
-          {content.title && (
+          {title && (
             <h3 className="mt-1 font-display text-base font-bold">
-              {content.title}
+              {title}
             </h3>
           )}
         </div>

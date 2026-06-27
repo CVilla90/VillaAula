@@ -25,11 +25,13 @@ import type {
   TrueFalseConfig,
   MatchConfig,
   SpeakingConfig,
+  DraftCompareConfig,
   Exercise,
   Resource,
   Program,
   Category,
 } from "@/lib/types";
+import { localizedNonEmpty } from "@/lib/i18n";
 import { extractLearnSlugs, lessonReferencedSlugs } from "@/content/links";
 import { programBadges } from "@/content/programs";
 
@@ -47,6 +49,12 @@ function nonEmpty(s: unknown): s is string {
 
 function validateQuestion(q: Question): string[] {
   const out: string[] = [];
+  // Every question's prompt must resolve to non-empty text (both arms for a
+  // bilingual `{en, es}` field — HANDOFF §20.5), so a half-translated prompt
+  // can't ship blank.
+  if (!localizedNonEmpty(q.prompt)) {
+    out.push("question has a blank or half-translated prompt");
+  }
   switch (q.type) {
     case "open": {
       const c = q.config as OpenConfig;
@@ -65,6 +73,9 @@ function validateQuestion(q: Question): string[] {
       const ids = (c.options ?? []).map((o) => o.id);
       if (new Set(ids).size !== ids.length) {
         out.push("multiple_choice has duplicate option ids");
+      }
+      if (!(c.options ?? []).every((o) => localizedNonEmpty(o.text))) {
+        out.push("multiple_choice has a blank or half-translated option");
       }
       if (!Array.isArray(c.correctIds) || c.correctIds.length === 0) {
         out.push("multiple_choice has no correctIds");
@@ -103,6 +114,16 @@ function validateQuestion(q: Question): string[] {
         out.push("speaking question has no acceptedAnswers");
       } else if (!c.acceptedAnswers.every(nonEmpty)) {
         out.push("speaking question has a blank accepted answer");
+      }
+      break;
+    }
+    case "draft_compare": {
+      const c = q.config as DraftCompareConfig;
+      if (!localizedNonEmpty(c.model)) {
+        out.push("draft_compare has a blank or half-translated model answer");
+      }
+      if (c.checklist && !c.checklist.every((item) => localizedNonEmpty(item))) {
+        out.push("draft_compare has a blank or half-translated checklist item");
       }
       break;
     }

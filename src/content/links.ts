@@ -1,4 +1,11 @@
 import type { Lesson } from "@/lib/types";
+import type { LocalizedText } from "@/lib/i18n";
+
+/** Every string variant of a LocalizedText (both EN and ES for a bilingual field). */
+function allText(value: LocalizedText | undefined): string[] {
+  if (value == null) return [];
+  return typeof value === "string" ? [value] : [value.en, value.es];
+}
 
 /**
  * Pull every `/learn/<slug>` target out of the `[label](/learn/slug)` links in a
@@ -24,7 +31,7 @@ export function lessonReferencedSlugs(lesson: Lesson): string[] {
   const slugs = new Set<string>(lesson.deepDives ?? []);
   const texts = [lesson.grammarNote, lesson.grammarNoteEs ?? ""];
   for (const item of lesson.exercise.items) {
-    if (item.kind === "content" && item.content.body) texts.push(item.content.body);
+    if (item.kind === "content") texts.push(...allText(item.content.body));
   }
   for (const t of texts) for (const s of extractLearnSlugs(t)) slugs.add(s);
   return [...slugs];

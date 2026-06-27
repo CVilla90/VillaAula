@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getCourse } from "@/content/catalog";
+import { programForCourse } from "@/content/programs";
 import FinalTestPlayer from "@/components/exercise/FinalTestPlayer";
 
 export default async function FinalTestPage({
@@ -12,5 +13,13 @@ export default async function FinalTestPage({
 
   if (!course?.finalTest) notFound();
 
-  return <FinalTestPlayer course={course} test={course.finalTest} />;
+  const courseNoun = programForCourse(course.slug)?.courseNoun ?? "Level";
+
+  return (
+    <FinalTestPlayer
+      course={course}
+      test={course.finalTest}
+      courseNoun={courseNoun}
+    />
+  );
 }

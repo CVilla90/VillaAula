@@ -88,5 +88,9 @@ export function gradeQuestion(q: Question, response: QuestionResponse): boolean 
       // Speaking is graded asynchronously server-side (lib/ai/gemini.ts) from a
       // transcription, not through this synchronous path.
       return false;
+    case "draft_compare":
+      // Non-graded (HANDOFF §20.2): the learner self-assesses against a model.
+      // Revealing the model marks it attempted; it always "counts" as done.
+      return true;
   }
 }

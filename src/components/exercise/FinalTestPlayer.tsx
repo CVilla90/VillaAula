@@ -7,6 +7,7 @@ import { finalTestKey } from "@/lib/progress";
 import { useProgress } from "@/components/progress/ProgressProvider";
 import { useSessionUser } from "@/components/auth/SessionProvider";
 import { recordExamResult } from "@/lib/auth/exam-actions";
+import { ContentLangToggle } from "@/components/i18n/ContentLang";
 import QuestionCard from "./QuestionCard";
 import ReadingBlock from "./ReadingBlock";
 import SpeakingQuestion from "./SpeakingQuestion";
@@ -14,9 +15,11 @@ import SpeakingQuestion from "./SpeakingQuestion";
 export default function FinalTestPlayer({
   course,
   test,
+  courseNoun = "Level",
 }: {
   course: Course;
   test: FinalTest;
+  courseNoun?: string;
 }) {
   const total = useMemo(
     () => test.exercise.items.filter((item) => item.kind === "question").length,
@@ -52,12 +55,15 @@ export default function FinalTestPlayer({
 
   return (
     <main className="mx-auto max-w-2xl px-5 py-10">
-      <Link
-        href={`/course/${course.slug}`}
-        className="font-mono text-xs text-muted transition hover:text-coral"
-      >
-        &larr; Level {course.level}
-      </Link>
+      <div className="flex items-center justify-between gap-3">
+        <Link
+          href={`/course/${course.slug}`}
+          className="font-mono text-xs text-muted transition hover:text-coral"
+        >
+          &larr; {courseNoun} {course.level}
+        </Link>
+        {course.bilingual && <ContentLangToggle />}
+      </div>
 
       <p className="mt-6 font-mono text-xs tracking-[0.2em] text-coral">
         FINAL CHECK
@@ -130,7 +136,7 @@ export default function FinalTestPlayer({
                 href={`/course/${course.slug}/conclusion`}
                 className="rounded-full bg-coral px-6 py-3 font-display text-sm font-bold text-white transition hover:bg-coral-deep"
               >
-                Finish Level {course.level} &rarr;
+                Finish {courseNoun} {course.level} &rarr;
               </Link>
             </div>
           )}
