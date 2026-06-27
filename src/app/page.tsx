@@ -17,7 +17,8 @@ import {
   resolveProgramCourses,
   firstActiveCourse,
 } from "@/content/programs";
-import { BRAND, BRAND_NOTE, BYLINE, COPYRIGHT_YEAR, SUPPORT_URL } from "@/lib/site";
+import SupportProject from "@/components/SupportProject";
+import { BRAND_NOTE, BYLINE, COPYRIGHT_YEAR } from "@/lib/site";
 
 const FEATURES = [
   {
@@ -336,38 +337,6 @@ function ProgressRing({ percent }: { percent: number }) {
         {percent}%
       </span>
     </div>
-  );
-}
-
-function SupportProject() {
-  return (
-    <details className="group max-w-md text-[13px]">
-      <summary className="inline-flex cursor-pointer list-none items-center gap-1.5 text-muted transition hover:text-ink [&::-webkit-details-marker]:hidden">
-        <span aria-hidden>♡</span>
-        <span className="font-medium">Support this project</span>
-        <span
-          aria-hidden
-          className="text-[10px] transition-transform group-open:rotate-180"
-        >
-          ⌄
-        </span>
-      </summary>
-      <div className="mt-3 rounded-2xl border border-line bg-paper/60 p-4 leading-relaxed text-muted">
-        <p>
-          {BRAND} is completely free to use. It does have hosting and
-          maintenance costs, though — if it&apos;s helped you, you&apos;re welcome
-          to chip in whatever you like. No pressure at all.
-        </p>
-        <a
-          href={SUPPORT_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-3 inline-flex items-center gap-2 rounded-full border border-coral/30 bg-coral/5 px-4 py-2 text-sm font-semibold text-coral-deep transition hover:bg-coral/10"
-        >
-          <span aria-hidden>❤️</span> Chip in
-        </a>
-      </div>
-    </details>
   );
 }
 
