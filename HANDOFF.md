@@ -241,6 +241,19 @@ SSG/static pages incl. `/programs/linkedin`). Runtime-verified on a fresh dev se
   the go-live **DB**. Also each unit is **one lesson** for now (solid basics); more lessons per unit
   is easy AI-authored follow-up. The single-course program still shows the full dashboard (the §19
   "collapse straight into the course" is optional polish, deferred).
+- 🔧 **Follow-up (same session, Carlos's feedback) — Spanish mode is now genuinely Spanish.** In ES mode
+  the snippet cards + match items were still English. Fixed: **`MatchPair.left/right` are now `LocalizedText`**
+  (grading/readiness resolve in the active language — `gradeMatch`/`gradeQuestion`/`isReady`/`MatchInput`
+  thread `lang`, default `"en"` so the English courses + existing tests are untouched; the validator dedupes
+  on the EN arm + checks both arms). Translated **all** LinkedIn example content to native ES — the 3 match
+  exercises, the impact-bullet MCQs (U4 + capstone), and the 5 draft-compare models — **keeping real
+  keywords/tools/metrics in English** (React & Node, SQL, HubSpot, Google Ads, CSAT, SEO, B2B SaaS…).
+  Snippet cards show the **English artifact + a Spanish gloss**; the job-post card keeps its keywords English
+  on purpose (they're what the profile must echo); section names (Headline/About/Featured/Recommendations)
+  keep the English UI term + an ES gloss. Tests: completeness walker now covers match pairs + a bilingual
+  `gradeMatch` case (**91 tests**). Re-gated (tsc/eslint/build) + ES payloads runtime-verified on the lessons.
+  **Authoring rule going forward:** in a bilingual course, *instructions/prose* → native target language;
+  *keywords/tools/proper UI names* → stay English; concrete English artifacts → English + a short gloss.
 - **NEXT:** §20 **Phase 2** (rides the go-live DB) · more lessons per LinkedIn unit · Carlos's Replit
   go-live (§17). The English program is unchanged and still green.
 
