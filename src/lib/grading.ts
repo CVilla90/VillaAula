@@ -11,6 +11,7 @@ import type {
   TrueFalseConfig,
   MatchConfig,
 } from "./types";
+import { t, type Lang } from "./i18n";
 
 /** lowercase, trim, strip accents + punctuation, collapse whitespace. */
 export function normalize(input: string): string {
@@ -45,12 +46,17 @@ export function gradeTrueFalse(value: boolean, config: TrueFalseConfig): boolean
   return value === config.correct;
 }
 
-/** `answer` maps each left label to the right label the learner paired with it. */
+/**
+ * `answer` maps each (resolved) left label to the right label the learner paired
+ * with it. Pairs may be bilingual (`LocalizedText`), so both sides are resolved in
+ * the active language — the player keys the answer the same way (§20.5).
+ */
 export function gradeMatch(
   answer: Record<string, string>,
   config: MatchConfig,
+  lang: Lang = "en",
 ): boolean {
-  return config.pairs.every((p) => answer[p.left] === p.right);
+  return config.pairs.every((p) => answer[t(p.left, lang)] === t(p.right, lang));
 }
 
 export type QuestionResponse =
@@ -60,7 +66,11 @@ export type QuestionResponse =
   | Record<string, string>; // match
 
 /** Single entry point used by the UI. Returns whether the response is correct. */
-export function gradeQuestion(q: Question, response: QuestionResponse): boolean {
+export function gradeQuestion(
+  q: Question,
+  response: QuestionResponse,
+  lang: Lang = "en",
+): boolean {
   switch (q.type) {
     case "open":
       return gradeOpen(
@@ -83,6 +93,7 @@ export function gradeQuestion(q: Question, response: QuestionResponse): boolean 
           ? (response as Record<string, string>)
           : {},
         q.config as MatchConfig,
+        lang,
       );
     case "speaking":
       // Speaking is graded asynchronously server-side (lib/ai/gemini.ts) from a

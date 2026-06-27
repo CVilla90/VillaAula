@@ -175,7 +175,7 @@ export const linkedin: Course = {
                   },
                   body: {
                     en: "**A.** `Aspiring Software Developer | Looking for opportunities`\n\n**B.** `Junior Software Developer · I build clean, tested web apps in React & Node · open to junior roles`",
-                    es: "**A.** `Aspiring Software Developer | Looking for opportunities`\n\n**B.** `Junior Software Developer · I build clean, tested web apps in React & Node · open to junior roles`",
+                    es: "*(El titular real va en inglés — abajo, en cursiva, lo que dice.)*\n\n**A.** `Aspiring Software Developer | Looking for opportunities`\n*Aspirante a desarrollador de software · «en busca de oportunidades».*\n\n**B.** `Junior Software Developer · I build clean, tested web apps in React & Node · open to junior roles`\n*Desarrollador junior · creo apps web limpias y probadas en React & Node · abierto a puestos junior.*",
                   },
                 },
               },
@@ -235,7 +235,7 @@ export const linkedin: Course = {
                     },
                     model: {
                       en: "`UX Designer · I design calm, usable flows for fintech apps · Figma, user research · open to mid-level roles`\n\nNotice: a role, a specific value (\"calm, usable flows\"), a domain (fintech), tools (Figma), and a clear ask.",
-                      es: "`UX Designer · I design calm, usable flows for fintech apps · Figma, user research · open to mid-level roles`\n\nFíjate: un rol, un valor específico (\"calm, usable flows\"), un dominio (fintech), herramientas (Figma) y una petición clara.",
+                      es: "`UX Designer · I design calm, usable flows for fintech apps · Figma, user research · open to mid-level roles`\n\n*Traducción:* `UX Designer · diseño flujos claros y usables para apps fintech · Figma, user research · abierto a puestos intermedios`.\n\nFíjate: un rol, un valor específico («flujos claros y usables»), un dominio (fintech), herramientas (Figma) y una petición clara. Las herramientas (**Figma**, **React**…) y los términos técnicos se quedan en inglés.",
                     },
                     checklist: [
                       {
@@ -329,10 +329,34 @@ export const linkedin: Course = {
                   points: 1,
                   config: {
                     pairs: [
-                      { left: "“I help small clinics fill their calendars.”", right: "Hook" },
-                      { left: "“Last year I cut no-shows by 30%.”", right: "Proof" },
-                      { left: "“Tools: HubSpot, SQL, Google Ads.”", right: "Keywords" },
-                      { left: "“Open to growth-marketing roles — DM me.”", right: "Ask" },
+                      {
+                        left: {
+                          en: "“I help small clinics fill their calendars.”",
+                          es: "«Ayudo a clínicas pequeñas a llenar su agenda.»",
+                        },
+                        right: { en: "Hook", es: "Gancho" },
+                      },
+                      {
+                        left: {
+                          en: "“Last year I cut no-shows by 30%.”",
+                          es: "«El año pasado reduje las ausencias un 30%.»",
+                        },
+                        right: { en: "Proof", es: "Prueba" },
+                      },
+                      {
+                        left: {
+                          en: "“Tools: HubSpot, SQL, Google Ads.”",
+                          es: "«Herramientas: HubSpot, SQL, Google Ads.»",
+                        },
+                        right: { en: "Keywords", es: "Palabras clave" },
+                      },
+                      {
+                        left: {
+                          en: "“Open to growth-marketing roles — DM me.”",
+                          es: "«Abierto a puestos de growth-marketing — escríbeme por DM.»",
+                        },
+                        right: { en: "Ask", es: "Petición" },
+                      },
                     ],
                   },
                   explanation: {
@@ -358,7 +382,7 @@ export const linkedin: Course = {
                     },
                     model: {
                       en: "“I help early-stage teams turn vague ideas into shipped features. In my last role I led the rebuild of a checkout flow that lifted conversion 18% in two months.”\n\nIt opens with *who you help*, then backs it with one concrete, measurable result.",
-                      es: "“I help early-stage teams turn vague ideas into shipped features. In my last role I led the rebuild of a checkout flow that lifted conversion 18% in two months.”\n\nAbre con *a quién ayudas* y lo respalda con un resultado concreto y medible.",
+                      es: "«Ayudo a equipos en etapa temprana a convertir ideas vagas en funciones lanzadas. En mi último puesto lideré la reconstrucción de un flujo de checkout que subió la conversión un 18% en dos meses.»\n\nAbre con *a quién ayudas* y lo respalda con un resultado concreto y medible.",
                     },
                     checklist: [
                       {
@@ -428,11 +452,26 @@ export const linkedin: Course = {
                   points: 1,
                   config: {
                     options: [
-                      { id: "a", text: "Responsible for customer support tickets" },
-                      { id: "b", text: "Handled customer support" },
+                      {
+                        id: "a",
+                        text: {
+                          en: "Responsible for customer support tickets",
+                          es: "Responsable de los tickets de soporte al cliente",
+                        },
+                      },
+                      {
+                        id: "b",
+                        text: {
+                          en: "Handled customer support",
+                          es: "Me encargué del soporte al cliente",
+                        },
+                      },
                       {
                         id: "c",
-                        text: "Resolved 40+ support tickets a day and raised CSAT from 78% to 91%",
+                        text: {
+                          en: "Resolved 40+ support tickets a day and raised CSAT from 78% to 91%",
+                          es: "Resolví más de 40 tickets de soporte al día y subí el CSAT de 78% a 91%",
+                        },
                       },
                     ],
                     correctIds: ["c"],
@@ -481,7 +520,7 @@ export const linkedin: Course = {
                     },
                     model: {
                       en: "Duty: “Helped organize company events.”\n\nImpact: “Planned 6 company events for 200+ attendees, cutting catering costs 15% by renegotiating vendors.”",
-                      es: "Función: “Helped organize company events.”\n\nImpacto: “Planned 6 company events for 200+ attendees, cutting catering costs 15% by renegotiating vendors.”",
+                      es: "Función: «Ayudé a organizar eventos de la empresa.»\n\nImpacto: «Organicé 6 eventos para más de 200 asistentes y reduje el costo de catering un 15% al renegociar con proveedores.»",
                     },
                     checklist: [
                       {
@@ -647,7 +686,7 @@ export const linkedin: Course = {
                   },
                   body: {
                     en: "**A.** *(no note — blank request)*\n\n**B.** “Hi Dana — I'm a junior data analyst following your posts on dashboards. Would love to connect and keep learning from them.”",
-                    es: "**A.** *(sin nota — invitación en blanco)*\n\n**B.** “Hi Dana — I'm a junior data analyst following your posts on dashboards. Would love to connect and keep learning from them.”",
+                    es: "**A.** *(sin nota — invitación en blanco)*\n\n**B.** «Hola Dana — soy analista de datos junior y sigo tus publicaciones sobre dashboards. Me encantaría conectar y seguir aprendiendo de ellas.»",
                   },
                 },
               },
@@ -710,7 +749,7 @@ export const linkedin: Course = {
                     },
                     model: {
                       en: "“Hi Marco — I'm switching into product from support and really valued your post on writing specs. Hoping to connect and follow your work as I make the jump.”",
-                      es: "“Hi Marco — I'm switching into product from support and really valued your post on writing specs. Hoping to connect and follow your work as I make the jump.”",
+                      es: "«Hola Marco — estoy cambiando de soporte a product y me sirvió mucho tu publicación sobre cómo escribir specs. Espero conectar y seguir tu trabajo mientras doy el salto.»",
                     },
                     checklist: [
                       {
@@ -779,7 +818,7 @@ export const linkedin: Course = {
                   },
                   body: {
                     en: "*“We're hiring a Content Marketer. You'll own our SEO blog, run our email newsletter, and report on traffic in Google Analytics. Must have strong writing and 2+ years in B2B SaaS.”*",
-                    es: "*“We're hiring a Content Marketer. You'll own our SEO blog, run our email newsletter, and report on traffic in Google Analytics. Must have strong writing and 2+ years in B2B SaaS.”*",
+                    es: "*«Buscamos un Content Marketer. Te encargarás de nuestro blog de SEO, llevarás el email newsletter y reportarás el tráfico en Google Analytics. Imprescindible buena redacción y más de 2 años en B2B SaaS.»*\n\n*(Las habilidades y herramientas — SEO, Google Analytics, B2B SaaS — se dejan en inglés: son las palabras clave que tu perfil debe reflejar.)*",
                   },
                 },
               },
@@ -884,9 +923,27 @@ export const linkedin: Course = {
                   points: 1,
                   config: {
                     pairs: [
-                      { left: "“I saw you work on the data team at Acme…”", right: "Reason you're writing" },
-                      { left: "“…is there one skill that stands out for the analyst role?”", right: "Small specific ask" },
-                      { left: "“No worries at all if you're swamped.”", right: "Easy out" },
+                      {
+                        left: {
+                          en: "“I saw you work on the data team at Acme…”",
+                          es: "«Vi que trabajas en el equipo de datos de Acme…»",
+                        },
+                        right: { en: "Reason you're writing", es: "La razón por la que escribes" },
+                      },
+                      {
+                        left: {
+                          en: "“…is there one skill that stands out for the analyst role?”",
+                          es: "«…¿hay una habilidad que destaque para el puesto de analista?»",
+                        },
+                        right: { en: "Small specific ask", es: "Petición pequeña y específica" },
+                      },
+                      {
+                        left: {
+                          en: "“No worries at all if you're swamped.”",
+                          es: "«Sin problema si andas a tope de trabajo.»",
+                        },
+                        right: { en: "Easy out", es: "Salida fácil" },
+                      },
                     ],
                   },
                   explanation: {
@@ -929,7 +986,7 @@ export const linkedin: Course = {
                     },
                     model: {
                       en: "“Hi Priya — I just applied for the junior PM role and noticed you're on that team. Is there one thing you'd say matters most for it? Completely understand if you're busy — thanks either way!”",
-                      es: "“Hi Priya — I just applied for the junior PM role and noticed you're on that team. Is there one thing you'd say matters most for it? Completely understand if you're busy — thanks either way!”",
+                      es: "«Hola Priya — acabo de aplicar al puesto de PM junior y vi que estás en ese equipo. ¿Hay algo que dirías que importa más para ese rol? Entiendo perfecto si estás ocupada — ¡gracias de todos modos!»",
                     },
                     checklist: [
                       {
@@ -1026,12 +1083,24 @@ export const linkedin: Course = {
             points: 1,
             config: {
               options: [
-                { id: "a", text: "Responsible for managing social media accounts" },
+                {
+                  id: "a",
+                  text: {
+                    en: "Responsible for managing social media accounts",
+                    es: "Responsable de gestionar cuentas de redes sociales",
+                  },
+                },
                 {
                   id: "b",
-                  text: "Grew Instagram from 1k to 9k followers in 6 months with a weekly content plan",
+                  text: {
+                    en: "Grew Instagram from 1k to 9k followers in 6 months with a weekly content plan",
+                    es: "Hice crecer Instagram de 1k a 9k seguidores en 6 meses con un plan de contenido semanal",
+                  },
                 },
-                { id: "c", text: "Worked on social media" },
+                {
+                  id: "c",
+                  text: { en: "Worked on social media", es: "Trabajé en redes sociales" },
+                },
               ],
               correctIds: ["b"],
             },
@@ -1053,10 +1122,22 @@ export const linkedin: Course = {
             points: 1,
             config: {
               pairs: [
-                { left: "Headline", right: "Get the click / be searchable" },
-                { left: "About", right: "Tell your story in your voice" },
-                { left: "Featured", right: "Show concrete proof of work" },
-                { left: "Recommendations", right: "Third-party trust" },
+                {
+                  left: { en: "Headline", es: "Headline (titular)" },
+                  right: { en: "Get the click / be searchable", es: "Conseguir el clic / ser buscable" },
+                },
+                {
+                  left: { en: "About", es: "About (Acerca de)" },
+                  right: { en: "Tell your story in your voice", es: "Contar tu historia con tu voz" },
+                },
+                {
+                  left: { en: "Featured", es: "Featured (Destacado)" },
+                  right: { en: "Show concrete proof of work", es: "Mostrar prueba concreta de tu trabajo" },
+                },
+                {
+                  left: { en: "Recommendations", es: "Recommendations (Recomendaciones)" },
+                  right: { en: "Third-party trust", es: "Confianza de terceros" },
+                },
               ],
             },
             explanation: {

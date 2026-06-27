@@ -9,7 +9,7 @@ import type {
 } from "@/lib/types";
 import { gradeQuestion, type QuestionResponse } from "@/lib/grading";
 import { RichText } from "@/components/RichText";
-import { t } from "@/lib/i18n";
+import { t, type Lang } from "@/lib/i18n";
 import { useContentLang } from "@/components/i18n/ContentLang";
 
 type Value = string | string[] | boolean | Record<string, string> | null;
@@ -28,10 +28,10 @@ export default function QuestionCard({
   const [checked, setChecked] = useState(false);
   const [correct, setCorrect] = useState(false);
 
-  const ready = isReady(question, value);
+  const ready = isReady(question, value, lang);
 
   function handleCheck() {
-    const ok = gradeQuestion(question, value as QuestionResponse);
+    const ok = gradeQuestion(question, value as QuestionResponse, lang);
     setChecked(true);
     setCorrect(ok);
     onAnswered(question.id, ok);
@@ -133,7 +133,7 @@ function initialValue(q: Question): Value {
   }
 }
 
-function isReady(q: Question, v: Value): boolean {
+function isReady(q: Question, v: Value, lang: Lang): boolean {
   switch (q.type) {
     case "open":
       return typeof v === "string" && v.trim().length > 0;
@@ -147,7 +147,7 @@ function isReady(q: Question, v: Value): boolean {
         !!v &&
         typeof v === "object" &&
         !Array.isArray(v) &&
-        cfg.pairs.every((p) => Boolean((v as Record<string, string>)[p.left]))
+        cfg.pairs.every((p) => Boolean((v as Record<string, string>)[t(p.left, lang)]))
       );
     }
     case "speaking":
@@ -330,13 +330,20 @@ function MatchInput({
   onChange: (v: Value) => void;
   locked: boolean;
 }) {
+  const { lang } = useContentLang();
+  // Resolve bilingual pairs to the active language; key the answer by the resolved
+  // left so grading (which resolves the same way) lines up.
+  const pairs = config.pairs.map((p) => ({
+    left: t(p.left, lang),
+    right: t(p.right, lang),
+  }));
   // Sort the choices so they don't line up with the prompts (no positional
   // giveaway); the sort is deterministic, so it's stable across SSR/hydration.
-  const rights = [...new Set(config.pairs.map((p) => p.right))].sort();
+  const rights = [...new Set(pairs.map((p) => p.right))].sort();
 
   return (
     <div className="grid gap-2">
-      {config.pairs.map((p) => (
+      {pairs.map((p) => (
         <div key={p.left} className="flex items-center gap-3">
           <span className="min-w-[42%] text-sm font-medium text-ink">
             {p.left}

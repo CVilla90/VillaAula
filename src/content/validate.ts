@@ -31,7 +31,7 @@ import type {
   Program,
   Category,
 } from "@/lib/types";
-import { localizedNonEmpty } from "@/lib/i18n";
+import { localizedNonEmpty, t } from "@/lib/i18n";
 import { extractLearnSlugs, lessonReferencedSlugs } from "@/content/links";
 import { programBadges } from "@/content/programs";
 
@@ -96,12 +96,13 @@ function validateQuestion(q: Question): string[] {
       if (!Array.isArray(c.pairs) || c.pairs.length === 0) {
         out.push("match has no pairs");
       }
-      const lefts = (c.pairs ?? []).map((p) => p.left);
+      // Dedup on the English (always-present) arm; bilingual pairs translate in lockstep.
+      const lefts = (c.pairs ?? []).map((p) => t(p.left, "en"));
       if (new Set(lefts).size !== lefts.length) {
         out.push("match has duplicate left labels");
       }
-      if (!(c.pairs ?? []).every((p) => nonEmpty(p.left) && nonEmpty(p.right))) {
-        out.push("match has a blank left/right");
+      if (!(c.pairs ?? []).every((p) => localizedNonEmpty(p.left) && localizedNonEmpty(p.right))) {
+        out.push("match has a blank or half-translated left/right");
       }
       break;
     }

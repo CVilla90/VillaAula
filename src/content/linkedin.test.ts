@@ -15,9 +15,15 @@ function localizedValues(course: Course): LocalizedText[] {
     push(q.prompt);
     push(q.hint);
     push(q.explanation);
-    const cfg = q.config as Record<string, unknown>;
+    const cfg = q.config as unknown as Record<string, unknown>;
     if (q.type === "multiple_choice") {
       for (const o of (cfg.options as { text: LocalizedText }[]) ?? []) push(o.text);
+    }
+    if (q.type === "match") {
+      for (const p of (cfg.pairs as { left: LocalizedText; right: LocalizedText }[]) ?? []) {
+        push(p.left);
+        push(p.right);
+      }
     }
     if (q.type === "open") push(cfg.placeholder as LocalizedText | undefined);
     if (q.type === "draft_compare") {

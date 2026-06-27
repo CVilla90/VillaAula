@@ -77,6 +77,20 @@ describe("gradeMatch", () => {
   it("rejects a missing pairing", () => {
     expect(gradeMatch({ A: "1" }, cfg)).toBe(false);
   });
+
+  it("resolves bilingual pairs in the active language", () => {
+    const biCfg = {
+      pairs: [
+        { left: { en: "Hook", es: "Gancho" }, right: { en: "Open", es: "Abrir" } },
+        { left: { en: "Ask", es: "Petición" }, right: { en: "Close", es: "Cerrar" } },
+      ],
+    };
+    // The player keys the answer by the resolved left, in the active language.
+    expect(gradeMatch({ Hook: "Open", Ask: "Close" }, biCfg, "en")).toBe(true);
+    expect(gradeMatch({ Gancho: "Abrir", Petición: "Cerrar" }, biCfg, "es")).toBe(true);
+    // English keys don't grade as correct when the active language is Spanish.
+    expect(gradeMatch({ Hook: "Open", Ask: "Close" }, biCfg, "es")).toBe(false);
+  });
 });
 
 describe("gradeQuestion dispatch", () => {

@@ -45,8 +45,8 @@ export interface TrueFalseConfig {
 }
 
 export interface MatchPair {
-  left: string;
-  right: string;
+  left: LocalizedText;
+  right: LocalizedText;
 }
 
 export interface MatchConfig {
