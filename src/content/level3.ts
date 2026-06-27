@@ -41,6 +41,14 @@ export const level3: Course = {
             "Negative: **wasn't / weren't** + -ing. Question: *__Were__ you working?*",
             "It's the background, not a finished event.",
           ].join("\n"),
+          grammarNoteEs: [
+            "El **past continuous** describe una acción **en progreso** en un momento del pasado:",
+            "**was / were + verb-ing.**",
+            "- I / he / she / it **was** working. · you / we / they **were** working.",
+            "",
+            "Negativo: **wasn't / weren't** + -ing. Pregunta: *__Were__ you working?*",
+            "Es el fondo de la escena, no un evento terminado.",
+          ].join("\n"),
           exercise: {
             id: "c3u1l1-ex",
             title: "Practice: in progress",
@@ -100,6 +108,13 @@ export const level3: Course = {
             "*I **was sleeping** **when** the phone **rang**.*",
             "",
             "The continuous = the background; the simple past = the interruption.",
+          ].join("\n"),
+          grammarNoteEs: [
+            "Una acción larga **en progreso** (past continuous) puede ser **interrumpida** por una acción",
+            "corta (simple past). Únelas con **when**:",
+            "*I **was sleeping** **when** the phone **rang**.*",
+            "",
+            "El continuous = el fondo; el simple past = la interrupción.",
           ].join("\n"),
           exercise: {
             id: "c3u1l2-ex",
@@ -190,6 +205,11 @@ export const level3: Course = {
             "*At midnight, they **were** still **dancing**. · At nine, I **was driving** to work.*",
             "Ask: *__What were you doing__ at seven?*",
           ].join("\n"),
+          grammarNoteEs: [
+            "Usa el **past continuous** para decir qué estaba pasando **en un momento específico del pasado**:",
+            "*At midnight, they **were** still **dancing**. · At nine, I **was driving** to work.*",
+            "Pregunta: *__What were you doing__ at seven?*",
+          ].join("\n"),
           exercise: {
             id: "c3u1l3-ex",
             title: "Practice: at that time",
@@ -248,6 +268,11 @@ export const level3: Course = {
             "past continuous for both:",
             "*__While__ I **was cooking**, she **was studying**.*",
           ].join("\n"),
+          grammarNoteEs: [
+            "Cuando **dos acciones** estaban en progreso **al mismo tiempo**, usa **while** y el",
+            "past continuous para las dos:",
+            "*__While__ I **was cooking**, she **was studying**.*",
+          ].join("\n"),
           exercise: {
             id: "c3u1l4-ex",
             title: "Practice: at the same time",
@@ -304,6 +329,11 @@ export const level3: Course = {
           grammarNote: [
             "Stories often open with the **past continuous** to paint the **scene** — everything",
             "that was going on in the background:",
+            "*It **was raining**. People **were hurrying** home. A man **was waiting** on the corner.*",
+          ].join("\n"),
+          grammarNoteEs: [
+            "Las historias suelen empezar con el **past continuous** para pintar la **escena** — todo",
+            "lo que estaba pasando en el fondo:",
             "*It **was raining**. People **were hurrying** home. A man **was waiting** on the corner.*",
           ].join("\n"),
           exercise: {
@@ -385,12 +415,21 @@ export const level3: Course = {
           slug: "present-perfect",
           title: "What have you done?",
           topic: "present perfect · have/has + participle",
+          deepDives: ["present-perfect"],
           grammarNote: [
             "The **present perfect** connects the past to **now** — an experience or a result:",
             "**have / has + past participle.**",
             "*I **have visited** Japan. · She **has finished** the report.*",
             "",
             "Participles: regular add **-ed**; common irregulars: *be → been, see → seen,",
+            "do → done, go → gone, eat → eaten.*",
+          ].join("\n"),
+          grammarNoteEs: [
+            "El **present perfect** conecta el pasado con el **ahora** — una experiencia o un resultado:",
+            "**have / has + past participle.**",
+            "*I **have visited** Japan. · She **has finished** the report.*",
+            "",
+            "Participios: los regulares agregan **-ed**; irregulares comunes: *be → been, see → seen,",
             "do → done, go → gone, eat → eaten.*",
           ].join("\n"),
           exercise: {
@@ -482,6 +521,12 @@ export const level3: Course = {
             "Say *no experience* with **never** (a negative idea, with a positive verb):",
             "*I **have never** **seen** snow.*",
           ].join("\n"),
+          grammarNoteEs: [
+            "Pregunta sobre la experiencia con **ever** (en preguntas):",
+            "*__Have__ you **ever** **been** to Japan?*",
+            "Di *sin experiencia* con **never** (una idea negativa, con un verbo positivo):",
+            "*I **have never** **seen** snow.*",
+          ].join("\n"),
           exercise: {
             id: "c3u2l2-ex",
             title: "Practice: ever / never",
@@ -539,6 +584,12 @@ export const level3: Course = {
             "With the present perfect, say **how long** something has continued:",
             "- **for** + a **period**: *for five years, for two hours.*",
             "- **since** + a **starting point**: *since 2015, since Monday.*",
+            "*I've lived here **for** five years. · We've known them **since** 2015.*",
+          ].join("\n"),
+          grammarNoteEs: [
+            "Con el present perfect, di **cuánto tiempo** ha continuado algo:",
+            "- **for** + un **periodo**: *for five years, for two hours.*",
+            "- **since** + un **punto de inicio**: *since 2015, since Monday.*",
             "*I've lived here **for** five years. · We've known them **since** 2015.*",
           ].join("\n"),
           exercise: {
@@ -601,6 +652,13 @@ export const level3: Course = {
             "in 2019, … ago):",
             "*I **saw** it **yesterday**.*",
           ].join("\n"),
+          grammarNoteEs: [
+            "Usa el **present perfect** cuando el **tiempo está sin terminar o no se menciona**:",
+            "*I **have seen** that film.*",
+            "Usa el **simple past** cuando el tiempo está **terminado y se conoce** (yesterday, last week,",
+            "in 2019, … ago):",
+            "*I **saw** it **yesterday**.*",
+          ].join("\n"),
           exercise: {
             id: "c3u2l4-ex",
             title: "Practice: which past?",
@@ -658,6 +716,12 @@ export const level3: Course = {
             "- **just** = a very short time ago: *I've **just** eaten.*",
             "- **already** = sooner than expected (positive): *She's **already** left.*",
             "- **yet** = up to now, in **questions** and **negatives**, at the end:",
+            "  *Have you finished **yet**? · I haven't started **yet**.*",
+          ].join("\n"),
+          grammarNoteEs: [
+            "- **just** = hace muy poco: *I've **just** eaten.*",
+            "- **already** = antes de lo esperado (positivo): *She's **already** left.*",
+            "- **yet** = hasta ahora, en **preguntas** y **negativos**, al final:",
             "  *Have you finished **yet**? · I haven't started **yet**.*",
           ].join("\n"),
           exercise: {
@@ -738,6 +802,14 @@ export const level3: Course = {
             "",
             "It's not about the future — it's about what's always so.",
           ].join("\n"),
+          grammarNoteEs: [
+            "El **zero conditional** describe una **verdad general** — algo que siempre es",
+            "cierto. Las dos partes usan el **present simple**:",
+            "**If + present simple, present simple.**",
+            "*If you **heat** ice, it **melts**. · Plants **die** if they **don't get** water.*",
+            "",
+            "No se trata del futuro — se trata de lo que siempre es así.",
+          ].join("\n"),
           exercise: {
             id: "c3u3l1-ex",
             title: "Practice: always true",
@@ -791,12 +863,20 @@ export const level3: Course = {
           slug: "first-conditional",
           title: "If it happens, I will",
           topic: "first conditional · real future",
+          deepDives: ["first-conditional"],
           grammarNote: [
             "The **first conditional** talks about a **real, likely future** result:",
             "**If + present simple, will + base verb.**",
             "*If it **rains** tomorrow, we **will stay** home. · I **will call** you if I **have** time.*",
             "",
             "⚠️ No **will** in the *if*-part: *If it **will rain**…* ✗ → *If it **rains**…* ✓",
+          ].join("\n"),
+          grammarNoteEs: [
+            "El **first conditional** habla de un resultado **futuro real y probable**:",
+            "**If + present simple, will + base verb.**",
+            "*If it **rains** tomorrow, we **will stay** home. · I **will call** you if I **have** time.*",
+            "",
+            "⚠️ Sin **will** en la parte del *if*: *If it **will rain**…* ✗ → *If it **rains**…* ✓",
           ].join("\n"),
           exercise: {
             id: "c3u3l2-ex",
@@ -857,6 +937,13 @@ export const level3: Course = {
             "- **as long as** = *only if*: *You can stay **as long as** you're quiet.*",
             "- **in case** = *as a precaution*: *Take an umbrella **in case** it rains.*",
             "- **when** = it will **definitely** happen (not just *if*): *Call me **when** you arrive.*",
+          ].join("\n"),
+          grammarNoteEs: [
+            "Otras palabras unen condiciones con resultados:",
+            "- **unless** = *if not*: *I won't go **unless** you come.*",
+            "- **as long as** = *only if*: *You can stay **as long as** you're quiet.*",
+            "- **in case** = *como precaución*: *Take an umbrella **in case** it rains.*",
+            "- **when** = pasará **con seguridad** (no solo *if*): *Call me **when** you arrive.*",
           ].join("\n"),
           exercise: {
             id: "c3u3l3-ex",
@@ -924,6 +1011,13 @@ export const level3: Course = {
             "",
             "The *if*-part stays present simple; the modal goes in the result.",
           ].join("\n"),
+          grammarNoteEs: [
+            "En el **resultado** de un first conditional puedes usar un **modal** en vez de *will*",
+            "para dar consejos o hablar de habilidad/posibilidad:",
+            "*If you feel sick, you **should** see a doctor. · If you finish early, you **can** go home.*",
+            "",
+            "La parte del *if* se queda en present simple; el modal va en el resultado.",
+          ].join("\n"),
           exercise: {
             id: "c3u3l4-ex",
             title: "Practice: advice with if",
@@ -989,6 +1083,13 @@ export const level3: Course = {
             "- **'d prefer to + base verb**: *I'**d prefer to** walk.*",
             "- **'d like to + base verb** = want: *I'**d like to** travel.*",
             "- **'d better + base verb** = strong advice/warning: *You'**d better** hurry.*",
+          ].join("\n"),
+          grammarNoteEs: [
+            "Di lo que prefieres o lo que es sensato:",
+            "- **'d rather + base verb** = preferir: *I'**d rather** stay home.*",
+            "- **'d prefer to + base verb**: *I'**d prefer to** walk.*",
+            "- **'d like to + base verb** = querer: *I'**d like to** travel.*",
+            "- **'d better + base verb** = consejo/advertencia fuerte: *You'**d better** hurry.*",
           ].join("\n"),
           exercise: {
             id: "c3u3l5-ex",
@@ -1084,6 +1185,13 @@ export const level3: Course = {
             "",
             "*Should* is softer; *have to* is a real requirement.",
           ].join("\n"),
+          grammarNoteEs: [
+            "- **should + base verb** = **consejo** (una buena idea): *You **should** rest.*",
+            "- **have to / has to + base verb** = **obligación** (una regla externa):",
+            "  *I **have to** work on Saturday. · She **has to** wear a uniform.*",
+            "",
+            "*Should* es más suave; *have to* es un requisito real.",
+          ].join("\n"),
           exercise: {
             id: "c3u4l1-ex",
             title: "Practice: advice vs. obligation",
@@ -1173,6 +1281,12 @@ export const level3: Course = {
             "",
             "⚠️ **mustn't** ≠ **don't have to**. *Mustn't* = forbidden; *don't have to* = not necessary.",
           ].join("\n"),
+          grammarNoteEs: [
+            "- **must + base verb** = obligación/regla fuerte: *You **must** sign in.*",
+            "- **mustn't + base verb** = **prohibición** — *don't do it!*: *You **mustn't** smoke here.*",
+            "",
+            "⚠️ **mustn't** ≠ **don't have to**. *Mustn't* = prohibido; *don't have to* = no es necesario.",
+          ].join("\n"),
           exercise: {
             id: "c3u4l2-ex",
             title: "Practice: rules",
@@ -1233,6 +1347,13 @@ export const level3: Course = {
             "",
             "*May* and *might* are almost the same here — both mean *perhaps*.",
           ].join("\n"),
+          grammarNoteEs: [
+            "- **may / might + base verb** = **posibilidad** (tal vez sí, tal vez no):",
+            "  *It **might** rain later. · She **may** be at home.*",
+            "- **need to + base verb** = es **necesario**: *I **need to** buy milk.*",
+            "",
+            "*May* y *might* son casi iguales aquí — los dos significan *quizás*.",
+          ].join("\n"),
           exercise: {
             id: "c3u4l3-ex",
             title: "Practice: maybe",
@@ -1292,6 +1413,13 @@ export const level3: Course = {
             "*__Would__ you mind + -ing?* is very polite: *Would you mind **waiting**?*",
             "",
             "*Can you…?* is fine with friends; *Could/Would you…?* is more polite.",
+          ].join("\n"),
+          grammarNoteEs: [
+            "Para pedir cortésmente, usa **could** o **would** en vez del simple *can*:",
+            "*__Could__ you help me, please? · __Would__ you open the window?*",
+            "*__Would__ you mind + -ing?* es muy cortés: *Would you mind **waiting**?*",
+            "",
+            "*Can you…?* está bien con amigos; *Could/Would you…?* es más cortés.",
           ].join("\n"),
           exercise: {
             id: "c3u4l4-ex",
@@ -1357,6 +1485,12 @@ export const level3: Course = {
             "- **must have** = logical deduction: *The ground's wet — it **must have** rained.*",
             "- **should have** = regret/criticism (you didn't): *I **should have** called you.*",
             "- **might have** = past possibility: *She **might have** forgotten.*",
+          ].join("\n"),
+          grammarNoteEs: [
+            "Usa **modal + have + past participle** para hablar del pasado:",
+            "- **must have** = deducción lógica: *The ground's wet — it **must have** rained.*",
+            "- **should have** = arrepentimiento/crítica (no lo hiciste): *I **should have** called you.*",
+            "- **might have** = posibilidad pasada: *She **might have** forgotten.*",
           ].join("\n"),
           exercise: {
             id: "c3u4l5-ex",

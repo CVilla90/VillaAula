@@ -45,6 +45,16 @@ export const level2: Course = {
             "Useful words of movement: **along** a street, **across** a bridge, **past** the bank,",
             "**through** the park.",
           ].join("\n"),
+          grammarNoteEs: [
+            "Para dar **instrucciones e indicaciones** usamos el **imperative** — solo el verbo",
+            "base, sin sujeto:",
+            "",
+            "- **Go** straight. · **Turn** left. · **Take** the first street on the right.",
+            "- Hazlo negativo con **don't**: *Don't turn here.*",
+            "",
+            "Palabras útiles de movimiento: **along** a street, **across** a bridge, **past** the bank,",
+            "**through** the park.",
+          ].join("\n"),
           exercise: {
             id: "c2u1l1-ex",
             title: "Practice: directions",
@@ -132,6 +142,17 @@ export const level2: Course = {
             "",
             "Ask with **do / does**: *How often **do** you call home?*",
           ].join("\n"),
+          grammarNoteEs: [
+            "Usa el **present simple** para hábitos y rutinas: *I check my phone every morning.*",
+            "",
+            "Los **adverbs of frequency** dicen con qué frecuencia. De más a menos:",
+            "**always → usually → often → sometimes → never.**",
+            "Van **antes del verbo principal**, pero **después de _be_**:",
+            "- I **always** *charge* my phone at night.",
+            "- She **is** **often** late.",
+            "",
+            "Pregunta con **do / does**: *How often **do** you call home?*",
+          ].join("\n"),
           exercise: {
             id: "c2u1l2-ex",
             title: "Practice: habits",
@@ -218,6 +239,14 @@ export const level2: Course = {
             "*__Can__ you cook?* → **Yes, I can. / No, I can't.**",
             "Never add *to*: ~~I can to swim~~.",
           ].join("\n"),
+          grammarNoteEs: [
+            "**can** + verbo base = habilidad o posibilidad. Nunca cambia de forma:",
+            "*I can swim. · She **can** drive. · They can help.*",
+            "",
+            "Negativo: **can't** (cannot). Las preguntas ponen *can* primero:",
+            "*__Can__ you cook?* → **Yes, I can. / No, I can't.**",
+            "Nunca agregues *to*: ~~I can to swim~~.",
+          ].join("\n"),
           exercise: {
             id: "c2u1l3-ex",
             title: "Practice: can",
@@ -271,12 +300,20 @@ export const level2: Course = {
           slug: "present-continuous",
           title: "Right now",
           topic: "present continuous · be + -ing",
+          deepDives: ["present-continuous"],
           grammarNote: [
             "For something **happening now**, use **am / is / are + verb-ing**:",
             "*I **am working**. · She **is reading**. · They **are playing**.*",
             "",
             "Spelling: *run → run**ning***, *make → mak**ing***, *sit → sit**ting***.",
             "Yes/no questions move *be* first: ***Are** you listening?*",
+          ].join("\n"),
+          grammarNoteEs: [
+            "Para algo que **está pasando ahora**, usa **am / is / are + verb-ing**:",
+            "*I **am working**. · She **is reading**. · They **are playing**.*",
+            "",
+            "Ortografía: *run → run**ning***, *make → mak**ing***, *sit → sit**ting***.",
+            "Las preguntas yes/no ponen *be* primero: ***Are** you listening?*",
           ].join("\n"),
           exercise: {
             id: "c2u1l4-ex",
@@ -336,6 +373,12 @@ export const level2: Course = {
             "*__What__ are you doing? · __Where__ is she going? · __What__ is he wearing?*",
             "",
             "Clothes: a shirt, a jacket, jeans, a dress, shoes, a hat.",
+          ].join("\n"),
+          grammarNoteEs: [
+            "**Wh- question** + **be** + sujeto + **verb-ing**:",
+            "*__What__ are you doing? · __Where__ is she going? · __What__ is he wearing?*",
+            "",
+            "Ropa: a shirt, a jacket, jeans, a dress, shoes, a hat.",
           ].join("\n"),
           exercise: {
             id: "c2u1l5-ex",
@@ -418,6 +461,13 @@ export const level2: Course = {
             "",
             "Form: am / is / are + **going to** + verb. Question: *__Are__ you going to study?*",
           ].join("\n"),
+          grammarNoteEs: [
+            "Usa **be going to + base verb** para **planes** y para predicciones que puedes **ver**",
+            "venir:",
+            "*I **am going to** travel this summer. · Look at those clouds — it'**s going to** rain.*",
+            "",
+            "Forma: am / is / are + **going to** + verbo. Pregunta: *__Are__ you going to study?*",
+          ].join("\n"),
           exercise: {
             id: "c2u2l1-ex",
             title: "Practice: plans",
@@ -484,6 +534,13 @@ export const level2: Course = {
             "Negative: **won't** (will not). It's the same for every subject:",
             "*she **will**, they **will**, it **won't**.*",
           ].join("\n"),
+          grammarNoteEs: [
+            "**will + base verb** = predicciones, promesas y decisiones que tomas **en este momento**:",
+            "*I think it **will** be sunny. · I **will** help you. · I'**ll** have the soup.*",
+            "",
+            "Negativo: **won't** (will not). Es igual para todos los sujetos:",
+            "*she **will**, they **will**, it **won't**.*",
+          ].join("\n"),
           exercise: {
             id: "c2u2l2-ex",
             title: "Practice: predictions",
@@ -542,6 +599,13 @@ export const level2: Course = {
             "",
             "**Countable** nouns can be counted: *an apple, two apples*.",
             "**Uncountable** nouns can't: *water, rice, money* — no plural; use **some**:",
+            "*I'd like **some** water.*",
+          ].join("\n"),
+          grammarNoteEs: [
+            "**would like (to)** es una forma cortés de decir *want*: *I'**d like** a coffee. · I'd like **to** order.*",
+            "",
+            "Los sustantivos **countable** se pueden contar: *an apple, two apples*.",
+            "Los **uncountable** no: *water, rice, money* — sin plural; usa **some**:",
             "*I'd like **some** water.*",
           ].join("\n"),
           exercise: {
@@ -640,6 +704,13 @@ export const level2: Course = {
             "**There is** + singular/uncountable; **There are** + plural:",
             "*There **is** some milk. · There **are** three apples.*",
           ].join("\n"),
+          grammarNoteEs: [
+            "**some** en oraciones afirmativas; **any** en negativas y preguntas:",
+            "*There are **some** eggs. · There aren't **any** eggs. · Are there **any** eggs?*",
+            "",
+            "**There is** + singular/uncountable; **There are** + plural:",
+            "*There **is** some milk. · There **are** three apples.*",
+          ].join("\n"),
           exercise: {
             id: "c2u2l4-ex",
             title: "Practice: quantity",
@@ -698,6 +769,13 @@ export const level2: Course = {
             "*__How much__ money? · __How many__ apples?*",
             "",
             "Articles: **a / an** = one general thing (*a shop, an orange*); **the** = a specific one",
+            "(*the shop on the corner*).",
+          ].join("\n"),
+          grammarNoteEs: [
+            "**How much** + uncountable; **How many** + countable:",
+            "*__How much__ money? · __How many__ apples?*",
+            "",
+            "Artículos: **a / an** = una cosa en general (*a shop, an orange*); **the** = una específica",
             "(*the shop on the corner*).",
           ].join("\n"),
           exercise: {
@@ -778,6 +856,13 @@ export const level2: Course = {
             "",
             "To say *why*, use **to + base verb** (a purpose): *I went out **to** buy milk.*",
           ].join("\n"),
+          grammarNoteEs: [
+            "Los **adverbs of manner** dicen *cómo* — muchos agregan **-ly**: *quick → quickly, careful →",
+            "carefully*. (Ojo: *good → **well***.)",
+            "Los **adverbs of place** dicen *dónde*: here, there, nearby, everywhere.",
+            "",
+            "Para decir *por qué*, usa **to + base verb** (un propósito): *I went out **to** buy milk.*",
+          ].join("\n"),
           exercise: {
             id: "c2u3l1-ex",
             title: "Practice: how & why",
@@ -834,6 +919,12 @@ export const level2: Course = {
           grammarNote: [
             "**Subject** pronouns do the action (before the verb): I, you, he, she, it, we, they.",
             "**Object** pronouns receive it (after a verb or preposition):",
+            "me, you, **him**, **her**, it, us, **them**.",
+            "*__She__ loves __him__. · I called __them__. · This is for __me__.*",
+          ].join("\n"),
+          grammarNoteEs: [
+            "Los pronombres **subject** hacen la acción (antes del verbo): I, you, he, she, it, we, they.",
+            "Los pronombres **object** la reciben (después de un verbo o una preposición):",
             "me, you, **him**, **her**, it, us, **them**.",
             "*__She__ loves __him__. · I called __them__. · This is for __me__.*",
           ].join("\n"),
@@ -903,6 +994,14 @@ export const level2: Course = {
             "",
             "Negative: **wasn't / weren't**. Question moves it first: *__Were__ you home?*",
             "Past time words: *yesterday, last night, two days ago.*",
+          ].join("\n"),
+          grammarNoteEs: [
+            "El pasado de **to be** tiene dos formas:",
+            "- I / he / she / it → **was**",
+            "- you / we / they → **were**",
+            "",
+            "Negativo: **wasn't / weren't**. La pregunta lo pone primero: *__Were__ you home?*",
+            "Palabras de tiempo pasado: *yesterday, last night, two days ago.*",
           ].join("\n"),
           exercise: {
             id: "c2u3l3-ex",
@@ -995,6 +1094,11 @@ export const level2: Course = {
             "*work → work**ed***, *play → play**ed***.",
             "Spelling: *study → stud**ied***, *stop → stop**ped***.",
           ].join("\n"),
+          grammarNoteEs: [
+            "Para acciones pasadas terminadas, los verbos regulares agregan **-ed**:",
+            "*work → work**ed***, *play → play**ed***.",
+            "Ortografía: *study → stud**ied***, *stop → stop**ped***.",
+          ].join("\n"),
           exercise: {
             id: "c2u3l4-ex",
             title: "Practice: -ed past",
@@ -1053,6 +1157,12 @@ export const level2: Course = {
             "*__Did__ you watch the game?*",
             "Short answers: **Yes, I did. / No, I didn't.**",
             "Negative: **didn't + base verb**: *I **didn't go**.*",
+          ].join("\n"),
+          grammarNoteEs: [
+            "Las preguntas en pasado usan **did + base verb** (el verbo principal vuelve a su forma base):",
+            "*__Did__ you watch the game?*",
+            "Respuestas cortas: **Yes, I did. / No, I didn't.**",
+            "Negativo: **didn't + base verb**: *I **didn't go**.*",
           ].join("\n"),
           exercise: {
             id: "c2u3l5-ex",
@@ -1126,6 +1236,11 @@ export const level2: Course = {
             "*go → **went**, have → **had**, see → **saw**, make → **made**, eat → **ate**,",
             "take → **took**, get → **got**.*",
           ].join("\n"),
+          grammarNoteEs: [
+            "Muchos verbos comunes son **irregular** — no toman *-ed*, simplemente se aprenden:",
+            "*go → **went**, have → **had**, see → **saw**, make → **made**, eat → **ate**,",
+            "take → **took**, get → **got**.*",
+          ].join("\n"),
           exercise: {
             id: "c2u4l1-ex",
             title: "Practice: irregular past",
@@ -1190,6 +1305,12 @@ export const level2: Course = {
             "*I **used to** play soccer every day (but not now).*",
             "",
             "Negative: **didn't use to**. Question: *__Did__ you **use to**…?* (no *d* after *did*).",
+          ].join("\n"),
+          grammarNoteEs: [
+            "**used to + base verb** = un hábito del pasado que **terminó**:",
+            "*I **used to** play soccer every day (but not now).*",
+            "",
+            "Negativo: **didn't use to**. Pregunta: *__Did__ you **use to**…?* (sin *d* después de *did*).",
           ].join("\n"),
           exercise: {
             id: "c2u4l2-ex",
@@ -1275,6 +1396,11 @@ export const level2: Course = {
             "*This **used to be** a farm. · There **used to be** a cinema here.*",
             "The form is the same: **used to + base verb** (often *be*).",
           ].join("\n"),
+          grammarNoteEs: [
+            "**used to** también describe **estados del pasado** (no solo acciones):",
+            "*This **used to be** a farm. · There **used to be** a cinema here.*",
+            "La forma es la misma: **used to + base verb** (a menudo *be*).",
+          ].join("\n"),
           exercise: {
             id: "c2u4l3-ex",
             title: "Practice: used to be",
@@ -1332,6 +1458,11 @@ export const level2: Course = {
             "To say **how long** something continued, use **for + a period**:",
             "*The dinosaurs lived **for** millions of years. · We waited **for** an hour.*",
             "Ask: *__How long__ did it last?* → *It lasted **for** two days.*",
+          ].join("\n"),
+          grammarNoteEs: [
+            "Para decir **cuánto tiempo** duró algo, usa **for + a period**:",
+            "*The dinosaurs lived **for** millions of years. · We waited **for** an hour.*",
+            "Pregunta: *__How long__ did it last?* → *It lasted **for** two days.*",
           ].join("\n"),
           exercise: {
             id: "c2u4l4-ex",
@@ -1400,6 +1531,12 @@ export const level2: Course = {
             "**last** + a time word = the most recent one (no preposition):",
             "*last night, last week, last year.*",
             "**ago** counts back from now, after the period:",
+            "*two days **ago**, a week **ago**.*",
+          ].join("\n"),
+          grammarNoteEs: [
+            "**last** + una palabra de tiempo = el más reciente (sin preposición):",
+            "*last night, last week, last year.*",
+            "**ago** cuenta hacia atrás desde ahora, después del periodo:",
             "*two days **ago**, a week **ago**.*",
           ].join("\n"),
           exercise: {

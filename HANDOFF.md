@@ -10,19 +10,42 @@
 
 - **Product:** **VillaAula** — a lightweight, content-agnostic micro-LMS. First real use:
   Carlos teaching a friend ESL (English) as a fast *skim* of a beginner course.
-- **Brand / product name:** `VillaAula` (renamed from **WISHUB** on 2026-06-23). The code
-  **directory is now `Brainstorm/VillaAula/`** (renamed from `WISHUB` on 2026-06-23, Session 11 —
-  the earlier "keep the folder as WISHUB to avoid churn" decision was reversed at Carlos's request).
+- **Brand / product name:** `VillaAula` (renamed from **WISHUB** on 2026-06-23). ⚠️ **The on-disk
+  directory is still `Brainstorm/WISHUB/`** — the Session 11 plan to rename the folder to `VillaAula`
+  was **never completed on disk** (only the *brand* changed). Use the real path **`Brainstorm/WISHUB/`**.
   GitHub repo: **`CVilla90/VillaAula`** (https://github.com/CVilla90/VillaAula.git). Deploy URL is
-  `villaaula.replit.app`. Nothing in the code depended on the folder name (all imports use the `@/`
-  alias / relative paths), and no other project references it — see the Session 11 log.
+  `villaaula.replit.app`. Nothing in the code depends on the folder name (all imports use the `@/`
+  alias / relative paths), and no other project references it — so the folder rename remains a safe,
+  optional cosmetic cleanup (free the folder from Cursor first — see the Session 11 log).
 - **Name meaning:** *Villa* (Carlos's surname; also Spanish for a small house/town) + *Aula*
   (Spanish for *classroom*). It's a name, not an acronym — the old WISHUB backronym is retired.
 - **Admin / owner:** Carlos — `cavilla@uach.mx` (hard-coded super-admin via env allowlist).
 - **Owner context:** This is one of Carlos's **personal** projects (like HolIA/Atina,
   MUSAI, Cátedra). It is **not** Creai work and **not** an official UACH project. Keep
   those worlds separate (see his `user_identity` memory).
-- **Status (2026-06-23, latest first — full log in §2):**
+- **Status (2026-06-26, latest first — full log in §2):**
+  - ✅ **SESSION 13 BUILD QUEUE SHIPPED + a "grammar EN/ES toggle" cherry (Session 14, 2026-06-26).**
+    All three queued builds are live: **§18.K Stripe support footer** (discreet `<details>` "Support
+    this project" → ❤️ Chip-in to the Stripe link; `SUPPORT_URL` in `lib/site.ts`), **§18.L admin
+    edits a learner's name/email** + **§18.M cheap-interim role dropdown** (both on `/admin/users/[id]`
+    via `requireAdmin()`-guarded Server Actions in `lib/auth/admin-actions.ts`, **no schema change**),
+    and **§18.J Deep Dives** (new `Resource` model + `src/content/resources/` with **5 seed dives**,
+    `/learn` index + `/learn/[slug]` pages, `RichText` now renders `[label](/learn/slug)` links + `#`/`##`
+    headings, a **"Go deeper →" chip** on 5 wired lessons, dead-link validator + tests). **Cherry:** every
+    `GrammarNote` now has an **EN/ES toggle** — all **80** grammar notes got a `grammarNoteEs` (prose in
+    Spanish, **grammar terms + examples kept in English**), choice persists in localStorage. ✅ green gate:
+    tsc + eslint + **69 tests** (68 pass; the 1 "fail" is the known local-only auth-env test — green in CI)
+    + `next build` (19 routes; `/learn/[slug]` SSG-prerenders all 5 dives). Runtime-verified on the dev
+    server: home (nav + footer), `/learn`, dive pages (headings, internal links, "used in" backlinks, 404
+    guard), and a lesson (EN/ES toggle + Spanish payload + Go-deeper chip). ⚠️ The **DB-backed admin edits
+    (§18.L/M) are untested live** (no Postgres in dev) — confirm at go-live, like the rest of the admin UI.
+  - 🎉 **FIRST PRODUCTION USE = SUCCESS (Session 13).** Carlos ran a real live class on VillaAula and
+    it went well end-to-end. Live-usage learnings drive the new build queue below (esp. learners
+    wanting deeper explanations → the **Deep Dives** feature, §18.J).
+  - 🗒️ **Session 13 = planning/documentation only (no code).** Locked 4 next-session builds
+    (§18.K Stripe support footer · §18.L admin-edits-learner-info · §18.J Deep Dives · §18.M TA/
+    professor roles) + answered the Google-OAuth-verification question (**no verification needed** —
+    basic scopes only; see §17 step 4). Build starts next session.
   - ✅ **Admin dashboard + Replit deploy prep (Session 10).** Admins (allowlisted email / DB role)
     get **`/admin`** (learner roster: progress bar, levels-complete, final-grade pills, last active)
     and **`/admin/users/[id]`** (per-level breakdown + unit-by-unit lesson ticks + recorded grade),
@@ -65,19 +88,26 @@
     verified (login/signup render, OAuth degrades gracefully). **⚠️ live signup/login/OAuth runtime
     still untested** (no Postgres in dev) — needs Carlos's go-live to confirm.
     **🔑 Decision: OAuth client owned by personal Gmail, not `cavilla@uach.mx`** (see §17 step 4).
-  - **NEXT SESSION — START HERE:**
-    1. **Carlos (in progress):** finish creating the **Google OAuth client** (§17 step 4) + run the
-       full **go-live** on Replit (Postgres + `AUTH_SECRET` + `NEXT_PUBLIC_APP_URL` + `GOOGLE_*` +
-       `GEMINI_API_KEY`, then `npm run db:push` — schema now includes `ExamResult`), and smoke-test
-       signup/login/OAuth/speaking (§17 step 6). ⚠️ **redirect URI is `/api/auth/google/callback`**
-       (NOT `/callback`) and `ADMIN_EMAILS` should list **both** his emails.
-    2. ✅ **§18.E auth gating — DONE (Session 9).** Login-gated diploma, account-name diploma, and
-       persisted exam grades all shipped. The DB-backed paths still need a **live smoke test** at
-       go-live (no Postgres in dev) — verify a signed-in learner's grade row + the gated/ungated
-       diploma states once `DATABASE_URL` is set.
-    3. ✅ **Admin grades/progress dashboard — DONE (Session 10).** `/admin` + `/admin/users/[id]`
-       (see §12 + §2). Confirm it against real accounts at go-live (no Postgres in dev).
-    4. Optional later: §3-F (TS→Postgres content bank), §18.B calibration audit, mobile/PWA (§18.G).
+  - 🗺️ **BIG FUTURE DIRECTION — APPROVED PLAN in §19 (2026-06-26):** evolve VillaAula from a single
+    4-level ESL course set into a **multi-program learning catalog** (Program → Course; badges per course
+    + certificates per program incl. ESL CEFR milestone certs; English-first now but built as a theme
+    over a neutral catalog; landing → searchable catalog later). **Planning only, no build started**;
+    Phase A is pure data + a vocab/brand pass (no DB). Read **§19** before touching the catalog/landing.
+  - **NEXT SESSION — START HERE:** the Session-13 build queue is **DONE** (Session 14, see top status +
+    §2). What remains:
+    1. **Carlos (still pending): go-live on Replit** (§17) — Postgres + secrets + `db:push`, then the
+       live smoke test of signup/login/**OAuth**/speaking/admin **+ the new §18.L/M admin edits and the
+       §18.J Deep Dives** (Deep Dives are file-backed so they already work; the admin edits need the DB).
+       **OAuth verification is NOT required** (basic scopes — see §17 step 4); just **Confirm/Publish**.
+    2. **More Deep Dives content (§18.J)** — the *mechanism* shipped with **5 seed dives** (to-be,
+       present-continuous, present-perfect, first-conditional, phrasal-verbs). Authoring more explainers
+       + wiring `deepDives` / inline `[label](/learn/slug)` links into more lessons is the ongoing,
+       AI-authored part. Add a `Resource` file, register it in `content/resources/index.ts`, done.
+    3. **Grammar translations upkeep (cherry)** — all 80 notes have `grammarNoteEs`; a content test
+       (`validate.test.ts`) fails if a *new* lesson ships without one. Keep terms/examples in English.
+    4. **TA & Professor roles (§18.M)** — the cheap interim (role dropdown) is **built**; the real
+       per-role privileges stay **deferred** (blocked on content→Postgres §18.I — no DB-owned courses yet).
+    5. Optional later: §18.I content bank (TS→Postgres), §18.B calibration audit, mobile/PWA (§18.G).
 - **History note:** the first formal class was **2026-06-22**; the original "ship a rough Level 1
   fast" pressure is long past — the product is now content-complete (L1–L4) and hardened. Current
   focus is the **login go-live**, not content.
@@ -123,6 +153,110 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
 
 ## 2. STATUS LOG (newest first — UPDATE EVERY SESSION)
 
+### 2026-06-26 — Session 14 (shipped the Session-13 build queue + grammar EN/ES toggle)
+Autonomous `/loop`: "finish everything per the HANDOFF" + one cherry. All four queued builds shipped,
+green gate clean (tsc + eslint + 69 tests [1 known-local auth-env fail] + `next build`, 19 routes), and
+runtime-verified on the dev server.
+- ✅ **§18.K — Stripe support footer.** `SUPPORT_URL` added to `lib/site.ts`; a discreet native
+  `<details>` **"Support this project"** in the homepage footer (no client JS, matches `GrammarNote`'s
+  idiom) → warm no-pressure note + **❤️ Chip-in** button (`target="_blank" rel="noopener noreferrer"`).
+- ✅ **§18.L — Admin edits a learner's name/email** + ✅ **§18.M cheap-interim role dropdown.** New
+  `lib/auth/admin-actions.ts` (`"use server"`): `updateLearnerProfile` (name + email only) and
+  `updateLearnerRole` (role tag). **Both re-check `requireAdmin()` server-side**, handle the email
+  `@unique` P2002, and `revalidatePath('/admin' + '/admin/users/[id]')`. **No schema change** (existing
+  `User.name/email/role`). Client `components/admin/EditLearnerForm.tsx` (two `useActionState` forms) on
+  `/admin/users/[id]`; username/password stay out of the UI; self-service name edit stays OFF
+  (diploma-abuse guard). Assignable roles (`student|ta|teacher|admin`) live in `lib/auth/roles.ts` (a
+  plain module — a `"use server"` file may export only async fns). Admin allowlist (`ADMIN_EMAILS`) means
+  Carlos can't lock himself out by changing his own DB role. ⚠️ DB-backed → **untested live** (no dev DB).
+- ✅ **§18.J — Deep Dives.** New `Resource` type (`lib/types.ts`) + `src/content/resources/` (5 seed
+  dives: **to-be · present-continuous · present-perfect · first-conditional · phrasal-verbs**, original
+  wording per §9) aggregated in `resources/index.ts` (`resources`, `getResource`, `resourceSlugs`,
+  `resourcesByLevel`). Routes **`/learn`** (index grouped by level) + **`/learn/[slug]`** (SSG via
+  `generateStaticParams`; title/summary/body, **"Used in these lessons"** backlinks via new
+  `catalog.lessonsUsingResource`, **Related** chips). `RichText` now renders `[label](/learn/slug)`
+  internal links **and `#`/`##` headings** (shared link util `content/links.ts`). New `deepDives?: string[]`
+  on `Lesson` → a **"Go deeper →" chip** row in `LessonPlayer` (wired into 5 lessons across L1/L3/L4).
+  Homepage nav gained a **Deep Dives** link. Validator extended (`validateResources` +
+  `validateDeepDiveLinks` — unique slugs, required fields, every `related`/`deepDives`/inline `/learn`
+  link resolves) with **6 new tests** (2 positive over real content + 4 negative). Guest-readable (no gate).
+- 🍒 **Cherry — grammar EN/ES toggle.** `GrammarNote` is now a client component with a small **EN | ES**
+  segmented toggle in the expanded body (not the `<summary>`, so it never collapses the panel); choice
+  persists in `localStorage` (`villaaula:grammarLang`). New `grammarNoteEs?` on `Lesson`; **all 80 grammar
+  notes** got a Spanish version (translated the *prose*, **kept grammar terms + target words + example
+  sentences in English**). Authored via a scratchpad extract→translate-JSON→insert pipeline (indentation
+  auto-detected per file). A `validate.test.ts` case fails if any lesson lacks `grammarNoteEs`. Toggle
+  hides automatically when a note has no ES version (future-proof).
+- 🧪 **Runtime smoke (dev server, guest/no-DB):** `/` (Deep Dives nav + Support footer), `/learn`
+  (index), `/learn/to-be` (heading + inline `/learn/present-continuous` link + "Used in these lessons"),
+  `/learn/does-not-exist` → 404, `/learn/phrasal-verbs` → backlink to the L4 lesson, and
+  `/level/1/unit/1/lesson/to-be` (Grammar summary + **EN/ES toggle** + Spanish payload present +
+  **Go-deeper** chip) — all 200/correct.
+- 🔧 **Follow-up (same session, Carlos's feedback):** **(a) Deep Dives are now course-scoped.** A new
+  `catalog.courseDeepDives(course)` derives a course's dives from the resources its lessons reference
+  (`deepDives` + inline `/learn` links), so the **course page `/level/[slug]` now shows a "Deep Dives"
+  section** with only that course's topics — and a dive **belongs to several courses automatically**
+  (reuse) with no extra data. Demonstrated: `present-continuous` wired into an L1 **and** an L2 lesson
+  (shows on both course pages); `present-perfect` into an L3 **and** an L4 lesson. The global homepage
+  "Deep Dives" nav link was **removed** (entry now lives on the course page); the global `/learn` library
+  + `/learn/[slug]` detail pages stay (detail back-link → `/learn`; "Used in these lessons" now lists all
+  courses that use a dive). **(b) Slim top bar.** New `components/TopBar.tsx` (+ extracted shared
+  `components/Logo.tsx`) added once in `layout.tsx`: a **static (NOT sticky)** slim bar — Logo→home +
+  `AccountMenu` — so you can always get home from inside a lesson. Hidden on `/`, `/login`, `/signup`
+  (those own their chrome) via `usePathname()`. ✅ re-gated (tsc/eslint/69 tests/build) + dev-server
+  smoke (course Deep Dives sections, cross-course reuse, TopBar on inner pages but not home).
+- **NEXT:** Carlos's Replit go-live (§17) — now also confirms §18.L/M admin edits against real rows;
+  then author more Deep Dives + grammar coverage as desired.
+
+### 2026-06-23 — Session 13 (first prod use 🎉 + next-session planning/docs)
+- 🎉 **First production class = success.** Carlos taught a real live class on VillaAula end-to-end and
+  it went well. **This session was planning + documentation only — no code changed.**
+- 👂 **Top live-usage learning:** several learners wanted to go **deeper on specific topics** mid-course
+  → drives the new **Deep Dives** feature (§18.J): a library of in-depth, reusable topic explainers,
+  hyperlinked from wherever the topic is mentioned in a course.
+- 🗒️ **Documented 4 next-session builds** (full specs in §18):
+  - **§18.K Stripe support footer** — discreet "Support this project" disclosure on the homepage footer
+    → warm "free but has costs" note + ❤️ button → Carlos's Stripe link
+    `https://buy.stripe.com/dRmaEWeSY7VNbxW7i1cEw00`. `SUPPORT_URL` lives in `lib/site.ts`.
+  - **§18.L Admin edits learner personal info** — `name`(+`email`) editable from `/admin/users/[id]`,
+    `requireAdmin()`-guarded Server Action, **existing columns → no schema change**. Username /
+    password / role stay out of the UI. **Self-service name edit stays OFF** (diploma-abuse guard).
+  - **§18.J Deep Dives** — file-backed `Resource` explainers + `/learn` & `/learn/[slug]` routes +
+    `RichText` internal links + a "Go deeper →" chip on lessons. No DB (TS content, AI-authored per §18.D).
+  - **§18.M TA & Professor roles** — privilege matrix drafted. **Build deferred** — needs the
+    content→Postgres migration (§18.I) first (no DB-owned courses exist yet).
+- 🔑 **Answered the Google-OAuth-verification question** (Carlos hit Google's "switch to production"
+  dialog): the app requests only the basic `openid email profile` scopes (`lib/auth/google.ts:26`),
+  which **Google never gates behind app verification.** The production dialog's three triggers —
+  **>10 domains / a logo / sensitive-or-restricted scopes** — **none apply** (≤2 domains, basic scopes;
+  only caveat = don't upload a custom consent-screen logo). → **Confirm/Publish is safe**; no "unverified
+  app" warning, any Gmail can sign in. The only failure mode is leaving it in **Testing** (then only
+  added test users can sign in). Captured in §17 step 4.
+- 🧪 **Why we can't test OAuth this session:** local `.env` has only `AUTH_SECRET` + `GEMINI_API_KEY` —
+  **no `DATABASE_URL`, no `GOOGLE_CLIENT_ID/SECRET`, no `NEXT_PUBLIC_APP_URL`** — so `authConfigured()`
+  is false and the Google route returns `google_disabled` (button hidden). Carlos *did* create the
+  OAuth client (the gitignored `client_secret_*.json` from Session 11), but it isn't wired into a
+  running instance. Real OAuth test = **Replit go-live** (§17 step 4/6), or a local Postgres + creds.
+- 🧱 **DB constraint locked in (Carlos):** all future schema work must be **additive / non-breaking**
+  (don't break prod — though real data is still tiny). §18.L and §18.J both honor this (no schema change).
+- **NEXT:** execute the queue in §0 (§18.K → §18.L → §18.J), plus Carlos's go-live (§17).
+
+### 2026-06-23 — Session 12 (REAL first push to personal GitHub + identity rewrite)
+> Back-filled in Session 13 — this session happened but was never written to the HANDOFF at the time.
+- 🐙 **The actual first push.** Found the remote `CVilla90/VillaAula` **completely empty** and the whole
+  Session 9/10/11 work **uncommitted** (last commit was Session 8). Committed the rebrand/admin/deploy
+  work and pushed `main` → `origin/main`.
+- 🔒 **Fixed wrong git identity (worlds-stay-separate, see [[user_identity]]):** the repo was wired to the
+  **work** account (HTTPS remote + `carlosvilla@creai.mx`; all commits work-authored) — wrong for a
+  personal project. Repointed remote → `git@github-personal:CVilla90/VillaAula.git` (personal SSH alias),
+  set identity → `Carlos Villa <carlosavillah90@gmail.com>`, and **re-authored ALL commits to the personal
+  identity** via `git filter-branch --env-filter` (purged `refs/original/` backups) so zero Creai email
+  remains. Secret guard confirmed only `.env.example` (placeholders) is committed.
+- 🚀 **Replit go-live started:** Carlos was **mid-entering Secrets** when this session paused. (The first
+  production class — Session 13 — confirms the deploy ultimately worked.)
+- 📁 **Folder still named `WISHUB` on disk** — the Session 11 rename was never completed (cosmetic only;
+  git/GitHub are unaffected since nothing references the folder name).
+
 ### 2026-06-23 — Session 11 (directory rename WISHUB → VillaAula + GitHub repo)
 - 📁 **Directory renamed `WISHUB` → `VillaAula`** (reverses the Session 9 "keep the folder to avoid
   churn" call, at Carlos's request so the folder matches the brand). **Verified safe before renaming:**
@@ -138,7 +272,10 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
   `client_secret_*.apps.googleusercontent.com.json` was sitting untracked in the repo root; added
   `client_secret*.json` / `*-credentials.json` to `.gitignore` so a push can't leak it.
 - 🐙 **GitHub repo created by Carlos: `CVilla90/VillaAula`** (https://github.com/CVilla90/VillaAula.git).
-  Remote wired + initial push of the rebrand/admin/deploy work.
+  Remote wired. ⚠️ **CORRECTION (logged Session 13):** the "initial push" claimed here **never actually
+  happened** — the remote stayed empty and the rebrand/admin/deploy work was left uncommitted. The
+  **real first push + identity rewrite happened in Session 12** (below). The folder rename was also not
+  completed on disk (still `WISHUB`).
 - ⚙️ **Rename mechanics (Windows note for future sessions):** the folder couldn't be renamed while
   **Cursor** had it open as the workspace (the editor's file watcher holds a handle on the open root
   folder; killing the integrated terminals was NOT enough). Resolution = free the folder in Cursor
@@ -1045,6 +1182,13 @@ OAuth creds). To turn it on:
      "VillaAula", support + developer email = his. Scopes are only `openid email profile` (basic) → **no
      Google verification needed**, so **Publish** the app (or add the friend as a Test user) so any
      Gmail can sign in.
+   - **⚠️ "Switch to production / verification?" (answered Session 13):** Google's production dialog warns
+     you'd need to submit for verification *only if* the app has **>10 domains, a logo, OR sensitive/
+     restricted scopes.** VillaAula has **none of those** (≤2 domains, no sensitive scopes) → **click
+     Confirm/Publish; no verification submission, no "unverified app" warning.** Only caveat: **don't
+     upload a custom consent-screen logo** (a logo can trigger an optional brand review — not blocking
+     for basic scopes, but skip it for zero friction). Leaving the app in **Testing** is the only thing
+     that limits sign-in (to added test users) — so Publish.
    - **Credentials → Create OAuth client ID → Web application.** Authorized redirect URI must be
      **exactly** `<NEXT_PUBLIC_APP_URL>/api/auth/google/callback`. Add **both** the local
      (`http://localhost:3000/api/auth/google/callback`) and the Replit
@@ -1151,9 +1295,225 @@ local dev and a no-DB deploy both keep working.
 - **Priority: LOW** — Carlos likely won't use it himself ("a feature I'll probably never use").
   Plan only; build only if WISHUB grows into a multi-course / multi-author LMS.
 
+### J. Deep Dives — in-depth topic resources, hyperlinked from courses (from first-prod feedback)
+> ✅ **MECHANISM SHIPPED Session 14** (type + `src/content/resources/` + `/learn` & `/learn/[slug]` +
+> `RichText` links/headings + "Go deeper" chip + validator/tests), seeded with **5 dives**. Authoring
+> more explainers is the ongoing AI-authored part. Below is the original spec.
+> Planned Session 13 from real live-class usage: learners wanted to go **deeper on specific topics**
+> mid-course. Deep Dives = a library of standalone, reusable explainers, linked from wherever a topic
+> is mentioned. **No DB** (file-backed, like all current content) — honors the additive-only rule.
+- **Name:** working title **"Deep Dives"** (clear + functional); route `/learn`. Cozy alternates Carlos
+  can veto: *The Library*, *Field Notes*, *The Bookshelf* (fit the "little classroom" brand).
+- **Data (`lib/types.ts` + `src/content/resources/`):** new `Resource` type
+  `{ slug, title, summary, body (rich markdown, longer than a grammarNote), level?, tags?, related?: string[] }`.
+  `slug` globally unique + stable (`to-be`, `present-perfect`, `first-conditional`). Aggregate into a
+  `resources` array + `getResource(slug)` (mirror `content/catalog.ts`). AI-authored (§18.D); §9 copyright applies.
+- **Routes:** `/learn` (index, grouped by level/tag) + `/learn/[slug]` (full explainer with examples,
+  "used in these lessons" backlinks, related dives). **Guest-readable** (reference, not graded — no login gate).
+- **Linking from course content (the core ask):**
+  - Extend `RichText.renderInline` to render `[label](/learn/slug)` markdown links as styled internal
+    `<Link>`s (keep it dependency-free, alongside the existing `**`/`*`/`` ` ``/`___` tokens).
+  - Add optional `deepDives?: string[]` on `Lesson` (and/or `Question`) → a **"Go deeper →"** chip row
+    under the grammar note. This is the discoverable, non-noisy path (vs. auto-linking every term).
+  - Authors can also inline-link a term in a grammarNote/reading: "…uses the
+    [present perfect](/learn/present-perfect)…".
+- **Validator + tests:** extend `content/validate.ts` — unique resource slugs + every `deepDives` /
+  `/learn/<slug>` reference resolves (dead-link guard). Add vitest cases.
+- **Scope:** the *mechanism* (type + routes + RichText links + chip + validator) ≈ one session; the
+  *content* (writing each explainer) is the ongoing AI-authored part.
+
+### K. Support / donations — discreet Stripe footer (Carlos's request, Session 13)
+> ✅ **SHIPPED Session 14.** `SUPPORT_URL` in `lib/site.ts`; `SupportProject` `<details>` in the
+> homepage footer (`page.tsx`) → warm note + ❤️ Chip-in. Below is the original spec.
+- Add `SUPPORT_URL = "https://buy.stripe.com/dRmaEWeSY7VNbxW7i1cEw00"` to `lib/site.ts`.
+- A small **`SupportProject`** disclosure in the **homepage footer** (`page.tsx`). Use a native
+  `<details>` (no client JS — matches `GrammarNote`'s idiom) labelled **"Support this project"**.
+  Expanded: a warm, no-pressure note — *"VillaAula is completely free to use. It does have hosting +
+  maintenance costs, though — if it's helped you, you're welcome to chip in whatever you like."* — and
+  a **❤️ button** linking to `SUPPORT_URL` (`target="_blank" rel="noopener noreferrer"`).
+- **Tone/placement:** quiet footer, not a loud header; muted small text. (Same tasteful donation tone
+  as Carlos's CV Labs UACH tools, but this is a **personal** project — no UACH/CV-Labs branding.)
+- Homepage footer now; could later lift into a shared app-wide footer.
+
+### L. Admin edits a learner's personal info (Carlos's request, Session 13)
+> ✅ **SHIPPED Session 14** (built per spec; **untested live** — needs the go-live DB). `updateLearnerProfile`
+> in `lib/auth/admin-actions.ts` + `EditLearnerForm` on `/admin/users/[id]`. Below is the original spec.
+- **Goal:** when a learner typed their info wrong (esp. the **name**, which prints on the diploma), an
+  **admin** can fix it. Self-service name editing stays **OFF** to prevent "rename → print a diploma
+  under any name" abuse (the diploma is account-named — see §12/§18.E). *(Note: there is currently no
+  self-service profile/name edit page anyway, so this vector is already closed — keep it that way.)*
+- **Editable:** `name` (primary) and `email`. **NOT** `username`, **NOT** password — not via the UI.
+  (Role-setting is §18.M, separate.)
+- **Where:** an "Edit details" form on `/admin/users/[id]` — a small client component (`useActionState`,
+  like `AuthForm`) → a new `updateLearnerProfile` Server Action in `lib/auth/admin-actions.ts`.
+- **Security:** the action **re-checks `requireAdmin()` server-side** (never trust the client), takes
+  `{ userId, name, email }`, writes only those columns, then `revalidatePath('/admin')` +
+  `/admin/users/[id]`. Handle the `email` `@unique` P2002 gracefully (email is unique + feeds the admin
+  allowlist + OAuth-linking, so warn on collision).
+- **DB:** uses existing `User.name`/`User.email` → **NO schema change** (honors the additive-only rule).
+
+### M. TA & Professor roles — privilege model (planned Session 13; build deferred)
+> ✅ **CHEAP INTERIM SHIPPED Session 14**: an admin-only **role dropdown** (`student|ta|teacher|admin`)
+> on `/admin/users/[id]` (`updateLearnerRole`). The real **per-role privileges stay deferred** (blocked
+> on content→Postgres §18.I). Below is the original privilege matrix.
+- **Context:** Carlos will **manually** promote trusted people to **Professor** (author their own
+  courses) or **TA/Assistant** (help with a course). `User.role` already exists
+  (`admin|teacher|student|guest`). Privileges were undecided — proposed matrix:
+
+  | Role | Author content | See learner data | Assign roles |
+  |---|---|---|---|
+  | **admin** (Carlos) | all courses | all learners (`/admin`) | yes |
+  | **professor** | **their own** courses (CRUD) | learners in **their** courses | no |
+  | **ta / assistant** | none | **assigned** courses (read, maybe grade) | no |
+  | **student** | none | self only | no |
+  | **guest** | none | none | no |
+
+- **Assignment & scoping need DB:** a professor must *own* courses and a TA be *assigned* to them →
+  needs `Course.ownerId` + an assignment/enrollment table. **Courses currently live in TS files**, so
+  there is nothing DB-owned for a professor to manage yet. **⛔ Blocked on §18.I (content→Postgres) +
+  the AI-first authoring UI (§18.D).** Until then, elevated roles would be dead UI.
+- **Cheap interim (optional):** add a role dropdown on `/admin/users/[id]` (admin-only) so Carlos can
+  *tag* trusted users now, even before the privileges light up. Only build if useful.
+- **Order:** content→Postgres (§18.I) → AI authoring UI (§18.D) → per-course ownership + role-scoped
+  dashboards. This is a real platform-growth phase, not a quick add.
+
 ### Suggested order once unblocked
 1. Carlos uploads `s2`/`s3`/`s4` + creates the `CVilla90` repo (+ first push).
 2. Realign Level 2 to `s2`; recalibrate Level 1 to "very basic" (B).
 3. Auth gating tightened (E) — small, no new deps, high value, unblocks trustworthy diplomas.
 4. Gemini integration → speaking exercises (C), then AI-first authoring (D).
 5. Levels 3 & 4 content (from `s3`/`s4`), then mobile/PWA polish (G).
+
+---
+
+## 19. PROGRAMS, CATALOG & CREDENTIALS — approved plan (2026-06-26)
+
+> **Status: APPROVED (planning only, no build started).** Captured from a design discussion with
+> Carlos on 2026-06-26. This is the agreed direction for evolving VillaAula from a single 4-level ESL
+> course set into a **multi-program learning catalog** (ESL today; AWS SAA, "LinkedIn profile basics",
+> etc. later). **Nothing here needs the DB** — `Program`, badges, and certificate definitions can all be
+> file-backed like `Course`/`Resource` are today, so Phase A is cheap. Honors the additive-only DB rule.
+
+### 19.0 The core reframe — platform ≠ program
+Today the *platform* and the *ESL content* are the same thing (hero = "English that finally clicks", the
+catalog is `levelCatalog`, the band is "A1 → A2"). The unlocking move is to **separate the platform
+identity from the program identity**:
+- **VillaAula** (platform) is topic-agnostic — and the brand already is ("a little classroom of your
+  own", not "an English app"). Its voice becomes about *learning*, not English.
+- **"English, A1→C2"** becomes the tagline of *one program* inside it. "English that finally clicks"
+  isn't retired — it moves down to where it belongs (the ESL program).
+- **Principle: lead with English, build with the catalog.** Present an English-first site *now* (honest
+  about thin inventory), but make "English" a **theme/skin over a catalog**, not hardcoded — so adding a
+  second program later is a config/data change, not a redesign.
+
+### 19.1 Entity model
+A new layer on top of what exists:
+```
+Platform (VillaAula)
+└─ Program        ← NEW. The catalog primitive. Has its own certificate(s).
+     └─ Course    ← today's "Level". Units → lessons → final → (badge).
+          └─ Unit → Lesson → Exercise
+Category/Topic    ← cross-cutting tags (Languages · Cloud & Certs · Career), separate from Programs.
+```
+- **Program is the catalog unit; a lone course is just a one-course program.** "Sometimes one course
+  *is* the program" (e.g. *LinkedIn profile basics*) → a degenerate single-course program whose UI
+  **collapses**: skip the program dashboard, drop straight into the course.
+- **Course↔Program is many-to-many** (model the join from day one even if it's 1:N now) — a course can
+  later live in several programs (e.g. "Business English" in both ESL and a Career program). Same reuse
+  instinct as Deep Dives (§18.J).
+- **Program shape: `kind: "ladder" | "collection"`.** Ladder (ESL A1→C2) renders as ordered rungs with a
+  recommended next step; collection renders as an unordered grid.
+- **Gating is SOFT (decided):** recommend an order, **guests can audit anything**, but **an account is
+  required to save progress and to earn badges/certificates**. Conversion nudge hangs on the *reward*
+  moment ("sign in to claim your badge / save your streak"), not a generic signup wall.
+
+### 19.2 Vocabulary (DECIDED)
+- **Top layer = "Program"** — plain English; fits a 6-course ladder and a 1-course mini-course. (Rejected
+  "Track/Path" = ordered-only; "Specialization" = corporate.)
+- **Middle layer = "Course"** (the generic entity), with ESL still *labeling* its courses **"Level 1 ·
+  A1"**. Every topic has "courses"; only English has "levels" ("AWS SAA Level 1" reads wrong). So "Level"
+  stays an **ESL display label**, not the platform's word.
+- Net: **Program → Course**; "Level N" is how the English program dresses up its courses.
+
+### 19.3 Credentials — badges + certificates (DECIDED)
+Replaces "a diploma per level". Two tiers + ESL milestones:
+- **Finish a course → Badge.** Light, frequent, collectible — keeps momentum *without* spending the big
+  moment. The earned-badge row becomes the future "My Learning" progress wall (gamification for free).
+- **Finish a program → Certificate (fanfare).** A graduation should mean finishing a *journey*, not one
+  course — that's what's worth sharing.
+- **ESL milestone certificates** (because a single cert only at C2 is years away → churn): the English
+  program declares certificates at the CEFR bands — **Foundation (A1–A2) · Independent (B1–B2) ·
+  Proficiency (C1–C2)** — plus an **A1–C2 capstone**. Real, shareable graduations along the way;
+  CEFR bands are credentials employers recognize.
+- **Single-course programs → just the certificate** on completion (a separate badge would be redundant).
+- This removes the "diploma-per-level takeaway" worry: ESL learners still earn real certificates (at
+  A/B/C), just better-paced, collecting badges in between.
+- **All credentials:** account-required (ties to soft-gating decision), **account-named** (anti-abuse —
+  same as today's diploma), and built around a **stable public URL** (e.g. `/c/[id]`) **from day one**.
+  Why now: LinkedIn "Add to profile" wants name + issuer + issue date + a credential URL; retrofitting a
+  verifiable id later is painful, adding the URL now is free. Artifact reuses the diploma-SVG machinery,
+  re-scoped (course badge / program certificate).
+- ⚠️ Migration note: the current per-course **diploma** + `ExamResult` stay as the engine; "diploma" is
+  re-skinned to "badge" at course level, and the new "certificate" is the program-completion artifact
+  (new `program:{slug}` completion key — additive).
+
+### 19.4 Brand altitude (DECIDED)
+**English-first now, but built as "a program," not "the platform."** A neutral "skills platform"
+homepage would feel empty and oversell thin inventory (the thing to avoid). English-first is honest and
+converts; "English" is a theme over the catalog so flipping to multi-program later is config, not a
+redesign.
+
+### 19.5 Landing & catalog — scale the model, render minimal
+The landing becomes a **view over the catalog**, so the same components show one focused program now and
+a browseable marketplace later — no second redesign.
+- **Now (1 program):** ESL-forward landing; under the hood "Programs catalog → render the one we have",
+  English program featured big. A `<SearchBar>` and a single category section ("Languages") may exist but
+  stay quiet. Reads as *focused*, not *empty*.
+- **Later (N programs):** same page grows into **category sections** (Netflix-style rows: Languages ·
+  Cloud & Certs · Career) + program cards + a now-load-bearing search.
+- **Search:** start as a **client-side fuzzy filter** over the static catalog (cheap, feels real); upgrade
+  to real search (Postgres full-text / a service) only when content is in the DB and the catalog is big.
+  Don't build search infra for one program.
+
+### 19.6 Information architecture / routing (target)
+- `/` — catalog/landing (curated now → browseable later).
+- `/programs/[slug]` — **program dashboard** (the "big dashboard showing each level", generalized from
+  today's `/levels`): per-course progress, recommended next course, badge wall, certificate status.
+- `/course/[slug]` — today's `/level/[slug]`, **renamed**.
+- `/topics/[tag]` — category/topic browse (later).
+- `/c/[id]` — public certificate/badge page (for LinkedIn share + future verification).
+
+### 19.7 Gotchas to plan for
+- **Vocabulary/URL rename** (`/level/` → `/course/`, "Levels 1–4" copy → program-driven) is breaking —
+  do it early while small, with **redirects** from the old paths. Good news: **progress keys are already
+  keyed by course slug**, so progress survives a *route* rename as long as slugs stay stable.
+- **De-ESL the copy** the same way the brand was centralized in `lib/site.ts`: `levelRange()`, the CEFR
+  band, "Four levels, one path" all become **program-driven**, not platform-driven.
+- **Keep the brand neutral at the platform level**, accent per program — otherwise a cloud-cert program
+  rendered in coral-ESL styling feels off.
+
+### 19.8 Phasing (honest about inventory)
+- **Phase A — now, cheap, file-backed:** introduce the `Program` entity; wrap the 4 levels (+ C1/C2 as
+  `status:"soon"` course stubs) into one **"English A1→C2"** program; split platform-voice from
+  program-voice; reframe `/levels` as the program dashboard; seed one category ("Languages"); define
+  badges (course) + the program certificate + CEFR milestone certs as **data** (no artifact generator
+  yet needed to ship the model). Mostly data + a vocabulary/brand pass. **No DB.**
+- **Phase B — when the 2nd program lands (AWS SAA / LinkedIn):** turn the landing into a real catalog
+  (category sections + cards + lightweight client-side search); ship the **badge/certificate artifacts**
+  (SVG + `/c/[id]` public page + LinkedIn "Add to profile" deep-link) and the ESL milestone tiers.
+- **Phase C — platform scale (converges with existing roadmap):** §18.I (TS→Postgres relational content)
+  makes programs/courses/categories first-class rows; §18.D (AI-first authoring) generates *into*
+  programs; §18.M (professor/TA roles) becomes "professors own programs"; adds per-program **enrollment**,
+  a personal **"My Learning"** dashboard, and **real search**. Programs are a natural addition to that
+  schema, not a detour.
+
+### 19.9 Decision log (this session)
+- ✅ Top entity = **Program**; mid entity = **Course** ("Level N · A1" is an ESL-only label).
+- ✅ Credentials = **badge per course + certificate per program**, with **ESL milestone certificates** at
+  CEFR bands (Foundation/Independent/Proficiency) + A1–C2 capstone; single-course program → certificate
+  only. All account-gated, account-named, with a stable public `/c/[id]` URL; LinkedIn-shareable.
+- ✅ Gating = **soft** (recommended order, guests audit anything, account required to save/earn).
+- ✅ Brand = **English-first now**, built as a program/theme over a neutral catalog.
+- ✅ Strategy = **lead with English, build with the catalog**; Phase A is pure data + vocab/brand pass.
+- 🔓 Still open (decide at build time): exact program/category slugs & copy; certificate visual design;
+  whether C1/C2 ship as "soon" stubs or are hidden until authored; search ranking once it's load-bearing.

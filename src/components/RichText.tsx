@@ -1,12 +1,16 @@
 import React from "react";
+import Link from "next/link";
 
 type Variant = "default" | "prompt";
 
+const LINK_RE = /^\[([^\]]+)\]\((\/learn\/[a-z0-9-]+)\)$/;
+
 /**
- * Minimal, dependency-free inline formatter: **bold**, *italic*, `code`, and
- * `___` fill-in blanks. In the "prompt" variant a **studied term** renders as a
- * highlighted chip and a blank renders as an underlined gap, so the word being
- * taught never reads as an ordinary sentence word (and the gap reads as a gap).
+ * Minimal, dependency-free inline formatter: **bold**, *italic*, `code`, `___`
+ * fill-in blanks, and internal [label](/learn/slug) Deep-Dive links (HANDOFF
+ * §18.J). In the "prompt" variant a **studied term** renders as a highlighted
+ * chip and a blank renders as an underlined gap, so the word being taught never
+ * reads as an ordinary sentence word (and the gap reads as a gap).
  */
 function renderInline(
   text: string,
@@ -14,13 +18,15 @@ function renderInline(
   variant: Variant = "default",
 ): React.ReactNode[] {
   const nodes: React.ReactNode[] = [];
-  const regex = /(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`|_{2,})/g;
+  const regex =
+    /(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`|\[[^\]]+\]\(\/learn\/[a-z0-9-]+\)|_{2,})/g;
   let last = 0;
   let m: RegExpExecArray | null;
   let i = 0;
   while ((m = regex.exec(text)) !== null) {
     if (m.index > last) nodes.push(text.slice(last, m.index));
     const tok = m[0];
+    const link = LINK_RE.exec(tok);
     if (tok.startsWith("**")) {
       const inner = tok.slice(2, -2);
       nodes.push(
@@ -36,6 +42,16 @@ function renderInline(
             {inner}
           </strong>
         ),
+      );
+    } else if (link) {
+      nodes.push(
+        <Link
+          key={`${keyBase}-lnk${i}`}
+          href={link[2]}
+          className="font-semibold text-coral underline decoration-coral/40 underline-offset-2 transition hover:text-coral-deep"
+        >
+          {link[1]}
+        </Link>,
       );
     } else if (tok.startsWith("`")) {
       nodes.push(
@@ -54,7 +70,7 @@ function renderInline(
           role="img"
           className="mx-1 inline-block w-10 border-b-2 border-coral/50 align-[-0.15em]"
         >
-          {" "}
+          {" "}
         </span>,
       );
     } else {
@@ -69,7 +85,8 @@ function renderInline(
 
 /**
  * Tiny markdown renderer for the subset VillaAula content uses: paragraphs,
- * "- " bullet lists, and inline bold/italic/code/blank. No HTML injection.
+ * "# / ## " headings, "- " bullet lists, and inline bold/italic/code/blank/link.
+ * No HTML injection.
  */
 export function RichText({
   md,
@@ -103,6 +120,30 @@ export function RichText({
 
   for (const raw of lines) {
     const line = raw.trimEnd();
+    if (line.startsWith("## ")) {
+      flush();
+      blocks.push(
+        <h3
+          key={`h3${key++}`}
+          className="mt-5 font-display text-base font-extrabold text-ink first:mt-0"
+        >
+          {renderInline(line.slice(3), `h3${key}`, variant)}
+        </h3>,
+      );
+      continue;
+    }
+    if (line.startsWith("# ")) {
+      flush();
+      blocks.push(
+        <h2
+          key={`h2${key++}`}
+          className="mt-6 font-display text-lg font-extrabold text-ink first:mt-0"
+        >
+          {renderInline(line.slice(2), `h2${key}`, variant)}
+        </h2>,
+      );
+      continue;
+    }
     if (line.startsWith("- ")) {
       list.push(line.slice(2));
       continue;

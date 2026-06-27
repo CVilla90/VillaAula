@@ -1,6 +1,7 @@
 import Link from "next/link";
 import HeroCloze from "@/components/HeroCloze";
 import AccountMenu from "@/components/auth/AccountMenu";
+import Logo from "@/components/Logo";
 import {
   activeCourseCount,
   levelCatalog,
@@ -8,11 +9,12 @@ import {
   type LevelCatalogEntry,
 } from "@/content/catalog";
 import {
+  BRAND,
   BRAND_NOTE,
-  BRAND_WORDMARK,
   BYLINE,
   COPYRIGHT_YEAR,
   LEVEL_BAND,
+  SUPPORT_URL,
 } from "@/lib/site";
 
 const FEATURES = [
@@ -202,27 +204,15 @@ export default function Home() {
             {BYLINE} · © {COPYRIGHT_YEAR}
           </p>
         </div>
+        <div className="mx-auto max-w-6xl px-5 pb-10">
+          <SupportProject />
+        </div>
       </footer>
     </div>
   );
 }
 
 /* ============================ pieces ============================ */
-
-function Logo() {
-  return (
-    <Link href="/" className="inline-flex items-center gap-2">
-      <span className="grid size-8 place-items-center rounded-[10px] bg-coral text-white shadow-sm">
-        <svg viewBox="0 0 24 24" className="size-4" fill="currentColor" aria-hidden>
-          <path d="M12 2l2.2 6.4L21 10l-6.8 1.6L12 18l-2.2-6.4L3 10l6.8-1.6z" />
-        </svg>
-      </span>
-      <span className="font-display text-xl font-extrabold tracking-tight text-ink">
-        {BRAND_WORDMARK}
-      </span>
-    </Link>
-  );
-}
 
 function PreviewCard() {
   return (
@@ -365,6 +355,38 @@ function LevelCard({ entry }: { entry: LevelCatalogEntry }) {
         <span className="mt-4 text-sm text-muted/70">Locked for now</span>
       )}
     </div>
+  );
+}
+
+function SupportProject() {
+  return (
+    <details className="group max-w-md text-[13px]">
+      <summary className="inline-flex cursor-pointer list-none items-center gap-1.5 text-muted transition hover:text-ink [&::-webkit-details-marker]:hidden">
+        <span aria-hidden>♡</span>
+        <span className="font-medium">Support this project</span>
+        <span
+          aria-hidden
+          className="text-[10px] transition-transform group-open:rotate-180"
+        >
+          ⌄
+        </span>
+      </summary>
+      <div className="mt-3 rounded-2xl border border-line bg-paper/60 p-4 leading-relaxed text-muted">
+        <p>
+          {BRAND} is completely free to use. It does have hosting and
+          maintenance costs, though — if it&apos;s helped you, you&apos;re welcome
+          to chip in whatever you like. No pressure at all.
+        </p>
+        <a
+          href={SUPPORT_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-3 inline-flex items-center gap-2 rounded-full border border-coral/30 bg-coral/5 px-4 py-2 text-sm font-semibold text-coral-deep transition hover:bg-coral/10"
+        >
+          <span aria-hidden>❤️</span> Chip in
+        </a>
+      </div>
+    </details>
   );
 }
 

@@ -38,6 +38,7 @@ export const level4: Course = {
           slug: "perfect-review",
           title: "Looking back further",
           topic: "present perfect vs. past perfect",
+          deepDives: ["present-perfect"],
           grammarNote: [
             "Two perfect tenses you'll lean on here:",
             "- **present perfect** = *have / has + participle* → links the past to **now**.",
@@ -46,6 +47,15 @@ export const level4: Course = {
             "  *By the time I arrived, the meeting **had** already **started**.*",
             "",
             "The past perfect is the \"earlier past\" — useful for putting events in order.",
+          ].join("\n"),
+          grammarNoteEs: [
+            "Dos tiempos perfectos en los que te apoyarás aquí:",
+            "- **present perfect** = *have / has + participle* → conecta el pasado con el **ahora**.",
+            "  *I **have finished** the report.*",
+            "- **past perfect** = *had + participle* → una acción **antes de otra acción pasada**.",
+            "  *By the time I arrived, the meeting **had** already **started**.*",
+            "",
+            "El past perfect es el \"pasado anterior\" — útil para poner los eventos en orden.",
           ].join("\n"),
           exercise: {
             id: "c4u1l1-ex",
@@ -118,6 +128,14 @@ export const level4: Course = {
             "- *can* → *could*: *\"I **can** help\"* → *He said he **could** help.*",
             "",
             "**say** has no person after it; **tell** needs one: *say (that)… / tell **someone** (that)…*",
+          ].join("\n"),
+          grammarNoteEs: [
+            "Para reportar lo que alguien **dijo**, el verbo normalmente retrocede un paso:",
+            "- present → past: *\"I **am** busy\"* → *He said he **was** busy.*",
+            "- *will* → *would*: *\"I **will** call\"* → *She said she **would** call.*",
+            "- *can* → *could*: *\"I **can** help\"* → *He said he **could** help.*",
+            "",
+            "**say** no lleva persona después; **tell** sí la necesita: *say (that)… / tell **someone** (that)…*",
           ].join("\n"),
           exercise: {
             id: "c4u1l2-ex",
@@ -202,6 +220,13 @@ export const level4: Course = {
             "*\"Please wait.\"* → *She **asked** me **to wait**.*",
             "*\"Don't be late.\"* → *They **told** us **not to be** late.*",
           ].join("\n"),
+          grammarNoteEs: [
+            "Reporta una **orden, instrucción o petición** con **tell / ask + person + (not) to +**",
+            "**verb**:",
+            "*\"Sit down.\"* → *He **told** me **to sit** down.*",
+            "*\"Please wait.\"* → *She **asked** me **to wait**.*",
+            "*\"Don't be late.\"* → *They **told** us **not to be** late.*",
+          ].join("\n"),
           exercise: {
             id: "c4u1l3-ex",
             title: "Practice: reporting commands",
@@ -261,6 +286,12 @@ export const level4: Course = {
             "- yes/no → **ask if / whether**: *\"Are you ready?\"* → *She asked **if** I **was** ready.*",
             "- Wh- → keep the question word: *\"Where do you live?\"* → *He asked where I **lived**.*",
           ].join("\n"),
+          grammarNoteEs: [
+            "Las preguntas reportadas usan el **orden de una afirmación** (sin auxiliar *do/does*, sin signo",
+            "de interrogación), y el verbo retrocede:",
+            "- yes/no → **ask if / whether**: *\"Are you ready?\"* → *She asked **if** I **was** ready.*",
+            "- Wh- → conserva la palabra de pregunta: *\"Where do you live?\"* → *He asked where I **lived**.*",
+          ].join("\n"),
           exercise: {
             id: "c4u1l4-ex",
             title: "Practice: reporting questions",
@@ -316,6 +347,12 @@ export const level4: Course = {
           topic: "reported speech · time & place words",
           grammarNote: [
             "When you report later or elsewhere, time and place words also shift:",
+            "- *now* → **then** · *today* → **that day** · *tomorrow* → **the next day**",
+            "- *yesterday* → **the day before** · *here* → **there** · *this* → **that**",
+            "*\"I'll do it tomorrow.\"* → *He said he'd do it **the next day**.*",
+          ].join("\n"),
+          grammarNoteEs: [
+            "Cuando reportas más tarde o en otro lugar, las palabras de tiempo y lugar también cambian:",
             "- *now* → **then** · *today* → **that day** · *tomorrow* → **the next day**",
             "- *yesterday* → **the day before** · *here* → **there** · *this* → **that**",
             "*\"I'll do it tomorrow.\"* → *He said he'd do it **the next day**.*",
@@ -396,6 +433,12 @@ export const level4: Course = {
             "Use the infinitive to express **purpose** (= *in order to*):",
             "*She went to the bank **to get** a loan.*",
           ].join("\n"),
+          grammarNoteEs: [
+            "Muchos verbos van seguidos del **to-infinitive**: *want, decide, hope, need, plan,",
+            "would like* — *I **decided to start** a business.*",
+            "Usa el infinitivo para expresar **propósito** (= *in order to*):",
+            "*She went to the bank **to get** a loan.*",
+          ].join("\n"),
           exercise: {
             id: "c4u2l1-ex",
             title: "Practice: infinitives",
@@ -453,6 +496,12 @@ export const level4: Course = {
             "Other verbs are followed by the **gerund** (-ing): *enjoy, avoid, finish, keep,",
             "mind, suggest* — *I **enjoy listening** to music.*",
             "After a **preposition**, always use the gerund:",
+            "*She's good **at painting**. · Thanks **for helping**.*",
+          ].join("\n"),
+          grammarNoteEs: [
+            "Otros verbos van seguidos del **gerund** (-ing): *enjoy, avoid, finish, keep,",
+            "mind, suggest* — *I **enjoy listening** to music.*",
+            "Después de una **preposición**, usa siempre el gerund:",
             "*She's good **at painting**. · Thanks **for helping**.*",
           ].join("\n"),
           exercise: {
@@ -515,6 +564,14 @@ export const level4: Course = {
             "I **would travel**.*",
             "",
             "With *to be*, **were** is used for all persons: *If I **were** you, I'd rest.*",
+          ].join("\n"),
+          grammarNoteEs: [
+            "El **second conditional** imagina un presente/futuro **irreal o poco probable**:",
+            "**If + past simple, would + base verb.**",
+            "*If I **had** more time, I **would learn** the piano. · If I **won** the lottery,",
+            "I **would travel**.*",
+            "",
+            "Con *to be*, se usa **were** para todas las personas: *If I **were** you, I'd rest.*",
           ].join("\n"),
           exercise: {
             id: "c4u2l3-ex",
@@ -605,6 +662,12 @@ export const level4: Course = {
             "With *to be*, use **were**: *I wish I **were** taller.*",
             "Note: the past form here points to the **present**, not the past.",
           ].join("\n"),
+          grammarNoteEs: [
+            "**wish / if only + past simple** expresa un **arrepentimiento o deseo sobre el ahora**:",
+            "*I **wish** I **knew** the answer. · **If only** I **had** more time.*",
+            "Con *to be*, usa **were**: *I wish I **were** taller.*",
+            "Nota: aquí la forma en pasado apunta al **presente**, no al pasado.",
+          ].join("\n"),
           exercise: {
             id: "c4u2l4-ex",
             title: "Practice: wishes",
@@ -664,6 +727,13 @@ export const level4: Course = {
             "*If I **had studied**, I **would have passed**. · If you **had told** me, I",
             "**would have helped**.*",
             "**wish / if only + past perfect** = a **past regret**: *I wish I **had listened**.*",
+          ].join("\n"),
+          grammarNoteEs: [
+            "El **third conditional** imagina un **pasado diferente**:",
+            "**If + past perfect, would have + past participle.**",
+            "*If I **had studied**, I **would have passed**. · If you **had told** me, I",
+            "**would have helped**.*",
+            "**wish / if only + past perfect** = un **arrepentimiento del pasado**: *I wish I **had listened**.*",
           ].join("\n"),
           exercise: {
             id: "c4u2l5-ex",
@@ -741,6 +811,12 @@ export const level4: Course = {
             "*The match **starts** at eight. · The train **leaves** at six tomorrow.*",
             "It's also used to **narrate** fast events (sports commentary, instructions).",
           ].join("\n"),
+          grammarNoteEs: [
+            "Usa el **present simple** para eventos **programados** o de **horario fijo**, incluso en el",
+            "futuro:",
+            "*The match **starts** at eight. · The train **leaves** at six tomorrow.*",
+            "También se usa para **narrar** eventos rápidos (comentario deportivo, instrucciones).",
+          ].join("\n"),
           exercise: {
             id: "c4u3l1-ex",
             title: "Practice: schedules",
@@ -799,6 +875,12 @@ export const level4: Course = {
             "- **present continuous** = a personal **arrangement**: *I**'m meeting** Sam tomorrow.*",
             "- **present simple** = a **timetable**: *The café **opens** at nine.*",
             "If it's *your* plan with another person, use the continuous.",
+          ].join("\n"),
+          grammarNoteEs: [
+            "Para el futuro, elige según el **tipo de plan**:",
+            "- **present continuous** = un **arreglo** personal: *I**'m meeting** Sam tomorrow.*",
+            "- **present simple** = un **horario**: *The café **opens** at nine.*",
+            "Si es *tu* plan con otra persona, usa el continuous.",
           ].join("\n"),
           exercise: {
             id: "c4u3l2-ex",
@@ -890,6 +972,13 @@ export const level4: Course = {
             "",
             "⚠️ *don't have to* (not necessary) ≠ *mustn't* (forbidden).",
           ].join("\n"),
+          grammarNoteEs: [
+            "- **have to / has to + verb** = obligación/necesidad: *I **have to** wear a uniform.*",
+            "- **don't / doesn't have to** = **no es necesario**: *You **don't have to** come.*",
+            "- pasado: **had to**: *Yesterday I **had to** work late.*",
+            "",
+            "⚠️ *don't have to* (no es necesario) ≠ *mustn't* (prohibido).",
+          ].join("\n"),
           exercise: {
             id: "c4u3l3-ex",
             title: "Practice: have to",
@@ -949,6 +1038,12 @@ export const level4: Course = {
             "- future: *I **will be able to** drive.* · perfect: *I**'ve been able to** help.*",
             "Use it where *can/could* can't go (after *will*, *have*, etc.).",
           ].join("\n"),
+          grammarNoteEs: [
+            "**be able to** = *can*, pero funciona en **todos los tiempos**:",
+            "- present: *I **am able to** swim.* · past: *I **was able to** finish.*",
+            "- future: *I **will be able to** drive.* · perfect: *I**'ve been able to** help.*",
+            "Úsalo donde *can/could* no pueden ir (después de *will*, *have*, etc.).",
+          ].join("\n"),
           exercise: {
             id: "c4u3l4-ex",
             title: "Practice: be able to",
@@ -1006,6 +1101,12 @@ export const level4: Course = {
             "Pick the right ability form by **time**:",
             "- now → **can** / **am able to** · general past → **could**",
             "- one past success → **was able to / managed to** · future → **will be able to**",
+            "*As a child I **could** read; that day I **was able to** read the whole book.*",
+          ].join("\n"),
+          grammarNoteEs: [
+            "Elige la forma de habilidad correcta según el **tiempo**:",
+            "- now → **can** / **am able to** · pasado general → **could**",
+            "- un logro puntual del pasado → **was able to / managed to** · futuro → **will be able to**",
             "*As a child I **could** read; that day I **was able to** read the whole book.*",
           ].join("\n"),
           exercise: {
@@ -1078,8 +1179,15 @@ export const level4: Course = {
           slug: "phrasal-verbs",
           title: "Take your chance",
           topic: "phrasal verbs",
+          deepDives: ["phrasal-verbs"],
           grammarNote: [
             "A **phrasal verb** is a verb + a small word (particle) whose meaning is often new:",
+            "*give **up*** = quit · *take **off*** = remove / leave the ground · *look **after***",
+            "= take care of · *find **out*** = discover.",
+            "*Please **take off** your shoes. · I'll **find out** the time.*",
+          ].join("\n"),
+          grammarNoteEs: [
+            "Un **phrasal verb** es un verbo + una palabra pequeña (partícula) cuyo significado suele ser nuevo:",
             "*give **up*** = quit · *take **off*** = remove / leave the ground · *look **after***",
             "= take care of · *find **out*** = discover.",
             "*Please **take off** your shoes. · I'll **find out** the time.*",
@@ -1172,6 +1280,12 @@ export const level4: Course = {
             "- **result**: *so, therefore* — *It rained, **so** we stayed in.*",
             "- **reason**: *because, since* — *We left **because** it was boring.*",
           ].join("\n"),
+          grammarNoteEs: [
+            "Los conectores (linkers) unen ideas:",
+            "- **contraste**: *however, although, but* — *It was late; **however**, she kept working.*",
+            "- **resultado**: *so, therefore* — *It rained, **so** we stayed in.*",
+            "- **razón**: *because, since* — *We left **because** it was boring.*",
+          ].join("\n"),
           exercise: {
             id: "c4u4l2-ex",
             title: "Practice: linking ideas",
@@ -1242,6 +1356,13 @@ export const level4: Course = {
             "- *far* → **further / farther** → the **furthest / farthest**",
             "*This show is **better** than that one — it's the **best** on TV.*",
           ].join("\n"),
+          grammarNoteEs: [
+            "Algunos adjetivos son **irregular**:",
+            "- *good* → **better** → the **best**",
+            "- *bad* → **worse** → the **worst**",
+            "- *far* → **further / farther** → the **furthest / farthest**",
+            "*This show is **better** than that one — it's the **best** on TV.*",
+          ].join("\n"),
           exercise: {
             id: "c4u4l3-ex",
             title: "Practice: better & worse",
@@ -1297,6 +1418,12 @@ export const level4: Course = {
           topic: "-ever words",
           grammarNote: [
             "Add **-ever** to a question word to mean *any / it doesn't matter which*:",
+            "- **whatever** = anything · **whoever** = any person · **whenever** = any time",
+            "- **wherever** = any place · **however** = in any way",
+            "***Whatever** you do, don't give up. · Sit **wherever** you like.*",
+          ].join("\n"),
+          grammarNoteEs: [
+            "Agrega **-ever** a una palabra de pregunta para decir *cualquiera / no importa cuál*:",
             "- **whatever** = anything · **whoever** = any person · **whenever** = any time",
             "- **wherever** = any place · **however** = in any way",
             "***Whatever** you do, don't give up. · Sit **wherever** you like.*",
@@ -1365,6 +1492,12 @@ export const level4: Course = {
             "They usually come **after** the verb (and its object):",
             "*I looked **everywhere**. · She's waiting **outside**.*",
             "After **here/there** at the start, the verb can come first: ***Here comes** the bus!*",
+          ].join("\n"),
+          grammarNoteEs: [
+            "Los **adverbs of place** dicen *dónde*: *here, there, everywhere, nearby, outside.*",
+            "Normalmente van **después** del verbo (y su objeto):",
+            "*I looked **everywhere**. · She's waiting **outside**.*",
+            "Después de **here/there** al inicio, el verbo puede ir primero: ***Here comes** the bus!*",
           ].join("\n"),
           exercise: {
             id: "c4u4l5-ex",

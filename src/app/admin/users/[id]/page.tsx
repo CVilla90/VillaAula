@@ -4,6 +4,7 @@ import { courses } from "@/content/catalog";
 import { getLearner, requireAdmin } from "@/lib/admin/data";
 import { summarizeLearner } from "@/lib/admin/stats";
 import { lessonKey } from "@/lib/progress";
+import EditLearnerForm from "@/components/admin/EditLearnerForm";
 
 export const dynamic = "force-dynamic";
 
@@ -182,6 +183,13 @@ export default async function AdminLearnerPage({
           );
         })}
       </div>
+
+      <EditLearnerForm
+        userId={learner.id}
+        name={learner.name}
+        email={learner.email}
+        role={learner.role}
+      />
     </main>
   );
 }

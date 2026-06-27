@@ -19,6 +19,13 @@ export const LEVEL_BAND = "A1 → A2";
 export const BYLINE = "Built by Carlos Villa";
 export const COPYRIGHT_YEAR = 2026;
 
+/**
+ * Optional "support this project" Stripe link, surfaced as a discreet footer
+ * disclosure (HANDOFF §18.K). VillaAula is free; this is a no-pressure tip jar
+ * for hosting/maintenance. Personal project — no UACH / CV Labs branding here.
+ */
+export const SUPPORT_URL = "https://buy.stripe.com/dRmaEWeSY7VNbxW7i1cEw00";
+
 /** Diploma fallbacks when a course doesn't override them (see Course.diploma). */
 export const DIPLOMA_TITLE = "VillaAula Diploma";
 export const DIPLOMA_ISSUER = "VillaAula";

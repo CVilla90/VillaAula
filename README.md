@@ -10,6 +10,12 @@ speaking-exercise transcription.
 > Personal project of Carlos Villa. See **`HANDOFF.md`** for the full design,
 > status log, and decisions — it is the source of truth.
 
+Each lesson's grammar note has an **EN / ES toggle** (the explanation in Spanish,
+with grammar terms and examples kept in English). **Deep Dives** are standalone,
+guest-readable topic explainers (`/learn/[slug]`): each course page lists its own
+dives (a dive can be reused by several courses), and lessons link to them via a
+"Go deeper →" chip or inline `[label](/learn/slug)` links in any content.
+
 ## Develop
 
 ```bash

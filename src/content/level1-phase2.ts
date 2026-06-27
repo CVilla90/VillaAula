@@ -26,6 +26,13 @@ export const phase2Units: Unit[] = [
           "",
           "The article goes before the noun: **a pencil**, **an orange**, **the window**.",
         ].join("\n"),
+        grammarNoteEs: [
+          "Usa **a** antes de una cosa en general: *a book, a desk, a teacher*.",
+          "Usa **an** antes de un sonido vocálico: *an apple, an eraser, an idea*.",
+          "Usa **the** cuando quien te escucha sabe exactamente a qué cosa te refieres: *the door, the blue chair*.",
+          "",
+          "El artículo va antes del sustantivo: **a pencil**, **an orange**, **the window**.",
+        ].join("\n"),
         exercise: {
           id: "u2-l1-ex",
           title: "Practice: articles",
@@ -89,6 +96,14 @@ export const phase2Units: Unit[] = [
           "",
           "Ask with *to be*: **Is this your bag?** / **Are those your books?**",
         ].join("\n"),
+        grammarNoteEs: [
+          "Usa **this** para una cosa cerca de ti: *this pencil*.",
+          "Usa **that** para una cosa lejos de ti: *that poster*.",
+          "Usa **these** para dos o más cosas cerca de ti: *these books*.",
+          "Usa **those** para dos o más cosas lejos de ti: *those windows*.",
+          "",
+          "Pregunta con *to be*: **Is this your bag?** / **Are those your books?**",
+        ].join("\n"),
         exercise: {
           id: "u2-l2-ex",
           title: "Practice: near and far",
@@ -149,6 +164,7 @@ export const phase2Units: Unit[] = [
         slug: "present-continuous",
         title: "Actions happening now",
         topic: "am / is / are + -ing",
+        deepDives: ["present-continuous"],
         grammarNote: [
           "Use the **present continuous** for actions happening now.",
           "Form: **subject + am/is/are + verb-ing**.",
@@ -158,6 +174,16 @@ export const phase2Units: Unit[] = [
           "- They **are playing**.",
           "",
           "Questions move *am/is/are* to the front: **Are you listening?**",
+        ].join("\n"),
+        grammarNoteEs: [
+          "Usa el **present continuous** para acciones que pasan ahora.",
+          "Forma: **subject + am/is/are + verb-ing**.",
+          "",
+          "- I **am studying**.",
+          "- She **is reading**.",
+          "- They **are playing**.",
+          "",
+          "Las preguntas mueven *am/is/are* al principio: **Are you listening?**",
         ].join("\n"),
         exercise: {
           id: "u2-l3-ex",
@@ -238,6 +264,19 @@ export const phase2Units: Unit[] = [
           "",
           "Do not use *the* with a possessive adjective: **my phone**, not *the my phone*.",
         ].join("\n"),
+        grammarNoteEs: [
+          "Usa **'s** después de un nombre para mostrar posesión: *Ana's bag*, *Leo's pen*.",
+          "Usa los adjetivos posesivos antes de los sustantivos:",
+          "",
+          "- I -> **my**",
+          "- you -> **your**",
+          "- he -> **his**",
+          "- she -> **her**",
+          "- we -> **our**",
+          "- they -> **their**",
+          "",
+          "No uses *the* con un adjetivo posesivo: **my phone**, no *the my phone*.",
+        ].join("\n"),
         exercise: {
           id: "u2-l4-ex",
           title: "Practice: possession",
@@ -311,6 +350,15 @@ export const phase2Units: Unit[] = [
           "*He has short hair.* / *They have brown eyes.*",
           "",
           "Adjectives usually come before nouns: **a green shirt**, **long hair**.",
+        ].join("\n"),
+        grammarNoteEs: [
+          "Usa **is / are wearing** para la ropa en este momento:",
+          "*She is wearing a blue jacket.* / *They are wearing white shoes.*",
+          "",
+          "Usa **has / have** para el cabello, los ojos y los rasgos:",
+          "*He has short hair.* / *They have brown eyes.*",
+          "",
+          "Los adjetivos normalmente van antes de los sustantivos: **a green shirt**, **long hair**.",
         ].join("\n"),
         exercise: {
           id: "u2-l5-ex",
@@ -393,6 +441,16 @@ export const phase2Units: Unit[] = [
           "- **under** the chair",
           "- **next to** the door",
         ].join("\n"),
+        grammarNoteEs: [
+          "Usa **there is** para una cosa: *There is a sofa in the room.*",
+          "Usa **there are** para dos o más cosas: *There are two chairs.*",
+          "",
+          "Palabras comunes de lugar:",
+          "- **in** the box",
+          "- **on** the table",
+          "- **under** the chair",
+          "- **next to** the door",
+        ].join("\n"),
         exercise: {
           id: "u3-l1-ex",
           title: "Practice: rooms",
@@ -459,6 +517,13 @@ export const phase2Units: Unit[] = [
           "*I study at night.* / *They play soccer on Saturday.*",
           "",
           "Common routine verbs: **wake up, eat, go, study, work, read, sleep**.",
+        ].join("\n"),
+        grammarNoteEs: [
+          "Usa el **simple present** para hábitos y rutinas.",
+          "Con **I / you / we / they**, usa el verbo base:",
+          "*I study at night.* / *They play soccer on Saturday.*",
+          "",
+          "Verbos comunes de rutina: **wake up, eat, go, study, work, read, sleep**.",
         ].join("\n"),
         exercise: {
           id: "u3-l2-ex",
@@ -537,6 +602,15 @@ export const phase2Units: Unit[] = [
           "",
           "For verbs ending in consonant + y, change y to ies: **study -> studies**.",
         ].join("\n"),
+        grammarNoteEs: [
+          "En el simple present, agrega **-s** o **-es** con **he / she / it**:",
+          "",
+          "- I work -> she **works**",
+          "- we watch -> he **watches**",
+          "- they study -> it **studies**",
+          "",
+          "Para verbos que terminan en consonante + y, cambia la y por ies: **study -> studies**.",
+        ].join("\n"),
         exercise: {
           id: "u3-l3-ex",
           title: "Practice: third person",
@@ -602,6 +676,11 @@ export const phase2Units: Unit[] = [
           "Use **at** for clock times: *at 8:00*, *at noon*, *at night*.",
           "Use **on** for days and dates: *on Monday*, *on June 5*.",
           "Use **in** for months, years, and parts of the day: *in April*, *in 2026*, *in the morning*.",
+        ].join("\n"),
+        grammarNoteEs: [
+          "Usa **at** para las horas del reloj: *at 8:00*, *at noon*, *at night*.",
+          "Usa **on** para los días y las fechas: *on Monday*, *on June 5*.",
+          "Usa **in** para los meses, los años y las partes del día: *in April*, *in 2026*, *in the morning*.",
         ].join("\n"),
         exercise: {
           id: "u3-l4-ex",
@@ -670,6 +749,16 @@ export const phase2Units: Unit[] = [
           "**Does she work here?** -> *No, she doesn't.*",
           "",
           "For negatives, use **don't** or **doesn't** plus the base verb:",
+          "*I don't work on Sunday.* / *He doesn't study at night.*",
+        ].join("\n"),
+        grammarNoteEs: [
+          "Usa **do** para preguntas con I / you / we / they:",
+          "**Do you study English?** -> *Yes, I do.*",
+          "",
+          "Usa **does** para he / she / it:",
+          "**Does she work here?** -> *No, she doesn't.*",
+          "",
+          "Para los negativos, usa **don't** o **doesn't** más el verbo base:",
           "*I don't work on Sunday.* / *He doesn't study at night.*",
         ].join("\n"),
         exercise: {
@@ -742,6 +831,13 @@ export const phase2Units: Unit[] = [
           "Use **do / does** for questions and negatives:",
           "*Do you have a notebook?* / *He doesn't have a car.*",
         ].join("\n"),
+        grammarNoteEs: [
+          "Usa **have** con I / you / we / they: *I have a bike.*",
+          "Usa **has** con he / she / it: *She has long hair.*",
+          "",
+          "Usa **do / does** para preguntas y negativos:",
+          "*Do you have a notebook?* / *He doesn't have a car.*",
+        ].join("\n"),
         exercise: {
           id: "u4-l1-ex",
           title: "Practice: have and has",
@@ -809,6 +905,12 @@ export const phase2Units: Unit[] = [
           "Longer adjectives usually use **more**: *more interesting*, *more comfortable*.",
           "Use **than** after the comparison: *This bag is smaller than that bag.*",
         ].join("\n"),
+        grammarNoteEs: [
+          "Usa los comparativos para comparar dos personas o cosas.",
+          "Los adjetivos cortos suelen tomar **-er**: *small -> smaller*, *tall -> taller*.",
+          "Los adjetivos más largos normalmente usan **more**: *more interesting*, *more comfortable*.",
+          "Usa **than** después de la comparación: *This bag is smaller than that bag.*",
+        ].join("\n"),
         exercise: {
           id: "u4-l2-ex",
           title: "Practice: compare two",
@@ -869,6 +971,13 @@ export const phase2Units: Unit[] = [
           "",
           "The article **the** is part of the pattern: **the fastest**, **the most useful**.",
         ].join("\n"),
+        grammarNoteEs: [
+          "Usa los superlativos para una cosa en la cima de un grupo.",
+          "Los adjetivos cortos suelen tomar **the + -est**: *the smallest*, *the tallest*.",
+          "Los adjetivos más largos suelen usar **the most**: *the most interesting*.",
+          "",
+          "El artículo **the** es parte del patrón: **the fastest**, **the most useful**.",
+        ].join("\n"),
         exercise: {
           id: "u4-l3-ex",
           title: "Practice: top of the group",
@@ -928,6 +1037,14 @@ export const phase2Units: Unit[] = [
           "- My bag is **as heavy as** your bag.",
           "",
           "For the negative, use **not as...as**: *This box is not as big as that box.*",
+        ].join("\n"),
+        grammarNoteEs: [
+          "Usa **as + adjective + as** cuando dos cosas son iguales en algo.",
+          "",
+          "- This lesson is **as short as** the last lesson.",
+          "- My bag is **as heavy as** your bag.",
+          "",
+          "Para el negativo, usa **not as...as**: *This box is not as big as that box.*",
         ].join("\n"),
         exercise: {
           id: "u4-l4-ex",
@@ -990,6 +1107,15 @@ export const phase2Units: Unit[] = [
           "**can speak**, **can read**, **can run**. Not *can speaks*.",
           "",
           "Ask questions with **Can** at the front: **Can you help me?**",
+        ].join("\n"),
+        grammarNoteEs: [
+          "Usa **can** para la habilidad: *I can swim.*",
+          "Usa **can't** o **cannot** cuando la habilidad no existe: *She can't drive.*",
+          "",
+          "El verbo después de can se queda en forma base:",
+          "**can speak**, **can read**, **can run**. No *can speaks*.",
+          "",
+          "Haz preguntas con **Can** al principio: **Can you help me?**",
         ].join("\n"),
         exercise: {
           id: "u4-l5-ex",

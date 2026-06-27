@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import type { Course, Unit, Lesson } from "@/lib/types";
 import { lessonKey } from "@/lib/progress";
+import { getResource } from "@/content/resources";
 import { useProgress } from "@/components/progress/ProgressProvider";
 import GrammarNote from "./GrammarNote";
 import ReadingBlock from "./ReadingBlock";
@@ -71,8 +72,30 @@ export default function LessonPlayer({
       </h1>
 
       <div className="mt-5">
-        <GrammarNote md={lesson.grammarNote} />
+        <GrammarNote md={lesson.grammarNote} mdEs={lesson.grammarNoteEs} />
       </div>
+
+      {lesson.deepDives && lesson.deepDives.length > 0 && (
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          <span className="font-mono text-[11px] uppercase tracking-wide text-muted">
+            Go deeper
+          </span>
+          {lesson.deepDives.map((slug) => {
+            const dive = getResource(slug);
+            if (!dive) return null;
+            return (
+              <Link
+                key={slug}
+                href={`/learn/${slug}`}
+                className="inline-flex items-center gap-1 rounded-full border border-coral/30 bg-coral/5 px-3 py-1 text-xs font-semibold text-coral-deep transition hover:bg-coral/10"
+              >
+                {dive.title}
+                <span aria-hidden>→</span>
+              </Link>
+            );
+          })}
+        </div>
+      )}
 
       <div className="sticky top-3 z-10 mt-8 rounded-xl border border-line bg-cream/90 px-4 py-3 backdrop-blur">
         <div className="flex items-center justify-between text-xs font-medium text-muted">

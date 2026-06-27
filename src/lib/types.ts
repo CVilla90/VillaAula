@@ -120,7 +120,43 @@ export interface Lesson {
   topic: string;
   /** Markdown lesson, hidden behind an expander by default. */
   grammarNote: string;
+  /**
+   * Optional Spanish version of `grammarNote`, shown when the learner flips the
+   * EN/ES toggle in `GrammarNote`. The prose is translated, but **grammar terms,
+   * target words, and example sentences stay in English** (the language being
+   * learned). When absent, the toggle doesn't render.
+   */
+  grammarNoteEs?: string;
+  /**
+   * Optional "Go deeper →" links — slugs of `Resource` explainers (HANDOFF §18.J)
+   * shown as chips under the grammar note. Each must resolve to a real resource
+   * (the validator enforces this).
+   */
+  deepDives?: string[];
   exercise: Exercise;
+}
+
+/**
+ * A Deep Dive — a standalone, reusable topic explainer (HANDOFF §18.J). Lives in
+ * `src/content/resources/`, surfaced at `/learn` and `/learn/[slug]`, and linked
+ * from courses via a lesson's `deepDives` or inline `[label](/learn/slug)` links.
+ * Guest-readable reference (not graded), so no login gate. §9 copyright applies:
+ * original wording, no copied book content.
+ */
+export interface Resource {
+  /** Globally unique, stable, kebab-case (e.g. "present-perfect"). The URL slug. */
+  slug: string;
+  title: string;
+  /** One-line teaser shown on the /learn index and link previews. */
+  summary: string;
+  /** Rich markdown body (longer than a grammarNote). May use [label](/learn/slug) links. */
+  body: string;
+  /** Roughly which level the topic belongs to, for grouping on the index. */
+  level?: number;
+  /** Free-form topic tags for grouping/filtering. */
+  tags?: string[];
+  /** Slugs of related dives, shown as "Related" links. */
+  related?: string[];
 }
 
 export interface Unit {

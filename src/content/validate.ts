@@ -26,7 +26,9 @@ import type {
   MatchConfig,
   SpeakingConfig,
   Exercise,
+  Resource,
 } from "@/lib/types";
+import { extractLearnSlugs, lessonReferencedSlugs } from "@/content/links";
 
 export interface ValidationIssue {
   /** Course slug the problem belongs to ("*" for catalog-wide issues). */
@@ -177,6 +179,62 @@ export function validateCatalog(courses: Course[]): ValidationIssue[] {
     }
   }
 
+  return issues;
+}
+
+/**
+ * Deep Dives integrity (HANDOFF §18.J): unique resource slugs, required fields,
+ * and every `related` / inline `/learn/<slug>` link resolves (dead-link guard).
+ */
+export function validateResources(resources: Resource[]): ValidationIssue[] {
+  const issues: ValidationIssue[] = [];
+  const seen = new Set<string>();
+  const slugSet = new Set(resources.map((r) => r.slug));
+  for (const r of resources) {
+    const where = `resource ${r.slug}`;
+    if (seen.has(r.slug)) {
+      issues.push({ course: "learn", where, message: `duplicate resource slug "${r.slug}"` });
+    }
+    seen.add(r.slug);
+    if (!nonEmpty(r.title)) issues.push({ course: "learn", where, message: "resource has no title" });
+    if (!nonEmpty(r.summary)) issues.push({ course: "learn", where, message: "resource has no summary" });
+    if (!nonEmpty(r.body)) issues.push({ course: "learn", where, message: "resource has no body" });
+    for (const rel of r.related ?? []) {
+      if (!slugSet.has(rel)) {
+        issues.push({ course: "learn", where, message: `related "${rel}" has no matching resource` });
+      }
+    }
+    for (const s of extractLearnSlugs(r.body)) {
+      if (!slugSet.has(s)) {
+        issues.push({ course: "learn", where, message: `body links to /learn/${s}, which doesn't exist` });
+      }
+    }
+  }
+  return issues;
+}
+
+/**
+ * Every Deep-Dive reference a course makes — a lesson's `deepDives` list or an
+ * inline `/learn/<slug>` link in its notes/readings — must resolve to a resource.
+ */
+export function validateDeepDiveLinks(
+  courses: Course[],
+  resources: Resource[],
+): ValidationIssue[] {
+  const issues: ValidationIssue[] = [];
+  const slugSet = new Set(resources.map((r) => r.slug));
+  for (const course of courses) {
+    for (const unit of course.units) {
+      for (const lesson of unit.lessons) {
+        const where = `unit ${unit.slug} / lesson ${lesson.slug}`;
+        for (const s of lessonReferencedSlugs(lesson)) {
+          if (!slugSet.has(s)) {
+            issues.push({ course: course.slug, where, message: `Deep-Dive link "/learn/${s}" has no resource` });
+          }
+        }
+      }
+    }
+  }
   return issues;
 }
 

@@ -6,6 +6,7 @@ import { getCurrentUser } from "@/lib/auth/users";
 import { geminiConfigured } from "@/lib/ai/gemini";
 import { SessionProvider } from "@/components/auth/SessionProvider";
 import { ProgressProvider } from "@/components/progress/ProgressProvider";
+import TopBar from "@/components/TopBar";
 import { BRAND, META_DESCRIPTION, TAGLINE } from "@/lib/site";
 
 const display = Hanken_Grotesk({
@@ -49,7 +50,10 @@ export default async function RootLayout({
     >
       <body className="min-h-full">
         <SessionProvider value={session}>
-          <ProgressProvider>{children}</ProgressProvider>
+          <ProgressProvider>
+            <TopBar />
+            {children}
+          </ProgressProvider>
         </SessionProvider>
       </body>
     </html>
