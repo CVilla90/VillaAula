@@ -35,6 +35,15 @@
     **Phase B/C** (credential SVG artifacts + `/c/[id]` public page, real multi-program catalog, DB) wait
     on a 2nd program / §18.I. See **§19**. ⚠️ Untested at runtime live (no Postgres in dev); the dynamic
     `/course/[slug]` render wasn't smoke-tested (build-validated only).
+  - ✅ **Session 15 follow-ups (2026-06-26):** (1) the footer **"Support this project"** link now opens a
+    **modal** (native `<dialog>`/`showModal()`, `components/SupportProject.tsx`) instead of expanding.
+    (2) **Google OAuth wired for local testing** — client id/secret pulled from the gitignored
+    `client_secret_*.json` into `.env` + `NEXT_PUBLIC_APP_URL` + `ADMIN_EMAILS`; **localhost redirect URI is
+    already registered** on the client. **Only blocker = `DATABASE_URL`** (no local Postgres; `authConfigured()`
+    needs DB+secret) → add a free **Neon** URL + `npm run db:push` and Google sign-in works locally. Same on
+    Replit: set the 5 secrets (DB, AUTH_SECRET, GOOGLE_*, NEXT_PUBLIC_APP_URL, ADMIN_EMAILS) + `db:push` →
+    the "Continue with Google" button shows and works (callback URI already registered).
+    (3) **Planned the 2nd program — see new §20** (LinkedIn: Zero-to-Job-Ready; planning only, not built).
   - ✅ **SESSION 13 BUILD QUEUE SHIPPED + a "grammar EN/ES toggle" cherry (Session 14, 2026-06-26).**
     All three queued builds are live: **§18.K Stripe support footer** (discreet `<details>` "Support
     this project" → ❤️ Chip-in to the Stripe link; `SUPPORT_URL` in `lib/site.ts`), **§18.L admin
@@ -105,23 +114,27 @@
     over a neutral catalog; landing → searchable catalog later). **Planning only, no build started**;
     Phase A is pure data + a vocab/brand pass (no DB). Read **§19** before touching the catalog/landing.
   - **NEXT SESSION — START HERE:** the Session-13 build queue (Session 14) **and §19 Phase A** (Session 15)
-    are **DONE**. What remains:
-    1. **Carlos (still pending): go-live on Replit** (§17) — Postgres + secrets + `db:push`, then the
+    are **DONE**. The agreed next big build is the **2nd program**. What remains:
+    1. **🆕 Build the LinkedIn program — `§20` (APPROVED, planning done; start with Phase 1).** "LinkedIn:
+       Zero-to-Job-Ready" = VillaAula's 2nd program → realizes §19 **Phase B** (Career category). Phase 1
+       = 8 learn units + **`LocalizedText` bilingual EN/ES** + snippet cards + MCQ/T-F/match/draft-compare
+       (no DB). Phase 2 = Gemini ATS/human **rubric grading** + the revisitable **"Career Kit"** deliverable
+       (copy-paste LinkedIn text + résumé PDF; needs DB). Phase 3 = the **Gemini mock interview** (speaking,
+       bilingual incl. English-only interviewer). **Read §20 first.**
+    2. **Carlos (still pending): go-live on Replit** (§17) — Postgres + secrets + `db:push`, then the
        live smoke test of signup/login/**OAuth**/speaking/admin **+ the §18.L/M admin edits and the
-       §18.J Deep Dives**. **Also runtime-confirm the new routes** post-deploy: `/programs/english`
-       dashboard, a `/course/1` page, and that old `/level/1` + `/levels` links **308-redirect**.
-       **OAuth verification is NOT required** (basic scopes — see §17 step 4); just **Confirm/Publish**.
-    2. **§19 Phase B (when a 2nd program lands, or sooner if wanted)** — ship the **credential artifacts**
-       (badge/cert SVG reusing the diploma machinery + the public **`/c/[id]`** page + LinkedIn "Add to
-       profile" deep-link) and the ESL milestone tiers as *earnable* (right now the dashboard shows the
-       credential wall as a roadmap; completion lights chips but there's no downloadable artifact yet).
-    3. **More Deep Dives content (§18.J)** — mechanism shipped with **5 seed dives**; authoring more +
-       wiring `deepDives`/inline `[label](/learn/slug)` links is the ongoing AI-authored part.
-    4. **Grammar translations upkeep (cherry)** — all 80 notes have `grammarNoteEs`; a content test fails
-       if a *new* lesson ships without one. Keep terms/examples in English.
-    5. **TA & Professor roles (§18.M)** — cheap interim (role dropdown) **built**; real per-role
-       privileges **deferred** (blocked on content→Postgres §18.I). §19 reframes this as "professors own
-       **programs**."
+       §18.J Deep Dives**. **OAuth is now wired** (creds in `.env`/Secrets, localhost+Replit redirect URIs
+       registered) — set `DATABASE_URL`+the 4 other secrets + `db:push` and the Google button shows + works.
+       **Also runtime-confirm the new routes** post-deploy: `/programs/english`, a `/course/1` page, and
+       that old `/level/1` + `/levels` links **308-redirect**.
+    3. **§19 Phase B credential artifacts** (lands with #1's Career category) — badge/cert SVG reusing the
+       diploma machinery + the public **`/c/[id]`** page + LinkedIn "Add to profile"; ESL milestone tiers
+       *earnable* (today the dashboard shows the credential wall as a roadmap, no downloadable artifact yet).
+    4. **More Deep Dives content (§18.J)** — mechanism shipped with **5 seed dives**; authoring more is the
+       ongoing AI-authored part. **Grammar EN/ES upkeep:** a content test fails if a new lesson lacks
+       `grammarNoteEs`.
+    5. **TA & Professor roles (§18.M)** — cheap interim (role dropdown) **built**; real per-role privileges
+       **deferred** (blocked on content→Postgres §18.I). §19 reframes this as "professors own **programs**."
     6. Optional later: §18.I content bank (TS→Postgres — programs/courses/categories become rows), §18.B
        calibration audit, mobile/PWA (§18.G).
 - **History note:** the first formal class was **2026-06-22**; the original "ship a rough Level 1
@@ -1569,3 +1582,114 @@ a browseable marketplace later — no second redesign.
 - ✅ Strategy = **lead with English, build with the catalog**; Phase A is pure data + vocab/brand pass.
 - 🔓 Still open (decide at build time): exact program/category slugs & copy; certificate visual design;
   whether C1/C2 ship as "soon" stubs or are hidden until authored; search ranking once it's load-bearing.
+
+---
+
+## 20. "LinkedIn: Zero-to-Job-Ready" — the 2nd program (APPROVED PLAN, planning only)
+
+> **Status: APPROVED — planning only, NO build started (designed 2026-06-26 with Carlos).** This is
+> VillaAula's **second program** and the first non-ESL one — so building it **realizes §19 Phase B**
+> (a real **"Career"** category + a genuine 2-category catalog). It is **not just a quiz course**: it's a
+> **learn → build → interview** journey that hands the user a *tangible deliverable*. **Bilingual EN/ES
+> throughout** (a hard requirement). Read this with §19 (catalog) and §18.C/D (speaking + AI).
+
+### 20.0 The shape — three pillars
+- **A) Learn** — guided units on the full LinkedIn-to-job flow (basics of the *whole* flow, not expert in
+  every corner).
+- **B) Build (the payoff)** — a guided builder that collects the user's *real* inputs across the course
+  and, with **Gemini**, produces a **tangible, revisitable "Career Kit"**: (i) **copy-paste-ready LinkedIn
+  section text** (headline / About / experience bullets, ATS- & human-optimized) the user pastes straight
+  into the real LinkedIn, and (ii) an **ATS- & human-approved résumé PDF**. Persisted + easy to **return to
+  and re-edit/re-use** (it's the course's "valuable generated artifact").
+- **C) Interview** — a **Gemini-driven mock interview** tailored to the role the user is applying for,
+  pulling context from their Career Kit/résumé. Because Gemini plays the interviewer, **voice (the existing
+  speaking pipeline) fits here**: a real back-and-forth. **Bilingual incl. scenarios where the interviewer
+  speaks English-only** (huge synergy with the ESL program — practice a real job interview in English).
+
+### 20.1 Course outline — recommended **8 units + a capstone** (Carlos asked "how many?": 8 is the sweet
+spot for "comprehensive basics of the full flow")
+1. **Getting started** — what LinkedIn is for (ATS · humans · network), the first screen, create account,
+   log in, orient the feed.
+2. **Profile foundations** — photo, banner, the **headline** (the one line that matters most), custom URL,
+   completeness basics.
+3. **Your story (About)** — the summary: hook, keywords, voice; ATS vs human.
+4. **Experience & skills** — bullet writing (action verb + **quantified** impact), skills/endorsements,
+   education.
+5. **Proof & trust** — Featured/projects, recommendations, certifications, Open-to-work.
+6. **Networking** — connection requests *with notes*, following companies, engaging on posts, growing a
+   relevant network.
+7. **The job search** — LinkedIn Jobs / Easy Apply, saved searches + alerts, targeting roles, reading a job
+   post for keywords.
+8. **Outreach, messages & referrals** — recruiter messages, asking for referrals, follow-ups, etiquette.
+- **Capstone — "Your Career Kit"**: generate the deliverable (LinkedIn copy + résumé PDF) and run the
+  **mock interview**. A scenario-based final check is woven through (fix the weak headline/About/message).
+
+### 20.2 Signature device + exercise types
+- **LinkedIn-style snippet cards** — realistic mock profile/headline/message cards rendered in *our* UI;
+  the learner evaluates or improves them. Drives most exercises with the types we already have:
+  **MCQ** "pick the stronger rewrite", **True/False** myth-busting, **Match** (weak phrase ↔ stronger
+  rewrite / section ↔ purpose).
+- **Draft & compare** *(new, non-graded)* — learner writes their **real** headline/About/message, then
+  sees a strong model + a self-check list. Feeds the Career Kit (pillar B).
+- **Gemini rubric grading** *(new)* — for open writing, score **ATS-fit + human-appeal** with a rubric
+  (extends the speaking `gradeOpen` idea to text). An LMS is well-suited to "ATS score / recommendations".
+
+### 20.3 The Career Kit deliverable (pillar B) — the differentiator
+- The course doubles as a **guided intake**: each "build" lesson captures the user's real input
+  (target role, headline draft, experience, etc.).
+- At the capstone, Gemini **polishes + scores** it → outputs (i) **copy-paste LinkedIn text** per section
+  and (ii) an **ATS/human-optimized résumé PDF**.
+- **Persisted + revisitable**: a "My Career Kit" page the user returns to, edits, regenerates, re-downloads
+  (it's a living artifact, not a one-shot). Converges with §19 Phase C's personal "My Learning" surface.
+
+### 20.4 Mock interview (pillar C)
+- Gemini = the interviewer; **speaking pipeline** = voice turns; context = the user's Career Kit + target
+  role. **Bilingual**, incl. **English-only-interviewer** scenarios (ESL crossover). Ends with feedback
+  (strengths, gaps, suggested answers). This is the most ambitious piece → last to build.
+
+### 20.5 Platform capabilities this introduces (the net-new engineering)
+1. **Full-course EN/ES** — bigger than the grammar toggle (which only translates grammar *notes*).
+   **Recommended (accepted): `LocalizedText = string | { en; es }`** + a `t(value, lang)` resolver + a
+   **course-level EN|ES switch** (persisted like the grammar pref). New bilingual content uses `{en, es}`;
+   **all existing English courses stay plain strings, untouched**. Generalizes to any future bilingual
+   program. Touches `RichText`/`QuestionCard`/content types.
+2. **AI rubric grading for text** (ATS + human scores) — extend the Gemini path (`/api/...` like
+   speaking-analyze) from transcription to a scored rubric. **Gemini key already provided.**
+3. **A per-user generated artifact + store** (the Career Kit) — needs the **DB** (persist inputs +
+   outputs), a generation step, and a revisitable page. New "My Kit" surface.
+4. **PDF generation** (résumé) — new for VillaAula; options: HTML→PDF (print/`@react-pdf`/headless), or
+   reuse a docx→PDF pattern from Cátedra/esl_exam_correction. Decide at build.
+5. **A conversational/interview exercise type** (Gemini interviewer + speaking turns, bilingual) — net-new
+   beyond today's 5 types.
+6. **Career category + this program** → flips the §19 catalog from "focused" to a real 2-category browse
+   (realizes Phase B).
+
+### 20.6 Phasing (honest — this grew past "small-short"; build it in slices)
+- **Phase 1 (MVP, mostly existing tech):** the 8 Learn units + **LocalizedText bilingual** + snippet cards
+  + MCQ/T-F/match/draft-compare. Ships the program + the **Career category** (the §19 Phase B catalog
+  moment). No AI, no deliverable yet.
+- **Phase 2 (AI + the payoff):** Gemini **rubric grading** (ATS/human scores) + the **Career Kit**
+  (intake → AI-polished LinkedIn copy + résumé PDF, persisted + revisitable). **Needs the DB** (rides on
+  the go-live).
+- **Phase 3 (the wow):** the **mock interview** (Gemini interviewer + speaking, bilingual incl.
+  English-only scenarios, context-aware).
+
+### 20.7 Constraints / notes
+- **Original content only** — we teach *about* LinkedIn; never copy their help docs, screenshots, or
+  trademarked UI (§9 copyright). Snippet cards are *our* mockups with *our* example text.
+- **Bilingual EN/ES is non-negotiable** for this program (incl. the interview scenarios).
+- **DB-gated:** the Career Kit + persistence + mock-interview history all need Postgres → tied to the §17
+  go-live. Phase 1 (learning units) can ship without the kit.
+- **Gemini** powers grading (Phase 2) + the interviewer (Phase 3); key already in `.env`/Replit.
+
+### 20.8 Decision log (2026-06-26)
+- ✅ **More sections** → **8 content units + a capstone** (incl. a dedicated **job-search** unit).
+- ✅ **Bilingual mechanism = `LocalizedText` (`string | {en,es}`)** + course-level EN|ES switch (Carlos:
+  "your recommendation").
+- ✅ **Bring Gemini in** — ATS/human **rubric scoring** + powering the deliverable.
+- ✅ **Tangible deliverable = a revisitable "Career Kit"** — copy-paste LinkedIn text **+ ATS/human résumé
+  PDF**; users can easily return to re-use/re-edit it.
+- ✅ **No elevator-pitch speaking.** Instead a **context-aware mock interview** (Gemini interviewer + voice,
+  bilingual, incl. English-only-interviewer scenarios). Speaking is justified *because* Gemini interviews.
+- 🔓 Open (decide at build): résumé PDF tech; exact Career-Kit data model; how much of the course is
+  "quiz" vs "guided builder"; program slug/copy (`career` category, e.g. program slug `linkedin`).
