@@ -2,14 +2,19 @@ import type { Category } from "@/lib/types";
 
 /**
  * Catalog categories (HANDOFF §19) — the cross-cutting shelves a Program sits on
- * (Languages · Cloud & Certs · Career). Phase A seeds only "Languages"; more land
- * with the second program. Keep slugs stable — they'll key `/topics/[tag]` later.
+ * (Languages · Cloud & Certs · Career). All three are live now (the AWS SAA ladder
+ * lit up "Cloud & Certs"). Keep slugs stable — they'll key `/topics/[tag]` later.
  */
 export const categories: Category[] = [
   {
     slug: "languages",
     title: "Languages",
     blurb: "Learn to read, listen, and speak — one short exercise at a time.",
+  },
+  {
+    slug: "cloud-certs",
+    title: "Cloud & Certs",
+    blurb: "Pass the exam by building the mental model — short, scenario-first practice.",
   },
   {
     slug: "career",

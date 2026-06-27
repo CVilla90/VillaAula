@@ -24,6 +24,18 @@
   MUSAI, Cátedra). It is **not** Creai work and **not** an official UACH project. Keep
   those worlds separate (see his `user_identity` memory).
 - **Status (2026-06-27, latest first — full log in §2):**
+  - 🗺️ **§21 NEXT-PROGRAMS PLAN — PROGRAMS/CARDS CREATED, COURSES NOT (Session 17, 2026-06-27).**
+    Planning session (no course content). Stood up the **cards/shells** for the next three courses and
+    wrote the authoring contract in **`CURRICULA_C1_C2_AWS_SAA.md`** (+ new **§21**). (1) **ESL C1/C2**:
+    confirmed Carlos's "4-skills-intensive" instinct and refined it — at C1/C2 there's no textbook
+    grammar spine, so units become **theme-based and cycle reading·listening·speaking·writing**, with the
+    note panel demoted from "grammar" to "language nuance." Enriched the existing L5/L6 `focus` copy (still
+    `status:"soon"`; Proficiency + Capstone certs already declared). (2) **AWS SAA (SAA-C03, "2026")**: a
+    new **`aws-saa` ladder** (6 domain-courses, all `status:"soon"`) in a brand-new **"Cloud & Certs"**
+    category → the catalog now spans **three real shelves**, with one capstone certificate (**AWS SAA ·
+    Exam-Ready**) + 6 derived badges. Green: tsc + eslint + **90 tests** (1 known-local auth fail) +
+    `next build` (**19 routes**, `/programs/aws-saa` static). **No `level5/6.ts`, no AWS course files** —
+    authoring those is a separate content-heavy session. See **§21**.
   - ✅ **§20 LinkedIn PROGRAM — PHASE 1 SHIPPED (Session 16, 2026-06-27).** VillaAula's **second
     program** (and first non-ESL) is live: **"LinkedIn: Zero to Job-Ready"**, a single **bilingual EN/ES**
     course of **8 Learn units + an 8-Q capstone** (MCQ/T-F/Match + the new non-graded **draft-compare**
@@ -1778,3 +1790,48 @@ spot for "comprehensive basics of the full flow")
   bilingual, incl. English-only-interviewer scenarios). Speaking is justified *because* Gemini interviews.
 - 🔓 Open (decide at build): résumé PDF tech; exact Career-Kit data model; how much of the course is
   "quiz" vs "guided builder"; program slug/copy (`career` category, e.g. program slug `linkedin`).
+
+---
+
+## 21. NEXT PROGRAMS — ESL C1/C2 + AWS SAA (🗺️ PLAN; programs/cards built, courses not)
+
+> **Status: PLANNED (Session 17, 2026-06-27).** Carlos asked to **plan the syllabus/programs** for the
+> next courses (ESL Levels 5 & 6 = C1/C2, and **AWS SAA 2026**) and **create the cards only — no course
+> content.** Done: the program shells/cards exist + green; the full authoring contract lives in
+> **`CURRICULA_C1_C2_AWS_SAA.md`** (the detailed unit syllabi). This section is the index/decision log.
+
+### 21.1 ESL C1/C2 — the pedagogy shift (Carlos's call, refined)
+- Carlos: *"C1 & C2 should be more 4-core-skills intensive (reading, writing, listening, speaking)"* —
+  **agreed.** The *why*: L1–L4 rode a **textbook grammar spine** (`CURRICULA_SPINE.md` from
+  `reference/sNuM.png`); there is **no `s5`/`s6` spine, and shouldn't be** — at C1/C2 grammar is mostly
+  *consolidation*, and the real work (nuance, register, idiom, discourse, fluency) only lives **inside the
+  four skills**. A grammar-unit skeleton would be the wrong skeleton.
+- **Refinement:** units become **theme-based** and **rotate all four skills** around the theme; the
+  collapsible panel flips from **"Grammar — show me the rule"** to **"Language note — the nuance"** (via the
+  already-supported `Course.noteLabel`). **No new exercise types** — `ReadingBlock`, `AudioBlock`(edge-tts),
+  `speaking`(Gemini), `draft_compare`/`open` already cover read·listen·speak·write.
+- ⚠️ **Cost dependency (not a blocker):** "listening/speaking-intensive" means **audio generation**
+  (BoardCraft `edge-tts`) per listening lesson + **`GEMINI_API_KEY`** live for speaking. Budget it in.
+- **This session's code:** only **enriched the L5/L6 `focus`** copy in `english.ts` (still `status:"soon"`).
+  Proficiency (C1–C2) + A1–C2 Capstone certs are **already declared**. Authoring `level5.ts`/`level6.ts`
+  (6 theme units each — see the plan doc) + flipping the rungs to `active` is a later content session.
+
+### 21.2 AWS SAA (SAA-C03, "2026") — a new ladder in a new category
+- New category **`cloud-certs` ("Cloud & Certs")** → the catalog now spans **three real shelves**
+  (Languages · Cloud & Certs · Career).
+- New program **`aws-saa`** (`src/content/programs/aws-saa.ts`), **`kind:"ladder"`**, **6 domain-courses,
+  all `status:"soon"`**: `aws-foundations` · `aws-compute-storage` · `aws-networking` · `aws-databases` ·
+  `aws-security` · `aws-resilience-cost`. Organized by **what you build with** (not strictly the 4 exam
+  domains — security threads through everything), each course flagging the domain(s) it feeds.
+- **Credentials:** 6 **derived badges** (one/course) + 1 **capstone certificate** `aws-saa-exam-ready`
+  ("AWS SAA · Exam-Ready", requires the whole program). No CEFR-style mid-milestones (a single cert has no
+  natural mid-bands; per-course badges pace it).
+- **Decisions:** ladder over single-course (pacing + badges, same logic as ESL milestones §19.3);
+  **English-only** v1; **zero new exercise types** (MCQ/match/open/`draft_compare` fit a scenario exam);
+  track the **live SAA-C03 guide**, not a book; §9 = explain in our words, service names stay verbatim.
+- 🔓 **Open (decide at authoring):** whether to split a 7th **`aws-exam-readiness`** course off course 6's
+  exam-strategy tail; diagram support (svg/image is enough for v1); ES localization later.
+
+### 21.3 What shipped this session (green: tsc + eslint + 90 tests + build, 19 routes)
+- `CURRICULA_C1_C2_AWS_SAA.md` (the plan/syllabi), `programs/aws-saa.ts` (+ registered in `programs/index.ts`),
+  `cloud-certs` category, enriched L5/L6 `focus`. **No course content authored.**

@@ -30,14 +30,14 @@ export const englishProgram: Program = {
       status: "soon",
       band: "C1",
       title: "Level 5",
-      focus: "nuance · idiom · register · richer discourse",
+      focus: "register & nuance · idiom · four skills integrated (read · listen · speak · write)",
     },
     {
       slug: "6",
       status: "soon",
       band: "C2",
       title: "Level 6",
-      focus: "subtlety · precision · near-native fluency",
+      focus: "subtlety & precision · rhetoric · near-native four-skill mastery",
     },
   ],
   certificates: [
