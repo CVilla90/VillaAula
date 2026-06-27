@@ -23,7 +23,20 @@
 - **Owner context:** This is one of Carlos's **personal** projects (like HolIA/Atina,
   MUSAI, Cátedra). It is **not** Creai work and **not** an official UACH project. Keep
   those worlds separate (see his `user_identity` memory).
-- **Status (2026-06-26, latest first — full log in §2):**
+- **Status (2026-06-27, latest first — full log in §2):**
+  - ✅ **§20 LinkedIn PROGRAM — PHASE 1 SHIPPED (Session 16, 2026-06-27).** VillaAula's **second
+    program** (and first non-ESL) is live: **"LinkedIn: Zero to Job-Ready"**, a single **bilingual EN/ES**
+    course of **8 Learn units + an 8-Q capstone** (MCQ/T-F/Match + the new non-graded **draft-compare**
+    "write-then-compare-to-a-model", + mock **snippet cards**). It ships a new **"career" category**, so
+    the catalog is now a real **two-category** browse — **§19 Phase B's catalog moment.** Built the
+    bilingual engine (**`LocalizedText = string | {en,es}` + `t()` + a global EN|ES toggle**, English
+    courses untouched as plain strings), the `draft_compare` type, and `courseNoun` (no more hardcoded
+    "Level"). Green: tsc + eslint + **90 tests** (1 known-local auth fail) + `next build` (17 pages incl.
+    `/programs/linkedin`); runtime-verified. **Phase 2** (Gemini rubric grading + the **Career Kit**
+    deliverable) and **Phase 3** (Gemini **mock interview**) are **not built** — they need the go-live DB.
+    Each unit is **one lesson** for now (solid basics; more is easy AI follow-up). See **§20** + the
+    Session 16 log. ⚠️ Don't `next dev` straight after a `next build` without clearing `.next` (stale
+    Turbopack manifest → lesson routes 404).
   - ✅ **§19 PROGRAMS CATALOG — PHASE A SHIPPED (Session 15, 2026-06-26).** VillaAula now models a
     **multi-program catalog** over the courses (file-backed, no DB): a `Program` entity wraps Levels 1–4
     (+ C1/C2 "soon" stubs) into one **English A1→C2** ladder; **badges per course + certificates per
@@ -113,14 +126,16 @@
     + certificates per program incl. ESL CEFR milestone certs; English-first now but built as a theme
     over a neutral catalog; landing → searchable catalog later). **Planning only, no build started**;
     Phase A is pure data + a vocab/brand pass (no DB). Read **§19** before touching the catalog/landing.
-  - **NEXT SESSION — START HERE:** the Session-13 build queue (Session 14) **and §19 Phase A** (Session 15)
-    are **DONE**. The agreed next big build is the **2nd program**. What remains:
-    1. **🆕 Build the LinkedIn program — `§20` (APPROVED, planning done; start with Phase 1).** "LinkedIn:
-       Zero-to-Job-Ready" = VillaAula's 2nd program → realizes §19 **Phase B** (Career category). Phase 1
-       = 8 learn units + **`LocalizedText` bilingual EN/ES** + snippet cards + MCQ/T-F/match/draft-compare
-       (no DB). Phase 2 = Gemini ATS/human **rubric grading** + the revisitable **"Career Kit"** deliverable
-       (copy-paste LinkedIn text + résumé PDF; needs DB). Phase 3 = the **Gemini mock interview** (speaking,
-       bilingual incl. English-only interviewer). **Read §20 first.**
+  - **NEXT SESSION — START HERE:** the Session-13 build queue (S14), **§19 Phase A** (S15), **and §20
+    Phase 1** (S16 — the LinkedIn program's 8 Learn units, bilingual) are all **DONE**. What remains:
+    1. **🆕 §20 Phase 2 — the AI payoff (the big next build; needs the go-live DB).** Gemini **ATS/human
+       rubric grading** for the open writing (extend the speaking-analyze pattern from transcription to a
+       scored rubric) + the revisitable **"Career Kit"** deliverable (the course already collects the
+       inputs via the **draft-compare** exercises — persist them, then Gemini polishes → copy-paste
+       LinkedIn text + a **résumé PDF**, on a "My Kit" page). Then **Phase 3** = the **Gemini mock
+       interview** (speaking pipeline, bilingual incl. English-only interviewer). **Read §20 first.**
+       Lower-effort win available now without the DB: **more lessons per LinkedIn unit** (each unit is
+       one lesson today) — pure AI-authored content in `content/linkedin.ts`, bilingual `{en,es}`.
     2. **Carlos (still pending): go-live on Replit** (§17) — Postgres + secrets + `db:push`, then the
        live smoke test of signup/login/**OAuth**/speaking/admin **+ the §18.L/M admin edits and the
        §18.J Deep Dives**. **OAuth is now wired** (creds in `.env`/Secrets, localhost+Replit redirect URIs
@@ -181,6 +196,53 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
 ---
 
 ## 2. STATUS LOG (newest first — UPDATE EVERY SESSION)
+
+### 2026-06-27 — Session 16 (LinkedIn program — §20 Phase 1 SHIPPED)
+Autonomous `/loop "continue the HANDOFF"`. Built **all of §20 Phase 1** — VillaAula's **second
+program** and first non-ESL one, which realizes **§19 Phase B** (a real **Career** category + a
+genuine two-category catalog). File-backed, **bilingual EN/ES**, green gate clean (tsc + eslint +
+**90 tests** [81→90, +9; the 1 "fail" is the known local-only auth-env test] + `next build`, 17
+SSG/static pages incl. `/programs/linkedin`). Runtime-verified on a fresh dev server.
+- ✅ **Bilingual foundation (the net-new engineering, §20.5 #1).** New `lib/i18n.ts`:
+  **`LocalizedText = string | {en,es}`** + a `t(value, lang)` resolver + `hasEs`/`localizedNonEmpty`
+  (+5 unit tests). **English-only content stays plain strings, untouched** — `t(string)` is a no-op.
+  New `components/i18n/ContentLang.tsx` = a **global, persisted EN|ES content-language context**
+  (`villaaula:contentLang`) + `useContentLang()` + `ContentLangToggle`, mounted in `layout.tsx`.
+  Types: `Question.prompt/explanation/hint`, `ChoiceOption.text`, `OpenConfig.placeholder`,
+  `Content.title/body` are now `LocalizedText`; **new `draft_compare` question type** +
+  `DraftCompareConfig`; `Course.bilingual`/`introEs`/`noteLabel`. Render layer
+  (QuestionCard/ReadingBlock/AudioBlock/SpeakingQuestion) resolves via `t()`; LessonPlayer/
+  FinalTestPlayer **dispatch draft_compare** + show the toggle when `course.bilingual`, and label
+  the course via **`courseNoun`** (not hardcoded "Level" — threaded from `programForCourse`).
+  Validator now checks **both bilingual arms** for prompt/option/model (no half-translations).
+- ✅ **`draft & compare` (§20.2, non-graded).** New `DraftCompare.tsx`: the learner writes their
+  **real** headline/About/message, reveals a strong **model** + a self-check **checklist**, and it
+  auto-counts as attempted. (Phase 2 will pipe these inputs into the Career Kit.)
+- ✅ **The course — `content/linkedin.ts`.** "LinkedIn: Zero to Job-Ready", **8 units** (getting
+  started · headline · About · experience bullets · proof & trust · networking · job search ·
+  outreach), each = 1 focused lesson (a renamed **"Key idea"** note EN+ES + ~3 exercises) using
+  **MCQ / True-False / Match / draft-compare** and **mock "snippet cards"** (our own example text,
+  §9 — never LinkedIn's UI/docs). Plus an **8-Q capstone** final test (pass 6), conclusion, and a
+  **certificate** (`diploma` engine). Instructions/explanations/conceptual options are `{en,es}`;
+  the English LinkedIn snippets stay English (the **ESL crossover** §20 wants).
+- ✅ **Catalog wiring.** New **"career"** category + `programs/linkedin.ts` (a **single-course
+  "collection" program**, certificate-only — no per-course badges, per §19.3) registered in
+  `programs/index.ts` + `catalog.ts` → the home **Career** row, the `/programs/linkedin` dashboard,
+  and `/course/linkedin` all light up automatically.
+- 🧪 **Runtime smoke (fresh dev server):** home (Career card), `/programs/linkedin`, `/course/linkedin`
+  ("COURSE 1" eyebrow), a lesson (`/course/linkedin/unit/2/lesson/the-headline` → Key-idea note +
+  snippet card + draft-compare "Show a strong example" + **EN|ES toggle** + Spanish payload present),
+  final test, conclusion — all 200/correct. ⚠️ **Lesson routes 404'd until I cleared a stale `.next`**
+  — running `next build` then `next dev` shares `.next` and Turbopack served a stale manifest (the
+  Session-15 lesson again): **don't `next dev` right after a `next build` without clearing `.next`**.
+- ⚠️ **Honest scope:** Phase 1 = the **Learn** units only. **Phase 2** (Gemini **ATS/human rubric
+  grading** + the persisted **Career Kit** deliverable — copy-paste LinkedIn text + résumé PDF) and
+  **Phase 3** (the **Gemini mock interview** over the speaking pipeline) are **not built** — they need
+  the go-live **DB**. Also each unit is **one lesson** for now (solid basics); more lessons per unit
+  is easy AI-authored follow-up. The single-course program still shows the full dashboard (the §19
+  "collapse straight into the course" is optional polish, deferred).
+- **NEXT:** §20 **Phase 2** (rides the go-live DB) · more lessons per LinkedIn unit · Carlos's Replit
+  go-live (§17). The English program is unchanged and still green.
 
 ### 2026-06-26 — Session 15 (PROGRAMS catalog — §19 Phase A SHIPPED)
 Autonomous `/loop "continue the approved plan"`. Built **all of §19 Phase A** — the platform now models
@@ -1585,13 +1647,22 @@ a browseable marketplace later — no second redesign.
 
 ---
 
-## 20. "LinkedIn: Zero-to-Job-Ready" — the 2nd program (APPROVED PLAN, planning only)
+## 20. "LinkedIn: Zero-to-Job-Ready" — the 2nd program (✅ PHASE 1 SHIPPED)
 
-> **Status: APPROVED — planning only, NO build started (designed 2026-06-26 with Carlos).** This is
-> VillaAula's **second program** and the first non-ESL one — so building it **realizes §19 Phase B**
-> (a real **"Career"** category + a genuine 2-category catalog). It is **not just a quiz course**: it's a
-> **learn → build → interview** journey that hands the user a *tangible deliverable*. **Bilingual EN/ES
-> throughout** (a hard requirement). Read this with §19 (catalog) and §18.C/D (speaking + AI).
+> **Status: APPROVED — ✅ PHASE 1 SHIPPED (Session 16, 2026-06-27); Phases 2–3 pending the go-live DB.**
+> Designed 2026-06-26 with Carlos; Phase 1 (the 8 **Learn** units + the bilingual engine + the Career
+> category) built 2026-06-27 — see §20.6 + the Session 16 log. VillaAula's **second program** and the
+> first non-ESL one, so it **realized §19 Phase B** (a real **"Career"** category + a genuine 2-category
+> catalog). It is **not just a quiz course**: it's a **learn → build → interview** journey that hands the
+> user a *tangible deliverable*. **Bilingual EN/ES throughout** (a hard requirement). Read this with §19
+> (catalog) and §18.C/D (speaking + AI).
+>
+> **What's live (Phase 1):** `content/linkedin.ts` (8 units, 1 lesson each + 8-Q capstone + cert),
+> `programs/linkedin.ts` (single-course "collection" program in the "career" category), and the bilingual
+> engine — `lib/i18n.ts` (`LocalizedText`/`t()`), `components/i18n/ContentLang.tsx` (global EN|ES toggle),
+> the `draft_compare` exercise type (`components/exercise/DraftCompare.tsx`), and `courseNoun` threading.
+> **Still TODO:** Phase 2 (AI rubric grading + the **Career Kit**) and Phase 3 (mock interview) — both
+> need the DB; plus more lessons per unit (each unit is one lesson today).
 
 ### 20.0 The shape — three pillars
 - **A) Learn** — guided units on the full LinkedIn-to-job flow (basics of the *whole* flow, not expert in
@@ -1665,9 +1736,10 @@ spot for "comprehensive basics of the full flow")
    (realizes Phase B).
 
 ### 20.6 Phasing (honest — this grew past "small-short"; build it in slices)
-- **Phase 1 (MVP, mostly existing tech):** the 8 Learn units + **LocalizedText bilingual** + snippet cards
-  + MCQ/T-F/match/draft-compare. Ships the program + the **Career category** (the §19 Phase B catalog
-  moment). No AI, no deliverable yet.
+- **Phase 1 (MVP, mostly existing tech) — ✅ SHIPPED (Session 16):** the 8 Learn units + **LocalizedText
+  bilingual** + snippet cards + MCQ/T-F/match/draft-compare. Shipped the program + the **Career category**
+  (the §19 Phase B catalog moment). No AI, no deliverable yet — as planned. (Caveat: 1 lesson per unit so
+  far; the **draft-compare** exercises already capture the user inputs that Phase 2's Career Kit will use.)
 - **Phase 2 (AI + the payoff):** Gemini **rubric grading** (ATS/human scores) + the **Career Kit**
   (intake → AI-polished LinkedIn copy + résumé PDF, persisted + revisitable). **Needs the DB** (rides on
   the go-live).
