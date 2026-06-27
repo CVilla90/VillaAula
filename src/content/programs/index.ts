@@ -7,6 +7,7 @@ import type {
 } from "@/lib/types";
 import { getCourse } from "@/content/catalog";
 import { englishProgram } from "./english";
+import { linkedinProgram } from "./linkedin";
 import { categories } from "./categories";
 
 /**
@@ -15,7 +16,7 @@ import { categories } from "./categories";
  * up the catalog/dashboard automatically. File-backed (no DB). Course↔Program is
  * many-to-many — a course slug may appear in several programs' `courses` lists.
  */
-export const programs: Program[] = [englishProgram];
+export const programs: Program[] = [englishProgram, linkedinProgram];
 
 export { categories };
 

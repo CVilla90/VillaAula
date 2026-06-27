@@ -79,7 +79,12 @@ export default function LessonPlayer({
       </h1>
 
       <div className="mt-5">
-        <GrammarNote md={lesson.grammarNote} mdEs={lesson.grammarNoteEs} />
+        <GrammarNote
+          md={lesson.grammarNote}
+          mdEs={lesson.grammarNoteEs}
+          summary={course.noteLabel}
+          useGlobalLang={course.bilingual}
+        />
       </div>
 
       {lesson.deepDives && lesson.deepDives.length > 0 && (

@@ -318,6 +318,11 @@ export interface Course {
   bilingual?: boolean;
   /** Optional Spanish version of `intro`, shown when bilingual + ES is selected. */
   introEs?: string;
+  /**
+   * Label for the collapsible lesson note (the ESL "grammar" panel). Defaults to
+   * "Grammar — show me the rule"; a non-ESL course can rename it ("Key idea — the why").
+   */
+  noteLabel?: string;
   units: Unit[];
   finalTest?: FinalTest;
   conclusion?: CourseConclusion;

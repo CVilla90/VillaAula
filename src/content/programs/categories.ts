@@ -11,4 +11,9 @@ export const categories: Category[] = [
     title: "Languages",
     blurb: "Learn to read, listen, and speak — one short exercise at a time.",
   },
+  {
+    slug: "career",
+    title: "Career",
+    blurb: "Practical, job-ready skills — build something you can actually use.",
+  },
 ];

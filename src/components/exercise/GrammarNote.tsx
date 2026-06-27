@@ -2,38 +2,51 @@
 
 import { useEffect, useState } from "react";
 import { RichText } from "@/components/RichText";
+import { useContentLang } from "@/components/i18n/ContentLang";
 
 type Lang = "en" | "es";
 const STORAGE_KEY = "villaaula:grammarLang";
 
 /**
- * Collapsed by default (native <details>) — "the grammar is one tap away".
+ * Collapsed by default (native <details>) — "the [note] is one tap away".
  *
- * When a Spanish version (`mdEs`) exists, a small EN/ES toggle appears inside the
- * expanded note so a learner can read the explanation in Spanish. The toggle lives
- * in the body (not the <summary>) so clicking it never collapses the panel, and the
- * choice persists in localStorage so it sticks across lessons. Per the design, only
- * the *prose* is translated — grammar terms and examples stay in English.
+ * When a Spanish version (`mdEs`) exists the note can be read in Spanish. Two modes:
+ *
+ *  - **Standalone (ESL courses):** the note carries its own EN/ES toggle (only the
+ *    *prose* is translated; grammar terms + examples stay in English), persisted in
+ *    its own localStorage key — independent of the exercises, which are English-only.
+ *  - **`useGlobalLang` (bilingual courses, e.g. LinkedIn):** the note follows the
+ *    course-level EN|ES switch in the header (one control for the whole lesson), so
+ *    it hides its own toggle.
+ *
+ * `summary` overrides the label after the 📖 (default "Grammar — show me the rule")
+ * so a non-ESL course can call its note something fitting ("Key idea — the why").
  */
 export default function GrammarNote({
   md,
   mdEs,
+  summary = "Grammar — show me the rule",
+  useGlobalLang = false,
 }: {
   md: string;
   mdEs?: string;
+  summary?: string;
+  useGlobalLang?: boolean;
 }) {
-  const [lang, setLang] = useState<Lang>("en");
+  const [localLang, setLocalLang] = useState<Lang>("en");
+  const { lang: globalLang } = useContentLang();
 
   // Restore the learner's last choice (post-mount → SSR-safe). Syncing state from
   // an external store (localStorage) on mount is the legitimate effect-setState case.
   useEffect(() => {
+    if (useGlobalLang) return;
     const saved = window.localStorage.getItem(STORAGE_KEY);
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (saved === "es" || saved === "en") setLang(saved);
-  }, []);
+    if (saved === "es" || saved === "en") setLocalLang(saved);
+  }, [useGlobalLang]);
 
   const choose = (next: Lang) => {
-    setLang(next);
+    setLocalLang(next);
     try {
       window.localStorage.setItem(STORAGE_KEY, next);
     } catch {
@@ -42,13 +55,15 @@ export default function GrammarNote({
   };
 
   const hasEs = typeof mdEs === "string" && mdEs.trim().length > 0;
+  const lang = useGlobalLang ? globalLang : localLang;
   const body = hasEs && lang === "es" ? mdEs! : md;
+  const showOwnToggle = hasEs && !useGlobalLang;
 
   return (
     <details className="group rounded-2xl border border-line bg-paper open:bg-cream/30">
       <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-5 py-3.5 font-display text-sm font-bold text-ink [&::-webkit-details-marker]:hidden">
         <span className="inline-flex items-center gap-2">
-          <span aria-hidden>📖</span> Grammar — show me the rule
+          <span aria-hidden>📖</span> {summary}
         </span>
         <span
           aria-hidden
@@ -58,11 +73,11 @@ export default function GrammarNote({
         </span>
       </summary>
       <div className="border-t border-line px-5 py-4 text-sm leading-relaxed text-ink/90">
-        {hasEs && (
+        {showOwnToggle && (
           <div className="mb-3 flex items-center justify-end">
             <div
               role="group"
-              aria-label="Grammar explanation language"
+              aria-label="Explanation language"
               className="inline-flex rounded-full border border-line bg-cream/40 p-0.5 font-mono text-[11px] font-semibold"
             >
               <LangButton
