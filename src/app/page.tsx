@@ -2,20 +2,22 @@ import Link from "next/link";
 import HeroCloze from "@/components/HeroCloze";
 import AccountMenu from "@/components/auth/AccountMenu";
 import Logo from "@/components/Logo";
+import Catalog, {
+  type CategoryData,
+  type ProgramCardData,
+} from "@/components/catalog/Catalog";
 import {
+  categories,
+  programs,
+  featuredProgram,
+  programBand,
+  activeCourseLabel,
   activeCourseCount,
-  levelCatalog,
-  levelRange,
-  type LevelCatalogEntry,
-} from "@/content/catalog";
-import {
-  BRAND,
-  BRAND_NOTE,
-  BYLINE,
-  COPYRIGHT_YEAR,
-  LEVEL_BAND,
-  SUPPORT_URL,
-} from "@/lib/site";
+  getCategory,
+  resolveProgramCourses,
+  firstActiveCourse,
+} from "@/content/programs";
+import { BRAND, BRAND_NOTE, BYLINE, COPYRIGHT_YEAR, SUPPORT_URL } from "@/lib/site";
 
 const FEATURES = [
   {
@@ -36,6 +38,36 @@ const FEATURES = [
 ];
 
 export default function Home() {
+  // The platform leads with one featured program today (HANDOFF §19.4), but renders
+  // from the catalog so adding a second program is data, not a redesign.
+  const featured = featuredProgram();
+  const band = programBand(featured);
+  const start = firstActiveCourse(featured);
+  const readyLabel = activeCourseLabel(featured);
+  const readyCount = activeCourseCount(featured);
+
+  const catalogPrograms: ProgramCardData[] = programs.map((p) => {
+    const resolved = resolveProgramCourses(p);
+    const cat = getCategory(p.category);
+    return {
+      slug: p.slug,
+      title: p.title,
+      tagline: p.tagline,
+      band: programBand(p),
+      category: p.category,
+      categoryTitle: cat?.title ?? p.category,
+      courseNoun: p.courseNoun ?? "Course",
+      readyCount: resolved.filter((c) => c.status === "active").length,
+      soonCount: resolved.filter((c) => c.status === "soon").length,
+      rungs: resolved.map((c) => ({ slug: c.slug, band: c.band, status: c.status })),
+    };
+  });
+  const catalogCategories: CategoryData[] = categories.map((c) => ({
+    slug: c.slug,
+    title: c.title,
+    blurb: c.blurb,
+  }));
+
   return (
     <div className="font-sans">
       {/* ---------- NAV ---------- */}
@@ -50,17 +82,17 @@ export default function Home() {
               How it works
             </Link>
             <Link
-              href="#levels"
+              href="#programs"
               className="hidden rounded-full px-4 py-2 text-sm font-medium text-muted transition hover:text-ink sm:block"
             >
-              Levels
+              Programs
             </Link>
             <AccountMenu />
           </div>
         </nav>
       </header>
 
-      {/* ---------- HERO ---------- */}
+      {/* ---------- HERO (featured program) ---------- */}
       <section className="relative overflow-hidden">
         <div
           aria-hidden
@@ -73,7 +105,8 @@ export default function Home() {
         <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:py-24">
           <div>
             <p className="animate-rise font-mono text-xs font-medium tracking-[0.22em] text-muted">
-              ENGLISH · {LEVEL_BAND} · SELF-PACED
+              {featured.title.toUpperCase()}
+              {band ? ` · ${band}` : ""} · SELF-PACED
             </p>
             <h1
               className="animate-rise mt-5 font-display text-5xl font-extrabold leading-[1.03] tracking-tight text-ink sm:text-6xl"
@@ -95,19 +128,19 @@ export default function Home() {
               style={{ animationDelay: "0.3s" }}
             >
               <Link
-                href="/level/1"
+                href={start?.href ?? `/programs/${featured.slug}`}
                 className="group inline-flex items-center gap-2 rounded-full bg-coral px-6 py-3.5 font-display text-base font-bold text-white shadow-lg shadow-coral/25 transition hover:bg-coral-deep"
               >
-                Start Level 1
+                Start {featured.courseNoun ?? "Course"} {start?.slug ?? ""}
                 <span className="transition-transform group-hover:translate-x-0.5">
                   →
                 </span>
               </Link>
               <Link
-                href="#how"
+                href={`/programs/${featured.slug}`}
                 className="inline-flex items-center rounded-full border border-line bg-paper px-6 py-3.5 font-semibold text-ink transition hover:border-ink/30"
               >
-                See how it works
+                See the full path
               </Link>
             </div>
             <p
@@ -124,26 +157,24 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---------- LEVELS ---------- */}
-      <section id="levels" className="mx-auto max-w-6xl px-5 py-16 lg:py-24">
+      {/* ---------- PROGRAMS (catalog) ---------- */}
+      <section id="programs" className="mx-auto max-w-6xl px-5 py-16 lg:py-24">
         <div className="flex flex-col gap-3">
           <p className="font-mono text-xs tracking-[0.22em] text-coral">
-            FOUR LEVELS · ONE PATH
+            WHAT YOU CAN LEARN
           </p>
           <h2 className="font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
-            Start at the beginning,
+            Pick a program,
             <br />
-            finish with a diploma.
+            climb at your pace.
           </h2>
           <p className="max-w-lg text-muted">
-            Each level is a quick, guided climb — an intro, bite-size lessons, a
-            final check, and a diploma you can actually download.
+            Each program is a guided path of short courses — work through it, collect a
+            badge for every course, and earn a shareable certificate at each milestone.
           </p>
         </div>
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {levelCatalog.map((l) => (
-            <LevelCard key={l.level} entry={l} />
-          ))}
+        <div className="mt-10">
+          <Catalog programs={catalogPrograms} categories={catalogCategories} />
         </div>
       </section>
 
@@ -179,14 +210,14 @@ export default function Home() {
             Ready when you are.
           </h2>
           <p className="mx-auto mt-3 max-w-md text-white/85">
-            {levelRange()} {activeCourseCount > 1 ? "are" : "is"} ready end to
-            end. Start free, no pressure.
+            {readyLabel} {readyCount > 1 ? "are" : "is"} ready end to end. Start
+            free, no pressure.
           </p>
           <Link
-            href="/level/1"
+            href={start?.href ?? `/programs/${featured.slug}`}
             className="mt-7 inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 font-display text-base font-bold text-coral-deep shadow-lg transition hover:bg-white/90"
           >
-            Start Level 1 <span>→</span>
+            Start {featured.courseNoun ?? "Course"} {start?.slug ?? ""} <span>→</span>
           </Link>
         </div>
       </section>
@@ -308,56 +339,6 @@ function ProgressRing({ percent }: { percent: number }) {
   );
 }
 
-function LevelCard({ entry }: { entry: LevelCatalogEntry }) {
-  const active = entry.status === "active";
-  return (
-    <div
-      className={`group flex flex-col rounded-2xl border p-5 transition ${
-        active
-          ? "border-coral/30 bg-paper shadow-lg shadow-coral/5 hover:-translate-y-0.5"
-          : "border-line bg-paper/50"
-      }`}
-    >
-      <div className="flex items-center justify-between">
-        <span
-          className={`font-mono text-xs ${active ? "text-coral" : "text-muted"}`}
-        >
-          LEVEL {entry.level}
-        </span>
-        {active ? (
-          <span className="rounded-full bg-teal/10 px-2 py-0.5 text-[11px] font-semibold text-teal">
-            Ready
-          </span>
-        ) : (
-          <span className="inline-flex items-center gap-1 text-[11px] font-medium text-muted">
-            <LockIcon />
-            Soon
-          </span>
-        )}
-      </div>
-      <h3 className="mt-3 font-display text-lg font-bold text-ink">
-        {entry.title}
-      </h3>
-      <p className="mt-1 font-mono text-xs leading-relaxed text-muted">
-        {entry.focus}
-      </p>
-      <div className="mt-4 h-1.5 w-full overflow-hidden rounded-full bg-line">
-        <div className="h-full rounded-full bg-coral" style={{ width: "0%" }} />
-      </div>
-      {active ? (
-        <Link
-          href={entry.href ?? `/level/${entry.slug}`}
-          className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-coral"
-        >
-          Start <span className="transition-transform group-hover:translate-x-0.5">→</span>
-        </Link>
-      ) : (
-        <span className="mt-4 text-sm text-muted/70">Locked for now</span>
-      )}
-    </div>
-  );
-}
-
 function SupportProject() {
   return (
     <details className="group max-w-md text-[13px]">
@@ -452,24 +433,6 @@ function WaveIcon() {
       aria-hidden
     >
       <path d="M4 12h2M9 7v10M14 4v16M19 9v6M22 12h-1" />
-    </svg>
-  );
-}
-
-function LockIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      className="size-3.5"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <rect x="5" y="11" width="14" height="9" rx="2" />
-      <path d="M8 11V7a4 4 0 0 1 8 0v4" />
     </svg>
   );
 }

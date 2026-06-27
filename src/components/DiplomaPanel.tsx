@@ -34,7 +34,7 @@ export default function DiplomaPanel({
   // Accounts are on but this visitor is a guest → they may audit, but the diploma
   // (and its name) belongs to a real account. See HANDOFF §18.E.
   const mustLogin = authEnabled && !signedIn;
-  const claimNext = encodeURIComponent(`/level/${course.slug}/conclusion`);
+  const claimNext = encodeURIComponent(`/course/${course.slug}/conclusion`);
   const lessonKeys = useMemo(
     () =>
       course.units.flatMap((unit) =>
@@ -209,13 +209,13 @@ export default function DiplomaPanel({
           {!ready && (
             <div className="mt-4 flex flex-wrap gap-3 text-sm text-muted">
               {!lessonsDone && (
-                <Link href={`/level/${course.slug}`} className="font-bold text-coral">
+                <Link href={`/course/${course.slug}`} className="font-bold text-coral">
                   Finish lessons
                 </Link>
               )}
               {!finalDone && course.finalTest && (
                 <Link
-                  href={`/level/${course.slug}/final-test`}
+                  href={`/course/${course.slug}/final-test`}
                   className="font-bold text-coral"
                 >
                   Take final check

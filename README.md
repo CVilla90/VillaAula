@@ -1,11 +1,20 @@
 # VillaAula
 
-A lightweight, content-agnostic micro-LMS. Pick a level, work through
-lessons (reading, audio, speaking, and four quiz types), pass the final check,
-and download a diploma. Built with **Next.js 16 (App Router) + React 19 +
-Tailwind v4**, first-party auth (`jose` JWT + bcrypt) with optional Google
-OAuth, **Prisma + Postgres** for accounts/progress/grades, and **Gemini** for
-speaking-exercise transcription.
+A lightweight, content-agnostic micro-LMS. Browse the **catalog**, pick a
+**program** (e.g. *English, A1→C2*), and climb its **courses** — each a set of
+lessons (reading, audio, speaking, and four quiz types) with a final check and a
+diploma. Earn a **badge** per course and a shareable **certificate** at each
+program milestone. Built with **Next.js 16 (App Router) + React 19 + Tailwind
+v4**, first-party auth (`jose` JWT + bcrypt) with optional Google OAuth, **Prisma
++ Postgres** for accounts/progress/grades, and **Gemini** for speaking-exercise
+transcription.
+
+> **Programs catalog (HANDOFF §19):** the platform is topic-agnostic; the catalog
+> (`src/content/programs/`) groups courses into programs by category. The home page
+> is a view over it (featured program + category sections + client-side search), the
+> per-program dashboard lives at `/programs/[slug]`, and a course at `/course/[slug]`
+> (the old `/level/*` URLs 308-redirect). Programs/badges/certificates are file-backed
+> data — no DB needed.
 
 > Personal project of Carlos Villa. See **`HANDOFF.md`** for the full design,
 > status log, and decisions — it is the source of truth.
@@ -29,7 +38,7 @@ turn on accounts, persisted grades, and the admin dashboard.
 
 ```bash
 npm run lint       # eslint
-npm test           # vitest (62 tests)
+npm test           # vitest (76 tests)
 npm run build      # production build
 ```
 

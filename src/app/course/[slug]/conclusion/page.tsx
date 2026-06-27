@@ -21,7 +21,7 @@ export default async function ConclusionPage({
   return (
     <main className="mx-auto max-w-2xl px-5 py-10">
       <Link
-        href={`/level/${course.slug}`}
+        href={`/course/${course.slug}`}
         className="font-mono text-xs text-muted transition hover:text-coral"
       >
         &larr; Level {course.level}

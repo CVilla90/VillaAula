@@ -9,12 +9,11 @@ export const BRAND = "VillaAula";
 export const BRAND_WORDMARK = "VillaAula";
 /** Small descriptive line under the footer logo (replaces the old WISHUB backronym). */
 export const BRAND_NOTE = "A little classroom of your own";
-export const TAGLINE = "English that finally clicks";
-export const META_DESCRIPTION =
-  "A small, modern English course that skips the clutter. Short exercises, instant feedback, and the grammar tucked away until you want it.";
 
-/** CEFR band shown in the hero eyebrow. */
-export const LEVEL_BAND = "A1 → A2";
+// NOTE (HANDOFF §19.4): the program-voice strings that used to live here — the
+// English tagline, marketing description, and CEFR band — now come from the program
+// data (`content/programs`). The platform layer stays topic-agnostic; see
+// `featuredProgram()` / `programBand()` for the English-first home copy.
 
 export const BYLINE = "Built by Carlos Villa";
 export const COPYRIGHT_YEAR = 2026;

@@ -54,7 +54,7 @@ export default function LessonPlayer({
     <div className="mx-auto max-w-2xl px-5 py-10">
       <div className="flex items-center justify-between">
         <Link
-          href={`/level/${course.slug}`}
+          href={`/course/${course.slug}`}
           className="font-mono text-xs text-muted transition hover:text-coral"
         >
           ← Level {course.level} · {unit.title}
@@ -150,21 +150,21 @@ export default function LessonPlayer({
           <div className="mt-5 flex justify-center">
             {next ? (
               <Link
-                href={`/level/${course.slug}/unit/${next.unit.slug}/lesson/${next.lesson.slug}`}
+                href={`/course/${course.slug}/unit/${next.unit.slug}/lesson/${next.lesson.slug}`}
                 className="rounded-full bg-coral px-6 py-3 font-display text-sm font-bold text-white transition hover:bg-coral-deep"
               >
                 Next: {next.lesson.title} →
               </Link>
             ) : course.finalTest ? (
               <Link
-                href={`/level/${course.slug}/final-test`}
+                href={`/course/${course.slug}/final-test`}
                 className="rounded-full bg-coral px-6 py-3 font-display text-sm font-bold text-white transition hover:bg-coral-deep"
               >
                 Final check →
               </Link>
             ) : (
               <Link
-                href={`/level/${course.slug}`}
+                href={`/course/${course.slug}`}
                 className="rounded-full bg-coral px-6 py-3 font-display text-sm font-bold text-white transition hover:bg-coral-deep"
               >
                 Back to {unit.title} →

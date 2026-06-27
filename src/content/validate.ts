@@ -27,8 +27,11 @@ import type {
   SpeakingConfig,
   Exercise,
   Resource,
+  Program,
+  Category,
 } from "@/lib/types";
 import { extractLearnSlugs, lessonReferencedSlugs } from "@/content/links";
+import { programBadges } from "@/content/programs";
 
 export interface ValidationIssue {
   /** Course slug the problem belongs to ("*" for catalog-wide issues). */
@@ -235,6 +238,94 @@ export function validateDeepDiveLinks(
       }
     }
   }
+  return issues;
+}
+
+/**
+ * Programs/categories/credentials integrity (HANDOFF §19). Verifies the catalog
+ * layer that sits on top of courses: unique slugs, resolvable category, every
+ * "active" course slot maps to an authored Course, every "soon" slot carries its
+ * own title, unique credential ids (incl. derived badges), and every credential
+ * requirement resolves to a declared course/program. Pure — pass the data in.
+ */
+export function validatePrograms(
+  programs: Program[],
+  categories: Category[],
+  courses: Course[],
+): ValidationIssue[] {
+  const issues: ValidationIssue[] = [];
+  const scope = "programs";
+
+  // Categories: unique slugs + a title.
+  const catSlugs = new Set<string>();
+  for (const c of categories) {
+    const where = `category ${c.slug}`;
+    if (catSlugs.has(c.slug)) issues.push({ course: scope, where, message: `duplicate category slug "${c.slug}"` });
+    catSlugs.add(c.slug);
+    if (!nonEmpty(c.title)) issues.push({ course: scope, where, message: "category has no title" });
+  }
+
+  const authored = new Set(courses.map((c) => c.slug));
+  const declared = new Set<string>(); // every course slug any program references
+  const allProgramSlugs = new Set(programs.map((p) => p.slug));
+  for (const p of programs) for (const ref of p.courses) declared.add(ref.slug);
+
+  const seenProgram = new Set<string>();
+  const credentialIds = new Map<string, string>();
+  const coursesInAProgram = new Set<string>();
+
+  for (const p of programs) {
+    const where = `program ${p.slug}`;
+    if (seenProgram.has(p.slug)) issues.push({ course: scope, where, message: `duplicate program slug "${p.slug}"` });
+    seenProgram.add(p.slug);
+
+    if (!nonEmpty(p.title)) issues.push({ course: scope, where, message: "program has no title" });
+    if (!nonEmpty(p.tagline)) issues.push({ course: scope, where, message: "program has no tagline" });
+    if (!catSlugs.has(p.category)) issues.push({ course: scope, where, message: `category "${p.category}" has no matching category` });
+    if (p.courses.length === 0) issues.push({ course: scope, where, message: "program has no courses" });
+
+    const seenCourse = new Set<string>();
+    for (const ref of p.courses) {
+      const rw = `${where} / course ${ref.slug}`;
+      if (seenCourse.has(ref.slug)) issues.push({ course: scope, where: rw, message: `duplicate course "${ref.slug}" in program` });
+      seenCourse.add(ref.slug);
+      coursesInAProgram.add(ref.slug);
+      if (ref.status === "active" && !authored.has(ref.slug)) {
+        issues.push({ course: scope, where: rw, message: `course is "active" but no authored course has slug "${ref.slug}"` });
+      }
+      if (ref.status === "soon" && !nonEmpty(ref.title)) {
+        issues.push({ course: scope, where: rw, message: `"soon" course needs a title (no authored course to borrow one)` });
+      }
+    }
+
+    // Credentials: ids unique across all programs (incl. derived badges); requirements resolve.
+    const creds = [...programBadges(p), ...(p.certificates ?? [])];
+    for (const cr of creds) {
+      const cw = `${where} / credential ${cr.id}`;
+      const prev = credentialIds.get(cr.id);
+      if (prev) issues.push({ course: scope, where: cw, message: `duplicate credential id "${cr.id}" (also in ${prev})` });
+      else credentialIds.set(cr.id, where);
+      if (!nonEmpty(cr.title)) issues.push({ course: scope, where: cw, message: "credential has no title" });
+      const req = cr.requires;
+      if (req.type === "course") {
+        if (!declared.has(req.courseSlug)) issues.push({ course: scope, where: cw, message: `requires course "${req.courseSlug}" which no program declares` });
+      } else if (req.type === "courses") {
+        for (const s of req.courseSlugs) {
+          if (!declared.has(s)) issues.push({ course: scope, where: cw, message: `requires course "${s}" which no program declares` });
+        }
+      } else if (!allProgramSlugs.has(req.programSlug)) {
+        issues.push({ course: scope, where: cw, message: `requires program "${req.programSlug}" which doesn't exist` });
+      }
+    }
+  }
+
+  // Soft: every authored course should live in at least one program (no orphans).
+  for (const c of courses) {
+    if (!coursesInAProgram.has(c.slug)) {
+      issues.push({ course: scope, where: `course ${c.slug}`, message: `authored course "${c.slug}" isn't in any program` });
+    }
+  }
+
   return issues;
 }
 

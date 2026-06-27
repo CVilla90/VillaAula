@@ -81,7 +81,7 @@ export default async function DeepDivePage({
             {usedIn.map((l) => (
               <li key={`${l.courseSlug}-${l.unitSlug}-${l.lessonSlug}`}>
                 <Link
-                  href={`/level/${l.courseSlug}/unit/${l.unitSlug}/lesson/${l.lessonSlug}`}
+                  href={`/course/${l.courseSlug}/unit/${l.unitSlug}/lesson/${l.lessonSlug}`}
                   className="inline-flex items-center gap-2 text-sm text-muted transition hover:text-coral"
                 >
                   <span className="font-mono text-[11px] text-coral">

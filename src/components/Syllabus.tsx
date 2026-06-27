@@ -25,11 +25,11 @@ export default function Syllabus({ course }: { course: Course }) {
     : true;
   const nextHref = !lessonsDone
     ? nextUp
-      ? `/level/${course.slug}/unit/${nextUp.unit.slug}/lesson/${nextUp.lesson.slug}`
-      : `/level/${course.slug}`
+      ? `/course/${course.slug}/unit/${nextUp.unit.slug}/lesson/${nextUp.lesson.slug}`
+      : `/course/${course.slug}`
     : course.finalTest && !finalDone
-      ? `/level/${course.slug}/final-test`
-      : `/level/${course.slug}/conclusion`;
+      ? `/course/${course.slug}/final-test`
+      : `/course/${course.slug}/conclusion`;
   const nextLabel = !lessonsDone
     ? done === 0
       ? "Start"
@@ -76,7 +76,7 @@ export default function Syllabus({ course }: { course: Course }) {
               return (
                 <li key={l.id}>
                   <Link
-                    href={`/level/${course.slug}/unit/${u.slug}/lesson/${l.slug}`}
+                    href={`/course/${course.slug}/unit/${u.slug}/lesson/${l.slug}`}
                     className="flex items-center gap-3 rounded-xl border border-line bg-paper px-4 py-3 transition hover:border-coral/40 hover:bg-cream/40"
                   >
                     <span
@@ -116,7 +116,7 @@ export default function Syllabus({ course }: { course: Course }) {
           </p>
           <div className="mt-4 grid gap-2">
             <Link
-              href={`/level/${course.slug}/final-test`}
+              href={`/course/${course.slug}/final-test`}
               className="flex items-center gap-3 rounded-xl border border-line bg-paper px-4 py-3 transition hover:border-coral/40 hover:bg-cream/40"
             >
               <span
@@ -139,7 +139,7 @@ export default function Syllabus({ course }: { course: Course }) {
               </span>
             </Link>
             <Link
-              href={`/level/${course.slug}/conclusion`}
+              href={`/course/${course.slug}/conclusion`}
               className="flex items-center gap-3 rounded-xl border border-line bg-paper px-4 py-3 transition hover:border-coral/40 hover:bg-cream/40"
             >
               <span

@@ -24,6 +24,17 @@
   MUSAI, Cátedra). It is **not** Creai work and **not** an official UACH project. Keep
   those worlds separate (see his `user_identity` memory).
 - **Status (2026-06-26, latest first — full log in §2):**
+  - ✅ **§19 PROGRAMS CATALOG — PHASE A SHIPPED (Session 15, 2026-06-26).** VillaAula now models a
+    **multi-program catalog** over the courses (file-backed, no DB): a `Program` entity wraps Levels 1–4
+    (+ C1/C2 "soon" stubs) into one **English A1→C2** ladder; **badges per course + certificates per
+    program** (CEFR milestones + capstone) defined as data; the route **`/level/` → `/course/`** with
+    redirects; **`/levels` → a real program dashboard at `/programs/[slug]`** (live progress + credential
+    wall); the **landing is now a catalog view** (featured English program + a quiet "Languages" category
+    + client-side search); platform voice **de-ESL'd** (English copy now sourced from the program, not
+    `lib/site.ts`). Green: tsc + eslint + **76 tests** (1 known-local auth fail) + `next build` (16 pages).
+    **Phase B/C** (credential SVG artifacts + `/c/[id]` public page, real multi-program catalog, DB) wait
+    on a 2nd program / §18.I. See **§19**. ⚠️ Untested at runtime live (no Postgres in dev); the dynamic
+    `/course/[slug]` render wasn't smoke-tested (build-validated only).
   - ✅ **SESSION 13 BUILD QUEUE SHIPPED + a "grammar EN/ES toggle" cherry (Session 14, 2026-06-26).**
     All three queued builds are live: **§18.K Stripe support footer** (discreet `<details>` "Support
     this project" → ❤️ Chip-in to the Stripe link; `SUPPORT_URL` in `lib/site.ts`), **§18.L admin
@@ -93,21 +104,26 @@
     + certificates per program incl. ESL CEFR milestone certs; English-first now but built as a theme
     over a neutral catalog; landing → searchable catalog later). **Planning only, no build started**;
     Phase A is pure data + a vocab/brand pass (no DB). Read **§19** before touching the catalog/landing.
-  - **NEXT SESSION — START HERE:** the Session-13 build queue is **DONE** (Session 14, see top status +
-    §2). What remains:
+  - **NEXT SESSION — START HERE:** the Session-13 build queue (Session 14) **and §19 Phase A** (Session 15)
+    are **DONE**. What remains:
     1. **Carlos (still pending): go-live on Replit** (§17) — Postgres + secrets + `db:push`, then the
-       live smoke test of signup/login/**OAuth**/speaking/admin **+ the new §18.L/M admin edits and the
-       §18.J Deep Dives** (Deep Dives are file-backed so they already work; the admin edits need the DB).
+       live smoke test of signup/login/**OAuth**/speaking/admin **+ the §18.L/M admin edits and the
+       §18.J Deep Dives**. **Also runtime-confirm the new routes** post-deploy: `/programs/english`
+       dashboard, a `/course/1` page, and that old `/level/1` + `/levels` links **308-redirect**.
        **OAuth verification is NOT required** (basic scopes — see §17 step 4); just **Confirm/Publish**.
-    2. **More Deep Dives content (§18.J)** — the *mechanism* shipped with **5 seed dives** (to-be,
-       present-continuous, present-perfect, first-conditional, phrasal-verbs). Authoring more explainers
-       + wiring `deepDives` / inline `[label](/learn/slug)` links into more lessons is the ongoing,
-       AI-authored part. Add a `Resource` file, register it in `content/resources/index.ts`, done.
-    3. **Grammar translations upkeep (cherry)** — all 80 notes have `grammarNoteEs`; a content test
-       (`validate.test.ts`) fails if a *new* lesson ships without one. Keep terms/examples in English.
-    4. **TA & Professor roles (§18.M)** — the cheap interim (role dropdown) is **built**; the real
-       per-role privileges stay **deferred** (blocked on content→Postgres §18.I — no DB-owned courses yet).
-    5. Optional later: §18.I content bank (TS→Postgres), §18.B calibration audit, mobile/PWA (§18.G).
+    2. **§19 Phase B (when a 2nd program lands, or sooner if wanted)** — ship the **credential artifacts**
+       (badge/cert SVG reusing the diploma machinery + the public **`/c/[id]`** page + LinkedIn "Add to
+       profile" deep-link) and the ESL milestone tiers as *earnable* (right now the dashboard shows the
+       credential wall as a roadmap; completion lights chips but there's no downloadable artifact yet).
+    3. **More Deep Dives content (§18.J)** — mechanism shipped with **5 seed dives**; authoring more +
+       wiring `deepDives`/inline `[label](/learn/slug)` links is the ongoing AI-authored part.
+    4. **Grammar translations upkeep (cherry)** — all 80 notes have `grammarNoteEs`; a content test fails
+       if a *new* lesson ships without one. Keep terms/examples in English.
+    5. **TA & Professor roles (§18.M)** — cheap interim (role dropdown) **built**; real per-role
+       privileges **deferred** (blocked on content→Postgres §18.I). §19 reframes this as "professors own
+       **programs**."
+    6. Optional later: §18.I content bank (TS→Postgres — programs/courses/categories become rows), §18.B
+       calibration audit, mobile/PWA (§18.G).
 - **History note:** the first formal class was **2026-06-22**; the original "ship a rough Level 1
   fast" pressure is long past — the product is now content-complete (L1–L4) and hardened. Current
   focus is the **login go-live**, not content.
@@ -152,6 +168,37 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
 ---
 
 ## 2. STATUS LOG (newest first — UPDATE EVERY SESSION)
+
+### 2026-06-26 — Session 15 (PROGRAMS catalog — §19 Phase A SHIPPED)
+Autonomous `/loop "continue the approved plan"`. Built **all of §19 Phase A** — the platform now models
+a **multi-program catalog** on top of the courses, file-backed (no DB), green gate clean (tsc + eslint +
+**76 tests** [68→75 pass, +7 new; the 1 "fail" is the known local-only auth-env test] + `next build`,
+16 SSG/static pages incl. `/programs/english`). Redirects runtime-verified (308s).
+- ✅ **Program/Category/Credential model** (`lib/types.ts`): `Program` (kind `ladder|collection`, a
+  `category`, an ordered `courses: ProgramCourseRef[]` of active/“soon” slots, `courseNoun`, authored
+  `certificates`), `Credential` (`badge|certificate` + `CredentialRequirement` of `course|courses|program`),
+  `Category`. **Course↔Program is many-to-many** (a slug may sit in several programs).
+- ✅ **`src/content/programs/`** — the program catalog (mirrors `content/catalog.ts`): `english.ts`
+  wraps **Levels 1–4** (active, bands A1/A2/B1/B2) **+ Levels 5–6** (“soon” C1/C2 stubs) into one
+  **English A1→C2 ladder**, with CEFR-milestone certs (Foundation/Independent/Proficiency) + an A1–C2
+  capstone; `categories.ts` seeds **“Languages”**; `index.ts` accessors (`getProgram`, `programForCourse`,
+  `resolveProgramCourses`, **derived** `programBadges` (one per course), `programCertificates`,
+  `featuredProgram`, `programBand`, `activeCourseLabel`/`Count`). Validator `validatePrograms` + 7 tests.
+- ✅ **Route rename `/level/[slug]` → `/course/[slug]`** (dir moved; all internal links rewired) with a
+  **wildcard 308 redirect** for the whole old tree + `/levels` → `/programs/english` in `next.config.ts`.
+  Progress survives (keyed by course slug, not path).
+- ✅ **Program dashboard `/programs/[slug]`** (replaces `/levels`): `ProgramDashboard` (client) shows the
+  ladder with **live per-course progress**, a recommended next step, and a **credential wall** (badges +
+  certs) that lights up as courses complete. Server passes only progress *keys* (no catalog bloat).
+- ✅ **Landing = a view over the catalog** (`components/catalog/Catalog.tsx`): English featured in the
+  hero (copy now **program-driven**, not hardcoded), then a `WHAT YOU CAN LEARN` section with a
+  client-side **search** + the **“Languages”** category + a rich program card. Reads focused, not empty.
+- ✅ **De-ESL’d the platform voice:** removed `TAGLINE`/`LEVEL_BAND`/`META_DESCRIPTION` from `lib/site.ts`
+  and the whole ESL `levelCatalog`/`LEVEL_META`/`levelRange` block from `catalog.ts` — that copy is now
+  sourced from the English **program** (`featuredProgram()`/`programBand()`); `layout.tsx` title too.
+- ⚠️ **Side effect:** a clean `next build` needed clearing `.next`, which **killed a running `npm run dev`**
+  (shared `.next`). If Carlos had a dev server up, restart it (`npm run dev`). Lesson: don't `rm -rf .next`
+  while a dev server runs — a plain `next build` regenerates the route validators anyway.
 
 ### 2026-06-26 — Session 14 (shipped the Session-13 build queue + grammar EN/ES toggle)
 Autonomous `/loop`: "finish everything per the HANDOFF" + one cherry. All four queued builds shipped,
@@ -1388,11 +1435,13 @@ local dev and a no-DB deploy both keep working.
 
 ## 19. PROGRAMS, CATALOG & CREDENTIALS — approved plan (2026-06-26)
 
-> **Status: APPROVED (planning only, no build started).** Captured from a design discussion with
-> Carlos on 2026-06-26. This is the agreed direction for evolving VillaAula from a single 4-level ESL
-> course set into a **multi-program learning catalog** (ESL today; AWS SAA, "LinkedIn profile basics",
-> etc. later). **Nothing here needs the DB** — `Program`, badges, and certificate definitions can all be
-> file-backed like `Course`/`Resource` are today, so Phase A is cheap. Honors the additive-only DB rule.
+> **Status: APPROVED — ✅ PHASE A SHIPPED (Session 15, 2026-06-26).** Captured from a design discussion
+> with Carlos on 2026-06-26; **Phase A built the same session** (entity model + English program + route
+> rename + dashboard + catalog landing + voice de-ESL, all file-backed — see §19.8 + the Session 15 log).
+> The agreed direction: evolve VillaAula from a single 4-level ESL course set into a **multi-program
+> learning catalog** (ESL today; AWS SAA, "LinkedIn profile basics", etc. later). **Nothing in Phase A
+> needed the DB** — `Program`, badges, and certificate definitions are file-backed like `Course`/`Resource`.
+> Honors the additive-only DB rule. **Phase B/C still pending** (artifacts + scale).
 
 ### 19.0 The core reframe — platform ≠ program
 Today the *platform* and the *ESL content* are the same thing (hero = "English that finally clicks", the
@@ -1493,11 +1542,14 @@ a browseable marketplace later — no second redesign.
   rendered in coral-ESL styling feels off.
 
 ### 19.8 Phasing (honest about inventory)
-- **Phase A — now, cheap, file-backed:** introduce the `Program` entity; wrap the 4 levels (+ C1/C2 as
-  `status:"soon"` course stubs) into one **"English A1→C2"** program; split platform-voice from
-  program-voice; reframe `/levels` as the program dashboard; seed one category ("Languages"); define
-  badges (course) + the program certificate + CEFR milestone certs as **data** (no artifact generator
-  yet needed to ship the model). Mostly data + a vocabulary/brand pass. **No DB.**
+- **Phase A — ✅ SHIPPED (Session 15):** introduced the `Program` entity (`lib/types.ts` +
+  `src/content/programs/`); wrapped the 4 levels (+ C1/C2 as `status:"soon"` stubs) into one **"English
+  A1→C2"** ladder; split platform-voice from program-voice (removed `TAGLINE`/`LEVEL_BAND` from
+  `lib/site.ts` + the `levelCatalog`/`LEVEL_META`/`levelRange` block from `catalog.ts`); renamed
+  `/level/[slug]` → `/course/[slug]` with 308 redirects; reframed `/levels` → the **`/programs/[slug]`**
+  dashboard (live progress + credential wall); made the landing a **catalog view** (featured program +
+  "Languages" category + client search); defined **course badges (derived) + program/CEFR-milestone
+  certificates** as data + a `validatePrograms` validator. No artifact generator (that's Phase B). **No DB.**
 - **Phase B — when the 2nd program lands (AWS SAA / LinkedIn):** turn the landing into a real catalog
   (category sections + cards + lightweight client-side search); ship the **badge/certificate artifacts**
   (SVG + `/c/[id]` public page + LinkedIn "Add to profile" deep-link) and the ESL milestone tiers.

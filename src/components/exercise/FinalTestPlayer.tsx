@@ -53,7 +53,7 @@ export default function FinalTestPlayer({
   return (
     <main className="mx-auto max-w-2xl px-5 py-10">
       <Link
-        href={`/level/${course.slug}`}
+        href={`/course/${course.slug}`}
         className="font-mono text-xs text-muted transition hover:text-coral"
       >
         &larr; Level {course.level}
@@ -127,7 +127,7 @@ export default function FinalTestPlayer({
           {passed && (
             <div className="mt-5 flex justify-center">
               <Link
-                href={`/level/${course.slug}/conclusion`}
+                href={`/course/${course.slug}/conclusion`}
                 className="rounded-full bg-coral px-6 py-3 font-display text-sm font-bold text-white transition hover:bg-coral-deep"
               >
                 Finish Level {course.level} &rarr;

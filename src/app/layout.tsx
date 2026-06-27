@@ -7,7 +7,8 @@ import { geminiConfigured } from "@/lib/ai/gemini";
 import { SessionProvider } from "@/components/auth/SessionProvider";
 import { ProgressProvider } from "@/components/progress/ProgressProvider";
 import TopBar from "@/components/TopBar";
-import { BRAND, META_DESCRIPTION, TAGLINE } from "@/lib/site";
+import { BRAND } from "@/lib/site";
+import { featuredProgram } from "@/content/programs";
 
 const display = Hanken_Grotesk({
   variable: "--font-hanken",
@@ -25,9 +26,12 @@ const mono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// English-first now (HANDOFF §19.4), but sourced from the featured program's data —
+// flipping the home title to a neutral platform line later is a one-liner, not a hunt.
+const featured = featuredProgram();
 export const metadata: Metadata = {
-  title: `${BRAND} — ${TAGLINE}`,
-  description: META_DESCRIPTION,
+  title: `${BRAND} — ${featured.tagline}`,
+  description: featured.summary,
 };
 
 export default async function RootLayout({

@@ -159,6 +159,98 @@ export interface Resource {
   related?: string[];
 }
 
+/* ----------------------- programs & credentials (HANDOFF §19) ----------------------- */
+
+/**
+ * Ladder = an ordered climb with a recommended next step (ESL A1→C2); collection =
+ * an unordered grid of independent courses.
+ */
+export type ProgramKind = "ladder" | "collection";
+
+/**
+ * One course slot in a Program: a reference to a Course by slug, plus per-program
+ * display dressing. `status:"active"` resolves to an authored Course; `status:"soon"`
+ * is a stub for a course that's planned but not authored yet — it must then carry its
+ * own `title`/`focus`, since there's no Course to borrow them from.
+ */
+export interface ProgramCourseRef {
+  /** Course slug. Resolves to a real Course when `status:"active"`. */
+  slug: string;
+  status: "active" | "soon";
+  /** Per-program label, e.g. the CEFR band "A1" for the English ladder. */
+  band?: string;
+  /** Title for "soon" stubs (active slots use the Course's own title). */
+  title?: string;
+  /** Short focus/spine label (for "soon" stubs, or to override a card label). */
+  focus?: string;
+}
+
+/** A badge is earned for one course; a certificate for a milestone or a whole program. */
+export type CredentialKind = "badge" | "certificate";
+
+/** What earns a credential. */
+export type CredentialRequirement =
+  /** Finish one course. */
+  | { type: "course"; courseSlug: string }
+  /** Finish every listed course (e.g. an ESL CEFR-band milestone). */
+  | { type: "courses"; courseSlugs: string[] }
+  /** Finish every authored course in the program (the capstone). */
+  | { type: "program"; programSlug: string };
+
+/**
+ * A credential a learner can earn (HANDOFF §19.3). A **badge** is light and frequent
+ * (one per course); a **certificate** is the bigger, shareable artifact for a CEFR
+ * milestone or a whole program. The artifact generator (SVG + the public `/c/[id]`
+ * page) is Phase B — for Phase A these are just data so the model can ship.
+ */
+export interface Credential {
+  /** Stable, kebab-case, globally unique — the namespace for the public `/c/[id]` URL. */
+  id: string;
+  kind: CredentialKind;
+  title: string;
+  subtitle?: string;
+  requires: CredentialRequirement;
+}
+
+/**
+ * A learning **Program** — the catalog primitive (HANDOFF §19). Groups one or more
+ * Courses under a shared identity and credential(s). The platform (VillaAula) stays
+ * topic-agnostic; a Program (e.g. "English, A1→C2") is where the subject-matter voice
+ * lives. A single-course program is valid (its UI collapses straight into the course).
+ * File-backed today, like Course/Resource; maps cleanly to Postgres rows under §18.I.
+ * Course↔Program is many-to-many — a course slug may appear in several programs.
+ */
+export interface Program {
+  /** Stable kebab slug — the `/programs/[slug]` route. */
+  slug: string;
+  title: string;
+  /** Program-voice tagline (the subject line, e.g. "English that finally clicks"). */
+  tagline: string;
+  /** Longer blurb for the program dashboard. */
+  summary: string;
+  kind: ProgramKind;
+  /** Category slug this program belongs to (e.g. "languages"). */
+  category: string;
+  /** The courses in this program, in recommended order. */
+  courses: ProgramCourseRef[];
+  /** How this program dresses up the generic "Course", e.g. ESL → "Level". Default "Course". */
+  courseNoun?: string;
+  /** Hand-authored certificates (milestones + capstone). Course badges are derived. */
+  certificates?: Credential[];
+}
+
+/**
+ * A cross-cutting Category/Topic (Languages · Cloud & Certs · Career) — separate from
+ * Programs, used to group them on the catalog. Phase A seeds just one ("Languages").
+ */
+export interface Category {
+  /** Stable kebab slug — keys the future `/topics/[tag]` browse. */
+  slug: string;
+  title: string;
+  /** Optional one-liner for the category section header. */
+  blurb?: string;
+}
+
 export interface Unit {
   id: string;
   slug: string;

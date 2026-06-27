@@ -4,13 +4,15 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { courses } from "@/content/catalog";
 import { resources } from "@/content/resources";
+import { programs, categories } from "@/content/programs";
 import {
   validateCatalog,
   validateAudioFiles,
   validateResources,
   validateDeepDiveLinks,
+  validatePrograms,
 } from "@/content/validate";
-import type { Course, Resource } from "@/lib/types";
+import type { Category, Course, Program, Resource } from "@/lib/types";
 
 const publicDir = fileURLToPath(new URL("../../public", import.meta.url));
 
@@ -49,6 +51,87 @@ describe("real content", () => {
   it("has every course Deep-Dive reference resolving to a resource", () => {
     const issues = validateDeepDiveLinks(courses, resources);
     expect(issues, JSON.stringify(issues, null, 2)).toEqual([]);
+  });
+
+  it("has a valid program catalog (HANDOFF §19)", () => {
+    const issues = validatePrograms(programs, categories, courses);
+    expect(issues, JSON.stringify(issues, null, 2)).toEqual([]);
+  });
+});
+
+describe("validatePrograms catches problems", () => {
+  const cats: Category[] = [{ slug: "languages", title: "Languages" }];
+  const program = (over: Partial<Program>): Program => ({
+    slug: "p",
+    title: "P",
+    tagline: "t",
+    summary: "s",
+    kind: "ladder",
+    category: "languages",
+    courses: [{ slug: "1", status: "active" }],
+    ...over,
+  });
+  const course1: Course = {
+    id: "1",
+    slug: "1",
+    level: 1,
+    title: "One",
+    intro: "",
+    acceptsGuests: true,
+    units: [],
+  };
+
+  it("accepts a well-formed single program", () => {
+    expect(validatePrograms([program({})], cats, [course1])).toEqual([]);
+  });
+
+  it("flags an unknown category", () => {
+    const issues = validatePrograms([program({ category: "ghost" })], cats, [course1]);
+    expect(issues.some((i) => /category "ghost"/.test(i.message))).toBe(true);
+  });
+
+  it("flags an 'active' course slot with no authored course", () => {
+    const issues = validatePrograms(
+      [program({ courses: [{ slug: "99", status: "active" }] })],
+      cats,
+      [course1],
+    );
+    expect(issues.some((i) => /"active" but no authored course/.test(i.message))).toBe(true);
+  });
+
+  it("flags a 'soon' course slot missing its title", () => {
+    const issues = validatePrograms(
+      [program({ courses: [{ slug: "1", status: "active" }, { slug: "2", status: "soon" }] })],
+      cats,
+      [course1],
+    );
+    expect(issues.some((i) => /"soon" course needs a title/.test(i.message))).toBe(true);
+  });
+
+  it("flags a certificate requiring a course no program declares", () => {
+    const issues = validatePrograms(
+      [
+        program({
+          certificates: [
+            {
+              id: "p-cap",
+              kind: "certificate",
+              title: "Cap",
+              requires: { type: "courses", courseSlugs: ["1", "ghost"] },
+            },
+          ],
+        }),
+      ],
+      cats,
+      [course1],
+    );
+    expect(issues.some((i) => /requires course "ghost"/.test(i.message))).toBe(true);
+  });
+
+  it("flags an authored course that isn't in any program", () => {
+    const orphan: Course = { ...course1, id: "2", slug: "2", title: "Two" };
+    const issues = validatePrograms([program({})], cats, [course1, orphan]);
+    expect(issues.some((i) => /authored course "2" isn't in any program/.test(i.message))).toBe(true);
   });
 });
 
