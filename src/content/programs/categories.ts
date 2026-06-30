@@ -21,4 +21,9 @@ export const categories: Category[] = [
     title: "Career",
     blurb: "Practical, job-ready skills — build something you can actually use.",
   },
+  {
+    slug: "professional-english",
+    title: "Professional English",
+    blurb: "English for your profession — the way the job actually demands it. Explanations in EN/ES; the English stays English.",
+  },
 ];

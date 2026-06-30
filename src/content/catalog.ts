@@ -3,7 +3,10 @@ import { level1 } from "@/content/level1";
 import { level2 } from "@/content/level2";
 import { level3 } from "@/content/level3";
 import { level4 } from "@/content/level4";
+import { level5 } from "@/content/level5";
+import { level6 } from "@/content/level6";
 import { linkedin } from "@/content/linkedin";
+import { englishForArchitects } from "@/content/english-for-architects";
 import { lessonReferencedSlugs } from "@/content/links";
 import { getResource } from "@/content/resources";
 
@@ -16,7 +19,16 @@ import { getResource } from "@/content/resources";
  * all render from that program layer now — see HANDOFF §19.
  */
 
-export const courses: Course[] = [level1, level2, level3, level4, linkedin];
+export const courses: Course[] = [
+  level1,
+  level2,
+  level3,
+  level4,
+  level5,
+  level6,
+  linkedin,
+  englishForArchitects,
+];
 
 const courseBySlug = new Map(courses.map((c) => [c.slug, c]));
 

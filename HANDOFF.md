@@ -23,7 +23,38 @@
 - **Owner context:** This is one of Carlos's **personal** projects (like HolIA/Atina,
   MUSAI, Cátedra). It is **not** Creai work and **not** an official UACH project. Keep
   those worlds separate (see his `user_identity` memory).
-- **Status (2026-06-27, latest first — full log in §2):**
+- **Status (2026-06-28, latest first — full log in §2):**
+  - ✅ **ESL C1/C2 SHIPPED + AUTHORING PIPELINE DOC (Session 18, 2026-06-28).** Three things: (1) wrote
+    **`AUTHORING_GUIDE.md`** — a self-contained, model-agnostic workflow so *any* AI/agent (Codex 5.5, etc.)
+    can author a course end-to-end (data model, ID scheme, the green gate, audio pipeline, bilingual rules,
+    §9 copyright, the C1/C2 four-skills pattern + an 11-line checklist). (2) **Built Levels 5 (C1) & 6 (C2)**
+    — the English ladder is now **content-complete A1→C2**. Each = **6 theme units × 4 lessons (24 lessons)**
+    that cycle **reading · listening · speaking · writing** (the CURRICULA_C1_C2 contract), note panel renamed
+    to **"Language note — the nuance"** via `noteLabel`, grammarNote+grammarNoteEs on all 48 lessons, a 12-Q
+    final (pass 9), conclusion + diploma each. **L5 = "Saying It Well"** (register · media literacy · persuasion
+    · idiom · argument · narrative); **L6 = "The Fine Print"** (precision · implicature · rhetoric · specialized
+    registers · spontaneous fluency · an integrated capstone). Generated **12 new edge-tts listening clips**
+    (1/unit). Flipped both english.ts rungs `soon`→`active`; the **Proficiency (C1–C2)** + **A1–C2 Capstone**
+    certs are now earnable. Green: tsc + eslint + **91 tests** (1 known-local auth fail) + `next build` (18
+    static pages); runtime-smoked `/course/5`, `/course/6`, lessons (audio src + Language-note panel), finals,
+    `/programs/english` (now **0 "soon"** rungs). (3) **Proposed → (Carlos approved) → shipped "English for
+    Architects"** — the first **Professional English** course (next bullet / `PROFESSIONAL_ENGLISH_PROPOSAL.md`).
+  - ✅ **"English for Architects" PROPOSED → APPROVED → SHIPPED in one loop (Session 18).** Carlos approved the
+    professional-English proposal with three tweaks (all 8 units now · simple name "English for Architects" ·
+    ESL-bilingual: only the explanation notes flip to Spanish, exercises stay English). Built it: a new
+    **"Professional English"** category (4th catalog shelf) + a single-course **collection** program
+    (`programs/english-for-architects.ts`, certificate-only) + **`content/english-for-architects.ts`** — an
+    **ESP** course (assumes ~B1/B2), **8 units × 4 lessons (32 lessons)** cycling read·listen·speak·write
+    across the real project arc: **Concept & Parti · The Crit · The Client · Drawings & Documents · Coordination
+    · On Site · Sustainability & Standards · The Story of the Project.** Note panel = **"Pro tip — how it's said
+    in English"**; **monolingual English content + `grammarNoteEs`** so only the explanation toggles to Spanish
+    (key terms stay English — `bilingual:true` deliberately NOT set, verified at runtime: prompts stay English,
+    no global content-lang toggle). 8 new listening clips, 8 speaking, 8 draft-compare building a take-away
+    **"Portfolio Pack"** (design statement · client email · RFI · minutes · rationale · project description),
+    12-Q final (pass 9), conclusion + certificate. Green: tsc + eslint + **91 tests** + `next build` (19 static
+    pages, `/programs/english-for-architects`); smoked `/course/architects` + lessons + final/conclusion + home
+    (new category card). See `PROFESSIONAL_ENGLISH_PROPOSAL.md` (now marked shipped). **The series can grow** —
+    drop English-for-Engineers/Doctors course files into the same category.
   - 🗺️ **§21 NEXT-PROGRAMS PLAN — PROGRAMS/CARDS CREATED, COURSES NOT (Session 17, 2026-06-27).**
     Planning session (no course content). Stood up the **cards/shells** for the next three courses and
     wrote the authoring contract in **`CURRICULA_C1_C2_AWS_SAA.md`** (+ new **§21**). (1) **ESL C1/C2**:
@@ -208,6 +239,65 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
 ---
 
 ## 2. STATUS LOG (newest first — UPDATE EVERY SESSION)
+
+### 2026-06-28 — Session 18 (ESL C1/C2 shipped · authoring pipeline doc · pro-English proposal)
+Autonomous `/loop` with three asks: (1) make a course-authoring pipeline any AI/agent can follow, (2)
+actually build Levels 5 & 6, (3) draft a professional-English series proposal and **stop for approval**.
+- ✅ **`AUTHORING_GUIDE.md` (new) — the model-agnostic course-authoring workflow.** Self-contained: the
+  60-second mental model, the authoring loop, §9 copyright rule, the three lesson shapes (grammar-spine /
+  theme-four-skills / decision-scenario), the canonical ID scheme, a `Course`-file anatomy with every
+  question-type config, the edge-tts audio pipeline, bilingual rules, the two registration files, the green
+  gate, and an 11-line paste-in checklist. Linked from README + HANDOFF. Written so Codex 5.5 (or any model)
+  can author a course without a human untangling it after.
+- ✅ **Levels 5 (C1) & 6 (C2) authored — English is now content-complete A1→C2.** Followed the
+  CURRICULA_C1_C2 contract + the guide's §3.B: **6 theme units × 4 lessons each (24 lessons/level)** rotating
+  **reading · listening · speaking · writing**; the note panel is now **"Language note — the nuance"**
+  (`noteLabel`); every lesson has grammarNote **and** grammarNoteEs; 12-Q final (pass 9) + conclusion +
+  diploma each.
+  - **L5 "Saying It Well"** (`content/level5.ts`): Register & Tone · News & Media · Work & Persuasion ·
+    Idioms & Figurative Language · Argument & Debate · Narrative & Description. 6 speaking, 6 draft-compare,
+    6 listening clips.
+  - **L6 "The Fine Print"** (`content/level6.ts`): Precision & Concision · Implicature & Subtext · Rhetoric
+    & Persuasion · Specialized Registers · Spontaneous Fluency · an integrated **Capstone** (read→summarise,
+    lecture→notes, synthesise, essay). 6 speaking, 6 draft-compare, 6 listening clips.
+  - **12 new edge-tts MP3s** (1 listening clip per unit) added to `tools/generate_audio.py` CLIPS and
+    generated into `public/audio/` (`c5u*l2-a1`, `c6u*l2-a1`).
+  - Wired: both into `catalog.ts` `courses`; flipped `english.ts` rungs 5 & 6 `soon`→`active` (dropped the
+    stub titles — active rungs borrow the Course title). The **English · Proficiency (C1–C2)** and **A1–C2
+    Capstone** certs are now earnable; `programBadges` auto-derives badges for L5 & L6.
+- 🧪 **Green gate clean:** tsc + eslint + **91 tests** (the 1 "fail" is the known local-only auth-env test —
+  green in CI) + `next build` (18 static pages; `/course/[slug]` dynamic). Runtime-smoked on a fresh dev
+  server (cleared `.next` first): `/course/5` + `/course/6` (titles + units), a reading lesson, a listening
+  lesson (audio `<source src="/audio/c5u2l2-a1.mp3">` + **Language-note** panel), both finals + conclusions,
+  and `/programs/english` (now **0 "soon"** rungs — full A1→C2 ladder live). New audio serves 200.
+- ✅ **Professional-English proposal → APPROVED in-loop → BUILT: "English for Architects".** Wrote
+  `PROFESSIONAL_ENGLISH_PROPOSAL.md` (name options, who/why, full syllabus, the "more than vocabulary"
+  enrichment plan) and asked. Carlos approved with three tweaks — **all 8 units**, **simple name "English for
+  Architects"**, **ESL-bilingual** (explanations toggle to Spanish; exercises stay English) — so I built it:
+  - **New category** "Professional English" (4th shelf: Languages · Career · Cloud & Certs · Professional
+    English) in `programs/categories.ts`; **single-course collection program** `programs/english-for-architects.ts`
+    (certificate `english-for-architects-professional`, no per-course badges per §19.3).
+  - **`content/english-for-architects.ts`** — an **ESP** course (assumes ~B1/B2, `level:1`, slug `architects`):
+    **8 units × 4 lessons = 32 lessons** rotating read·listen·speak·write across the project arc (Concept & Parti ·
+    The Crit · The Client · Drawings & Documents · Coordination · On Site · Sustainability & Standards · The Story
+    of the Project). noteLabel **"Pro tip — how it's said in English"**; 8 speaking, 8 draft-compare (the take-away
+    **Portfolio Pack**), 8 listening clips (`efau*l2-a1`), 12-Q final (pass 9), conclusion + certificate.
+  - **The ESL-bilingual decision (Carlos's exact ask):** the course is **monolingual English content** (`bilingual`
+    NOT set) + **`grammarNoteEs` on every lesson**, so the EN/ES toggle flips ONLY the explanation note to Spanish
+    while keeping grammar/keywords (RFI, parti, snagging, LEED…) in English. Runtime-verified: Spanish note payload
+    present, EN/ES note toggle present, **prompts stay English**, **no global content-lang toggle** (count 0).
+  - **§9:** all prose original; industry terms verbatim. Wired into `catalog.ts` + `programs/index.ts`.
+  - Green: tsc + eslint + **91 tests** (same 1 known-local auth fail) + `next build` (**19 static pages**,
+    `/programs/english-for-architects` prerendered). Smoked `/course/architects`, lessons (audio + Pro-tip note),
+    final, conclusion, and the home page (new **Professional English** category card). Generated only the 8 new
+    `efau*` MP3s (no re-encoding of existing clips).
+- ⚠️ **Audio side-effect from the L5/L6 step:** regenerating the full CLIPS list re-encoded **5 existing** clips
+  with byte-different-but-identical audio (`c2u2l3, c2u3l3, c3u1l2, c4u2l3, u3-l2`). Harmless;
+  `git checkout` those 5 paths if a minimal diff is wanted. (The architects clips were generated individually to
+  avoid repeating this.)
+- **NEXT:** §20 LinkedIn Phase 2 (needs DB) · the AWS-SAA course content (cards exist, content doesn't) · grow the
+  **Professional English** series (English for Engineers/Doctors…) with `AUTHORING_GUIDE.md` · Carlos's Replit
+  go-live (§17). English is content-complete A1→C2 **and** now has its first professional/ESP course.
 
 ### 2026-06-27 — Session 16 (LinkedIn program — §20 Phase 1 SHIPPED)
 Autonomous `/loop "continue the HANDOFF"`. Built **all of §20 Phase 1** — VillaAula's **second

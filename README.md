@@ -17,7 +17,14 @@ transcription.
 > data — no DB needed.
 
 > Personal project of Carlos Villa. See **`HANDOFF.md`** for the full design,
-> status log, and decisions — it is the source of truth.
+> status log, and decisions — it is the source of truth. To **author a new course**
+> (any AI/agent can follow it end-to-end), read **`AUTHORING_GUIDE.md`**.
+
+The **English** program is a complete CEFR ladder, **Levels 1–6 (A1→C2)**. Levels 1–4
+ride a grammar spine; Levels 5–6 (C1/C2) are theme-based units that cycle the four
+skills (reading · listening · speaking · writing). The catalog also carries
+**Professional English** — *English for Architects*, an ESP course where the exercises
+stay in English and only the explanation notes toggle to Spanish.
 
 Each lesson's grammar note has an **EN / ES toggle** (the explanation in Spanish,
 with grammar terms and examples kept in English). **Deep Dives** are standalone,
@@ -38,7 +45,7 @@ turn on accounts, persisted grades, and the admin dashboard.
 
 ```bash
 npm run lint       # eslint
-npm test           # vitest (76 tests)
+npm test           # vitest (91 tests; 1 known local-only auth-env fail)
 npm run build      # production build
 ```
 
