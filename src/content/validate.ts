@@ -30,6 +30,7 @@ import type {
   Resource,
   Program,
   Category,
+  Wiki,
 } from "@/lib/types";
 import { localizedNonEmpty, t } from "@/lib/i18n";
 import { extractLearnSlugs, lessonReferencedSlugs } from "@/content/links";
@@ -208,33 +209,70 @@ export function validateCatalog(courses: Course[]): ValidationIssue[] {
 }
 
 /**
- * Deep Dives integrity (HANDOFF §18.J): unique resource slugs, required fields,
- * and every `related` / inline `/learn/<slug>` link resolves (dead-link guard).
+ * Wiki integrity (HANDOFF §18.J → §22): unique page slugs, required fields, a real
+ * wiki to belong to, well-formed tables, and every `related` / inline link resolves
+ * (dead-link guard). A page must carry a body, tables, or both — never nothing.
  */
-export function validateResources(resources: Resource[]): ValidationIssue[] {
+export function validateResources(
+  resources: Resource[],
+  wikis: Wiki[] = [],
+): ValidationIssue[] {
   const issues: ValidationIssue[] = [];
   const seen = new Set<string>();
   const slugSet = new Set(resources.map((r) => r.slug));
+  const wikiSet = new Set(wikis.map((w) => w.slug));
+
   for (const r of resources) {
     const where = `resource ${r.slug}`;
-    if (seen.has(r.slug)) {
-      issues.push({ course: "learn", where, message: `duplicate resource slug "${r.slug}"` });
-    }
+    const add = (message: string) => issues.push({ course: "wiki", where, message });
+
+    if (seen.has(r.slug)) add(`duplicate resource slug "${r.slug}"`);
     seen.add(r.slug);
-    if (!nonEmpty(r.title)) issues.push({ course: "learn", where, message: "resource has no title" });
-    if (!nonEmpty(r.summary)) issues.push({ course: "learn", where, message: "resource has no summary" });
-    if (!nonEmpty(r.body)) issues.push({ course: "learn", where, message: "resource has no body" });
-    for (const rel of r.related ?? []) {
-      if (!slugSet.has(rel)) {
-        issues.push({ course: "learn", where, message: `related "${rel}" has no matching resource` });
+
+    if (!nonEmpty(r.title)) add("resource has no title");
+    if (!nonEmpty(r.summary)) add("resource has no summary");
+    if (!nonEmpty(r.body) && !(r.tables && r.tables.length > 0)) {
+      add("resource has neither a body nor any tables");
+    }
+    if (!nonEmpty(r.wiki)) add("resource has no wiki");
+    else if (wikiSet.size > 0 && !wikiSet.has(r.wiki)) {
+      add(`wiki "${r.wiki}" is not a registered wiki`);
+    }
+
+    for (const [i, table] of (r.tables ?? []).entries()) {
+      const t = `table ${i + 1} ("${table.title || "untitled"}")`;
+      if (!nonEmpty(table.title)) add(`${t} has no title`);
+      if (table.columns.length === 0) add(`${t} has no columns`);
+      if (table.rows.length === 0) add(`${t} has no rows`);
+      // A ragged row silently drops cells at render time — catch it here instead.
+      for (const [j, row] of table.rows.entries()) {
+        if (row.length !== table.columns.length) {
+          add(
+            `${t} row ${j + 1} has ${row.length} cells, expected ${table.columns.length}`,
+          );
+        }
       }
     }
-    for (const s of extractLearnSlugs(r.body)) {
-      if (!slugSet.has(s)) {
-        issues.push({ course: "learn", where, message: `body links to /learn/${s}, which doesn't exist` });
-      }
+
+    for (const rel of r.related ?? []) {
+      if (!slugSet.has(rel)) add(`related "${rel}" has no matching resource`);
+    }
+    for (const s of extractLearnSlugs(r.body ?? "")) {
+      if (!slugSet.has(s)) add(`body links to "${s}", which doesn't exist`);
     }
   }
+
+  // A wiki with no pages would render an empty index — usually a forgotten registration.
+  for (const w of wikis) {
+    if (!resources.some((r) => r.wiki === w.slug)) {
+      issues.push({
+        course: "wiki",
+        where: `wiki ${w.slug}`,
+        message: `wiki "${w.slug}" has no pages`,
+      });
+    }
+  }
+
   return issues;
 }
 
@@ -254,7 +292,7 @@ export function validateDeepDiveLinks(
         const where = `unit ${unit.slug} / lesson ${lesson.slug}`;
         for (const s of lessonReferencedSlugs(lesson)) {
           if (!slugSet.has(s)) {
-            issues.push({ course: course.slug, where, message: `Deep-Dive link "/learn/${s}" has no resource` });
+            issues.push({ course: course.slug, where, message: `wiki link "/learn/${s}" has no resource` });
           }
         }
       }

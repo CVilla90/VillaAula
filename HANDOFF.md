@@ -240,6 +240,80 @@ and questions. (Authoring UI is built *after* the learner runtime — see §3.)
 
 ## 2. STATUS LOG (newest first — UPDATE EVERY SESSION)
 
+### 2026-07-13 — Session 19 (2 bug fixes proven · the shared WIKI §22 · AI-Coding program §23 · LinkedIn de-jargoned · a local DB at last)
+Carlos brought a 7-item queue (2 bugs he hit live + 5 builds). All 7 shipped. Green gate: tsc + eslint +
+**100 tests** (99 pass; the 1 "fail" is the known local-only auth-env test) + `next build` (**39 static
+pages**). Everything below was **verified at runtime**, not just built.
+
+- 🐛 **#1 — SPEAKING WAS BROKEN BECAUSE THE MODEL CAN'T HEAR. Root-caused + fixed + proven.**
+  `lib/ai/gemini.ts` called **`gemini-3.1-flash-lite`** (copied from SUSAI, which only ever sends it
+  *text*). **The lite tiers cannot take audio input at all**: probing the live API, every audio request
+  returned **500 INTERNAL** on 3.1-flash-lite, in *every* container (webm/mp3/ogg/wav/mp4) and through
+  *every* path (SDK, raw REST, Files API) — while text on the same model answered fine. **Our recording
+  code was never the problem.** Swapped to **`gemini-3.5-flash`** (verified audio-capable: it transcribed
+  webm/opus, mp3, ogg and mp4) + a **retry/fallback** chain (`gemini-2.5-flash` second — free-tier audio
+  503s are real and frequent) + **`thinkingLevel: LOW`** (transcription needs no reasoning; measured
+  **58s → 24s**) + a **`silent`** result so an empty/mic-dead clip asks for a re-record instead of being
+  graded wrong. **Proof:** POSTed a real edge-tts `webm/opus` clip of *"Good morning!"* to the live route
+  → `{"transcription":"Good morning","correct":true}` **HTTP 200**. Steady-state latency 6–26s (free-tier
+  variance; the "Listening…" spinner covers it). ⚠️ **Never point this at a `-lite` model again.**
+- 🐛 **#2 — the unanswerable match question.** `MatchInput` de-duped the right-hand options **and** locked
+  an option once another row took it. Correct for a **one-to-one** match (`I→me`), **fatal** for a
+  **classification** match (`apple→countable`, `sandwich→countable`): 3 rows, 2 options → a row that can
+  never be filled → Check never enables → **the lesson could not be completed.** Fixed by making
+  exclusivity conditional on the question actually *being* one-to-one (`isOneToOneMatch` /
+  `matchOptions` / `isMatchOptionLocked`, now pure + shared by the component and the tests).
+  **Exactly two questions in the whole catalog were affected** — `c2u2l3-q2` (the countable/uncountable
+  lesson Carlos hit) **and `c2-final-q10`, in the Level 2 FINAL TEST**, so the L2 diploma was
+  unobtainable too. **Proof:** drove the real lesson in a browser — "countable" stays selectable for
+  *sandwich* after *apple* takes it, Check enables, answer grades ✓ Correct. New `content/match.test.ts`
+  (4 tests) locks the rule + asserts every match question in the catalog is completable.
+- 📚 **#3 + #4 — THE WIKI (new §22).** Deep Dives generalized into a **Wiki shared by a universe of
+  related courses**. New `Wiki` type + `content/wikis.ts`; `Resource` gains **`wiki`** (which universe),
+  **`section`**, and **`tables: GrammarTable[]`** — real, scrollable, phone-survivable `<table>`s, not
+  ASCII art. `Program.wiki` points a program at one, and **several programs may share it**: the English
+  ladder **and** English for Architects both read the `english` wiki, so a page written for Level 2 is
+  one click from an architect's course. Routes **`/wiki/[wiki]`** (index, grouped by section) +
+  **`/wiki/[wiki]/[slug]`**; **`/learn` and `/learn/:slug` 308-redirect** (content keeps authoring the
+  short `[label](/learn/slug)` form — 80 grammar notes untouched; RichText also accepts explicit
+  `/wiki/<wiki>/<slug>` links, which is what non-English wikis use).
+  - **12 new grammar pages, table-first** (Carlos's student asked for these): **verb-forms** (the four
+    columns — base · he/she/it · past · **past participle** · **-ing**, regular + 32 irregulars + a
+    Spanish gloss column), **verb-tenses** (all 12, formula + example + use), **pronouns** (the full
+    5-column grid), **to-be-forms**, **modal-verbs**, **countable-uncountable** (+ the quantifier grid —
+    the very topic of bug #2), **articles**, **plurals**, **comparatives**, **adjective-order**,
+    **prepositions**, **question-words**, **conditionals**. Entry points: a **wiki card on every course
+    page** (its own pages highlighted + "Browse all →"), the Go-deeper chips, and inline keyword links.
+  - Validator extended: a page must have a body **or** tables, must belong to a **registered** wiki, and
+    **ragged table rows fail the build**. (It immediately caught a dead `related` link and an empty wiki.)
+- 🤖 **#7 — the AI CODING program (new §23) — the second universe, which is what proves §22.**
+  New **"AI & Coding"** category + `programs/ai-coding.ts` (collection) with **two courses**:
+  **`claude-code`** ("Claude Code, from zero") and **`codex`** ("Codex, from zero"). Both **Unit 1 only**
+  (Carlos's scope: what it is · a little background story · install · basic prompts & common commands),
+  3 lessons each, **bilingual EN/ES** with **commands/flags/filenames left in English** (they're what you
+  literally type). Deliberately parallel so the learner *notices* the ideas transfer. They **share the
+  `ai-coding` wiki** (5 pages: what-is-an-ai-coding-agent · terminal-basics · prompting-habits ·
+  claude-code-commands · codex-commands). Written for someone who has barely used a terminal.
+- 🧹 **#6 — LinkedIn de-jargoned.** Carlos: *"it feels complex and very programmer oriented."* It was —
+  React/Node/SQL/SEO/B2B SaaS/HubSpot/CSAT, and "ATS" used as if everyone knows it. Rewrote every worked
+  example around **ordinary jobs** (a baker, a receptionist, a hair stylist, a cook, a shop assistant) and
+  replaced the acronyms with plain words (*"a computer reads your profile before any human does"*). The
+  file header now states the audience rule: **if an example needs a tech job to make sense, it's the wrong
+  example.**
+- 🔑 **#5 — the Google button was never missing.** `AuthForm` has always rendered it; `authConfigured()`
+  requires **`DATABASE_URL` AND `AUTH_SECRET`**, and `DATABASE_URL` was commented out — so the whole auth
+  UI fell back to "Accounts are coming soon." **OAuth genuinely cannot work without a DB** (nowhere to put
+  the user). So the fix was to *get a database*: **`npm run db:dev`** (new) runs **PGlite** — Postgres
+  compiled to WASM — behind a real Postgres wire socket, so **no Docker, no install, no Neon account**.
+  With it up: `npm run db:push`, and **the "Continue with Google" button renders** and `/api/auth/google`
+  **307s to Google with the right client_id, callback and CSRF state** (both verified). This finally
+  unblocks the five sessions of *"DB-backed, untested live"* — and §20 LinkedIn Phase 2, which needs a DB.
+  ⚠️ `.env` now has `DATABASE_URL` **uncommented** → **`npm run db:dev` must be running** or the app errors
+  instead of falling back to guest mode. Comment it out to go back to guest mode.
+- **NEXT:** Carlos's Replit go-live (§17) is still the only thing gating real-account testing. Then: more
+  units for the two AI-coding courses (only Unit 1 exists) · §20 LinkedIn Phase 2 (now unblocked by
+  `db:dev`) · more wiki pages · the AWS-SAA course content (cards exist, content doesn't).
+
 ### 2026-06-28 — Session 18 (ESL C1/C2 shipped · authoring pipeline doc · pro-English proposal)
 Autonomous `/loop` with three asks: (1) make a course-authoring pipeline any AI/agent can follow, (2)
 actually build Levels 5 & 6, (3) draft a professional-English series proposal and **stop for approval**.

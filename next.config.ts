@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
     return [
       { source: "/level/:path*", destination: "/course/:path*", permanent: true },
       { source: "/levels", destination: "/programs/english", permanent: true },
+      // Deep Dives became the shared Wiki (HANDOFF §22). Every page that existed under
+      // /learn belongs to the `english` wiki, and content still authors links as
+      // `[label](/learn/slug)` — short, and wiki-agnostic — so these keep working.
+      { source: "/learn", destination: "/wiki/english", permanent: true },
+      { source: "/learn/:slug", destination: "/wiki/english/:slug", permanent: true },
     ];
   },
 };

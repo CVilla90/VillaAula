@@ -6,6 +6,8 @@ export const toBe: Resource = {
   title: "The verb to be, in depth",
   summary:
     "Why this one little verb shows up everywhere — and how to use it without thinking.",
+  wiki: "english",
+  section: "Verbs",
   level: 1,
   tags: ["verbs", "basics"],
   related: ["present-continuous"],

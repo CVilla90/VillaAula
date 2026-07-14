@@ -48,3 +48,6 @@ next-env.d.ts
 
 # audio generation venv (throwaway; see tools/generate_audio.py)
 tools/.ttsenv/
+
+# local dev Postgres (PGlite — see tools/dev-db.mjs). Throwaway data.
+.pgdata/

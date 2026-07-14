@@ -10,6 +10,7 @@ import { englishProgram } from "./english";
 import { linkedinProgram } from "./linkedin";
 import { awsSaaProgram } from "./aws-saa";
 import { englishForArchitectsProgram } from "./english-for-architects";
+import { aiCodingProgram } from "./ai-coding";
 import { categories } from "./categories";
 
 /**
@@ -23,6 +24,7 @@ export const programs: Program[] = [
   linkedinProgram,
   awsSaaProgram,
   englishForArchitectsProgram,
+  aiCodingProgram,
 ];
 
 export { categories };

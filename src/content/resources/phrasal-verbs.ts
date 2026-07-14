@@ -6,6 +6,8 @@ export const phrasalVerbs: Resource = {
   title: "Phrasal verbs, in depth",
   summary:
     "Verb + particle combos whose meaning you can't always guess — and how to tame them.",
+  wiki: "english",
+  section: "Verbs",
   level: 4,
   tags: ["vocabulary", "verbs"],
   related: [],

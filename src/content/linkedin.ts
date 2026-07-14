@@ -8,6 +8,14 @@ import type { Course } from "@/lib/types";
  * the mock LinkedIn snippets the learner evaluates stay in English (you practice the
  * real artifact — an English-first profile — which is the ESL crossover §20 wants).
  *
+ * ⚠️ **Audience (rewritten 2026-07-13 on Carlos's feedback — the course "felt complex and
+ * very programmer oriented").** It is now written for someone who has **barely used a
+ * computer**: the worked examples are a baker, a receptionist, a hair stylist, a shop
+ * assistant — not a React developer. The jargon is gone (no ATS / SEO / B2B SaaS / SQL);
+ * where a real concept was hiding behind an acronym it's explained in plain words instead
+ * ("ATS" → *"a computer reads your profile before any human does"*). Keep it that way:
+ * **if an example needs a tech job to make sense, it's the wrong example.**
+ *
  * §9 copyright: every snippet card here is **our own mock example text**, not copied
  * from LinkedIn's product, help docs, or UI. We teach *about* the platform.
  *
@@ -21,9 +29,9 @@ export const linkedin: Course = {
   level: 1,
   title: "LinkedIn: Zero to Job-Ready",
   intro:
-    "Most profiles are a wasted first impression. This course fixes that — step by step, in short exercises — until you have a profile recruiters and their software both take seriously, a network that opens doors, and messages that actually get replies. Use the EN/ES switch any time.",
+    "You don't need to be “good with computers” for this. LinkedIn is just a place where you write down what you can do, so that people looking for someone like you can find you. This course walks you through it in small steps — what to write, why it works, and how to ask for what you want — until you have a profile that gets you found and taken seriously. Use the EN/ES switch any time.",
   introEs:
-    "La mayoría de los perfiles desperdician la primera impresión. Este curso lo arregla — paso a paso, en ejercicios cortos — hasta que tengas un perfil que tomen en serio tanto los reclutadores como sus sistemas, una red que abra puertas y mensajes que de verdad reciban respuesta. Usa el botón EN/ES cuando quieras.",
+    "No necesitas ser “bueno con las computadoras” para esto. LinkedIn es simplemente un lugar donde escribes lo que sabes hacer, para que la gente que busca a alguien como tú pueda encontrarte. Este curso te lleva paso a paso — qué escribir, por qué funciona, y cómo pedir lo que quieres — hasta que tengas un perfil que haga que te encuentren y te tomen en serio. Usa el botón EN/ES cuando quieras.",
   acceptsGuests: true,
   bilingual: true,
   noteLabel: "Key idea — the why",
@@ -43,20 +51,22 @@ export const linkedin: Course = {
           title: "What LinkedIn is for",
           topic: "two readers · one goal",
           grammarNote: [
-            "Your profile has **two readers**, and you write for both:",
+            "Two very different readers look at your profile, and you have to satisfy both.",
             "",
-            "- **Software (ATS & LinkedIn search)** scans for *keywords* — job titles, skills, tools. No keywords, no results.",
-            "- **People (recruiters & hiring managers)** skim for *signal* — clear value, real impact, a reason to reply.",
+            "**First: a computer.** Nobody reads every profile by hand. When a company needs a cook, someone types *cook* into a search box, and the computer shows only the profiles that contain that word. **If the word isn't on your profile, you are invisible.** The computer is not clever about it — it looks for the word, and that's all.",
             "",
-            "So the goal isn't \"look impressive.\" It's **be found, then be believed.** Every choice in this course serves one of those two.",
+            "**Then: a person.** Once you show up in the list, a human glances at you for a few seconds and decides whether to click. They're not counting your words — they're asking *\"does this person sound like they can do the job?\"*",
+            "",
+            "So your profile has one job, in two steps: **be found, then be believed.** Everything in this course serves one of those two.",
           ].join("\n"),
           grammarNoteEs: [
-            "Tu perfil tiene **dos lectores**, y escribes para ambos:",
+            "Dos lectores muy distintos miran tu perfil, y tienes que dejar contentos a los dos.",
             "",
-            "- **El software (ATS y la búsqueda de LinkedIn)** rastrea *palabras clave* — puestos, habilidades, herramientas. Sin palabras clave, no apareces.",
-            "- **Las personas (reclutadores y managers)** leen por encima buscando *señales* — valor claro, impacto real, una razón para responder.",
+            "**Primero: una computadora.** Nadie lee todos los perfiles a mano. Cuando una empresa necesita un cocinero, alguien escribe *cocinero* en un buscador, y la computadora muestra sólo los perfiles que tienen esa palabra. **Si la palabra no está en tu perfil, eres invisible.** La computadora no es lista: busca la palabra, y ya.",
             "",
-            "Así que la meta no es \"verse impresionante\". Es **que te encuentren y luego te crean.** Cada decisión de este curso sirve a uno de esos dos lectores.",
+            "**Después: una persona.** Una vez que apareces en la lista, un humano te mira unos segundos y decide si te abre. No está contando tus palabras — se está preguntando *\"¿esta persona suena como que puede hacer el trabajo?\"*",
+            "",
+            "Así que tu perfil tiene un trabajo, en dos pasos: **que te encuentren y luego que te crean.** Todo en este curso sirve a uno de esos dos.",
           ].join("\n"),
           exercise: {
             id: "li-u1-l1-ex",
@@ -68,8 +78,8 @@ export const linkedin: Course = {
                   id: "li-u1-q1",
                   type: "multiple_choice",
                   prompt: {
-                    en: "A recruiter searches \"React developer\" and your profile never says \"React\" — only \"front-end engineer.\" What happens?",
-                    es: "Un reclutador busca \"React developer\" y tu perfil nunca dice \"React\", solo \"front-end engineer\". ¿Qué pasa?",
+                    en: "A restaurant is hiring and searches for \"cook.\" Your profile says \"kitchen professional\" but never the word \"cook.\" What happens?",
+                    es: "Un restaurante está contratando y busca \"cocinero\". Tu perfil dice \"profesional de cocina\" pero nunca la palabra \"cocinero\". ¿Qué pasa?",
                   },
                   points: 1,
                   config: {
@@ -84,23 +94,23 @@ export const linkedin: Course = {
                       {
                         id: "b",
                         text: {
-                          en: "LinkedIn guesses you mean React and shows you anyway",
-                          es: "LinkedIn adivina que te refieres a React y te muestra igual",
+                          en: "The computer understands you mean the same thing and shows you anyway",
+                          es: "La computadora entiende que es lo mismo y te muestra de todos modos",
                         },
                       },
                       {
                         id: "c",
                         text: {
-                          en: "You appear, but lower down",
-                          es: "Apareces, pero más abajo",
+                          en: "You appear, but lower down the list",
+                          es: "Apareces, pero más abajo en la lista",
                         },
                       },
                     ],
                     correctIds: ["a"],
                   },
                   explanation: {
-                    en: "Search matches the words you actually wrote. If the keyword isn't on your profile, you're invisible for it — name your tools explicitly.",
-                    es: "La búsqueda coincide con las palabras que realmente escribiste. Si la palabra clave no está en tu perfil, eres invisible para esa búsqueda — nombra tus herramientas de forma explícita.",
+                    en: "The search looks for the exact word. \"Kitchen professional\" may sound nicer, but nobody searches for it. **Use the plain word people actually search for** — cook, driver, nurse, cashier, teacher.",
+                    es: "La búsqueda busca la palabra exacta. \"Profesional de cocina\" puede sonar más elegante, pero nadie busca eso. **Usa la palabra sencilla que la gente realmente busca** — cocinero, chofer, enfermera, cajera, maestro.",
                   },
                 },
               },
@@ -174,8 +184,8 @@ export const linkedin: Course = {
                     es: "Tarjeta de ejemplo — dos titulares",
                   },
                   body: {
-                    en: "**A.** `Aspiring Software Developer | Looking for opportunities`\n\n**B.** `Junior Software Developer · I build clean, tested web apps in React & Node · open to junior roles`",
-                    es: "*(El titular real va en inglés — abajo, en cursiva, lo que dice.)*\n\n**A.** `Aspiring Software Developer | Looking for opportunities`\n*Aspirante a desarrollador de software · «en busca de oportunidades».*\n\n**B.** `Junior Software Developer · I build clean, tested web apps in React & Node · open to junior roles`\n*Desarrollador junior · creo apps web limpias y probadas en React & Node · abierto a puestos junior.*",
+                    en: "**A.** `Aspiring baker | Looking for opportunities`\n\n**B.** `Baker · 6 years of breads and pastries · I open the shop at 4am and it has never opened late · looking for a bakery that cares about quality`",
+                    es: "*(El titular real va en inglés — abajo, en cursiva, lo que dice.)*\n\n**A.** `Aspiring baker | Looking for opportunities`\n*Aspirante a panadero · «en busca de oportunidades».*\n\n**B.** `Baker · 6 years of breads and pastries · I open the shop at 4am and it has never opened late · looking for a bakery that cares about quality`\n*Panadero · 6 años de panes y repostería · abro la tienda a las 4am y nunca ha abierto tarde · busco una panadería que cuide la calidad.*",
                   },
                 },
               },
@@ -194,8 +204,8 @@ export const linkedin: Course = {
                       {
                         id: "a",
                         text: {
-                          en: "It names concrete skills (React, Node) and the value, so it's searchable and specific",
-                          es: "Nombra habilidades concretas (React, Node) y el valor, así que es buscable y específico",
+                          en: "It says the job (baker), and gives one small true detail that proves it",
+                          es: "Dice el trabajo (baker) y da un detalle real y pequeño que lo demuestra",
                         },
                       },
                       {
@@ -213,8 +223,8 @@ export const linkedin: Course = {
                     correctIds: ["a"],
                   },
                   explanation: {
-                    en: "\"Aspiring\" and \"looking for opportunities\" say what you *don't* have yet. B names tools (keywords) and the value you create — found *and* believed.",
-                    es: "\"Aspiring\" y \"looking for opportunities\" dicen lo que *aún no* tienes. B nombra herramientas (palabras clave) y el valor que creas — te encuentran *y* te creen.",
+                    en: "**A** says what you *don't* have yet. **B** says the job word the computer searches for (*baker*), and then one small, true, specific thing — *\"it has never opened late\"* — that a person believes. Found, then believed.",
+                    es: "**A** dice lo que *aún no* tienes. **B** dice la palabra del oficio que la computadora busca (*baker*), y luego una cosa pequeña, real y específica — *\"nunca ha abierto tarde\"* — que una persona sí se cree. Que te encuentren, y luego que te crean.",
                   },
                 },
               },
@@ -224,18 +234,18 @@ export const linkedin: Course = {
                   id: "li-u2-q2",
                   type: "draft_compare",
                   prompt: {
-                    en: "Your turn — draft your own headline. Role + what you do/for whom + a tool or proof word.",
-                    es: "Tu turno — redacta tu propio titular. Rol + qué haces / para quién + una herramienta o palabra de prueba.",
+                    en: "Your turn — write your own headline. Three parts: the job word · what you do well · what you're looking for.",
+                    es: "Tu turno — escribe tu propio titular. Tres partes: la palabra del oficio · qué haces bien · qué estás buscando.",
                   },
                   config: {
                     charLimit: 120,
                     placeholder: {
-                      en: "e.g. Data Analyst · I turn messy spreadsheets into clear decisions · SQL, Python",
-                      es: "ej. Data Analyst · I turn messy spreadsheets into clear decisions · SQL, Python",
+                      en: "e.g. Receptionist · I remember every client's name · looking for a busy clinic",
+                      es: "ej. Receptionist · I remember every client's name · looking for a busy clinic",
                     },
                     model: {
-                      en: "`UX Designer · I design calm, usable flows for fintech apps · Figma, user research · open to mid-level roles`\n\nNotice: a role, a specific value (\"calm, usable flows\"), a domain (fintech), tools (Figma), and a clear ask.",
-                      es: "`UX Designer · I design calm, usable flows for fintech apps · Figma, user research · open to mid-level roles`\n\n*Traducción:* `UX Designer · diseño flujos claros y usables para apps fintech · Figma, user research · abierto a puestos intermedios`.\n\nFíjate: un rol, un valor específico («flujos claros y usables»), un dominio (fintech), herramientas (Figma) y una petición clara. Las herramientas (**Figma**, **React**…) y los términos técnicos se quedan en inglés.",
+                      en: "`Hair stylist · 8 years · colour is my specialty and my clients come back · looking for a salon in the city centre`\n\nNotice how ordinary it is. There's no clever word in it. It just says: **what I am** (the word someone will search for), **one true thing that proves I'm good**, and **what I want next**. That's the whole formula.",
+                      es: "`Hair stylist · 8 years · colour is my specialty and my clients come back · looking for a salon in the city centre`\n\n*Traducción:* `Estilista · 8 años · el color es mi especialidad y mis clientas regresan · busco un salón en el centro`.\n\nFíjate en lo ordinario que es. No hay ni una palabra rebuscada. Sólo dice: **qué soy** (la palabra que alguien va a buscar), **una cosa real que prueba que soy bueno**, y **qué quiero ahora**. Esa es toda la fórmula.",
                     },
                     checklist: [
                       {
@@ -345,15 +355,15 @@ export const linkedin: Course = {
                       },
                       {
                         left: {
-                          en: "“Tools: HubSpot, SQL, Google Ads.”",
-                          es: "«Herramientas: HubSpot, SQL, Google Ads.»",
+                          en: "“Reception, appointments, Excel, customer service.”",
+                          es: "«Recepción, citas, Excel, atención al cliente.»",
                         },
                         right: { en: "Keywords", es: "Palabras clave" },
                       },
                       {
                         left: {
-                          en: "“Open to growth-marketing roles — DM me.”",
-                          es: "«Abierto a puestos de growth-marketing — escríbeme por DM.»",
+                          en: "“Looking for reception work — send me a message.”",
+                          es: "«Busco trabajo de recepción — mándame un mensaje.»",
                         },
                         right: { en: "Ask", es: "Petición" },
                       },
@@ -462,23 +472,23 @@ export const linkedin: Course = {
                       {
                         id: "b",
                         text: {
-                          en: "Handled customer support",
-                          es: "Me encargué del soporte al cliente",
+                          en: "Handled customer service",
+                          es: "Me encargué de la atención al cliente",
                         },
                       },
                       {
                         id: "c",
                         text: {
-                          en: "Resolved 40+ support tickets a day and raised CSAT from 78% to 91%",
-                          es: "Resolví más de 40 tickets de soporte al día y subí el CSAT de 78% a 91%",
+                          en: "Served 100+ customers a day, and complaints dropped from 5 a week to almost none",
+                          es: "Atendí a más de 100 clientes al día, y las quejas bajaron de 5 por semana a casi ninguna",
                         },
                       },
                     ],
                     correctIds: ["c"],
                   },
                   explanation: {
-                    en: "C leads with an action and proves impact with two numbers. A and B only describe a duty.",
-                    es: "C empieza con una acción y prueba el impacto con dos números. A y B solo describen una función.",
+                    en: "C starts with what you *did* and proves it with a number. A and B just name a duty — anyone could have written them.",
+                    es: "C empieza con lo que *hiciste* y lo prueba con un número. A y B sólo nombran una función — cualquiera pudo haberlas escrito.",
                   },
                 },
               },
@@ -817,8 +827,8 @@ export const linkedin: Course = {
                     es: "Tarjeta de ejemplo — extracto de una vacante",
                   },
                   body: {
-                    en: "*“We're hiring a Content Marketer. You'll own our SEO blog, run our email newsletter, and report on traffic in Google Analytics. Must have strong writing and 2+ years in B2B SaaS.”*",
-                    es: "*«Buscamos un Content Marketer. Te encargarás de nuestro blog de SEO, llevarás el email newsletter y reportarás el tráfico en Google Analytics. Imprescindible buena redacción y más de 2 años en B2B SaaS.»*\n\n*(Las habilidades y herramientas — SEO, Google Analytics, B2B SaaS — se dejan en inglés: son las palabras clave que tu perfil debe reflejar.)*",
+                    en: "*“We're hiring a **receptionist** for a dental clinic. You'll book **appointments**, welcome patients, answer the phone, and keep the schedule in **Excel**. We need someone friendly, organised, and calm when the waiting room is full. **Customer service** experience preferred.”*",
+                    es: "*«Buscamos **recepcionista** para una clínica dental. Agendarás **citas**, recibirás a los pacientes, contestarás el teléfono y llevarás la agenda en **Excel**. Necesitamos a alguien amable, organizado y tranquilo cuando la sala de espera está llena. Preferible experiencia en **atención al cliente**.»*\n\n*(Las palabras marcadas son las que la computadora va a buscar.)*",
                   },
                 },
               },
@@ -828,27 +838,39 @@ export const linkedin: Course = {
                   id: "li-u7-q1",
                   type: "multiple_choice",
                   prompt: {
-                    en: "Which set of keywords from this post should you make sure appears (truthfully) on your profile?",
-                    es: "¿Qué conjunto de palabras clave de esta vacante deberías asegurarte de que aparezca (con honestidad) en tu perfil?",
+                    en: "Which words from this job post should you make sure appear (truthfully!) on your profile?",
+                    es: "¿Qué palabras de esta vacante deberías asegurarte de que aparezcan (¡con honestidad!) en tu perfil?",
                   },
                   points: 1,
                   config: {
                     options: [
-                      { id: "a", text: "SEO blog, email newsletter, Google Analytics, B2B SaaS" },
+                      {
+                        id: "a",
+                        text: {
+                          en: "receptionist, appointments, Excel, customer service",
+                          es: "receptionist, appointments, Excel, customer service",
+                        },
+                      },
                       {
                         id: "b",
-                        text: { en: "“We're hiring”, “you'll own”", es: "“We're hiring”, “you'll own”" },
+                        text: {
+                          en: "“We're hiring”, “we need someone”",
+                          es: "“Buscamos”, “necesitamos a alguien”",
+                        },
                       },
                       {
                         id: "c",
-                        text: { en: "strong, must, years", es: "strong, must, years" },
+                        text: {
+                          en: "friendly, organised, calm",
+                          es: "amable, organizado, tranquilo",
+                        },
                       },
                     ],
                     correctIds: ["a"],
                   },
                   explanation: {
-                    en: "Skills and tools (SEO, Google Analytics, B2B SaaS) are what search and ATS match on. Echo the real ones you have.",
-                    es: "Las habilidades y herramientas (SEO, Google Analytics, B2B SaaS) son lo que la búsqueda y el ATS comparan. Refleja las reales que tengas.",
+                    en: "The **job words and tools** are what the computer searches for. (Option C is tempting — but *everybody* writes \"friendly and organised,\" so it proves nothing and nobody searches for it. Show those qualities with a story instead.)",
+                    es: "Las **palabras del oficio y las herramientas** son las que busca la computadora. (La opción C es tentadora — pero *todo el mundo* escribe \"amable y organizado\", así que no prueba nada y nadie lo busca. Esas cualidades se demuestran con una historia.)",
                   },
                 },
               },
@@ -1060,14 +1082,14 @@ export const linkedin: Course = {
             id: "li-final-q2",
             type: "true_false",
             prompt: {
-              en: "If “SQL” isn't written anywhere on your profile, you can still show up for a recruiter's “SQL” search.",
-              es: "Si “SQL” no está escrito en ninguna parte de tu perfil, igual puedes aparecer en la búsqueda de “SQL” de un reclutador.",
+              en: "If the word “Excel” isn't written anywhere on your profile, you can still show up when someone searches for “Excel.”",
+              es: "Si la palabra “Excel” no está escrita en ninguna parte de tu perfil, igual puedes aparecer cuando alguien busque “Excel”.",
             },
             points: 1,
             config: { correct: false },
             explanation: {
-              en: "Search matches the words on your profile. No keyword, no result.",
-              es: "La búsqueda coincide con las palabras de tu perfil. Sin palabra clave, no hay resultado.",
+              en: "The search only finds words that are actually there. No word, no result — so write down the ordinary things you can really do.",
+              es: "La búsqueda sólo encuentra palabras que están realmente ahí. Sin la palabra, no hay resultado — así que escribe las cosas comunes que de verdad sabes hacer.",
             },
           },
         },
@@ -1230,8 +1252,8 @@ export const linkedin: Course = {
               correctIds: ["a"],
             },
             explanation: {
-              en: "Skills and tools are what search and ATS match on — echo the real ones.",
-              es: "Las habilidades y herramientas son lo que la búsqueda y el ATS comparan — refleja las reales.",
+              en: "The job words and tools are what the computer searches for — use the real ones you have.",
+              es: "Las palabras del oficio y las herramientas son lo que busca la computadora — usa las que de verdad tengas.",
             },
           },
         },

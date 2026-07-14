@@ -8,24 +8,28 @@ function allText(value: LocalizedText | undefined): string[] {
 }
 
 /**
- * Pull every `/learn/<slug>` target out of the `[label](/learn/slug)` links in a
- * markdown string. Shared by the catalog (backlinks), the validator (dead-link
- * guard), and RichText. Kept dependency-free (type-only import) so it's cheap to
- * import anywhere.
+ * Pull every wiki-page slug out of the internal links in a markdown string — both
+ * `[label](/learn/slug)` (the short form the English content uses) and
+ * `[label](/wiki/<wiki>/slug)` (an explicit page in a named wiki, HANDOFF §22).
+ * Only the final slug is returned, since page slugs are globally unique.
+ *
+ * Shared by the catalog (backlinks), the validator (dead-link guard), and RichText.
+ * Kept dependency-free (type-only import) so it's cheap to import anywhere.
  */
-const LEARN_LINK_RE = /\[[^\]]+\]\(\/learn\/([a-z0-9-]+)\)/g;
+const LEARN_LINK_RE =
+  /\[[^\]]+\]\((?:\/learn\/([a-z0-9-]+)|\/wiki\/[a-z0-9-]+\/([a-z0-9-]+))\)/g;
 
 export function extractLearnSlugs(text: string): string[] {
   const out: string[] = [];
   let m: RegExpExecArray | null;
   LEARN_LINK_RE.lastIndex = 0;
-  while ((m = LEARN_LINK_RE.exec(text)) !== null) out.push(m[1]);
+  while ((m = LEARN_LINK_RE.exec(text)) !== null) out.push(m[1] ?? m[2]);
   return out;
 }
 
 /**
- * Every Deep-Dive slug a lesson references — its `deepDives` list plus any inline
- * `/learn/<slug>` links in the grammar notes (EN + ES) or reading bodies.
+ * Every wiki-page slug a lesson references — its `deepDives` list plus any inline
+ * links in the grammar notes (EN + ES) or reading bodies.
  */
 export function lessonReferencedSlugs(lesson: Lesson): string[] {
   const slugs = new Set<string>(lesson.deepDives ?? []);

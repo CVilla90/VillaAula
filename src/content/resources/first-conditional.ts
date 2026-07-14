@@ -6,6 +6,8 @@ export const firstConditional: Resource = {
   title: "First conditional, in depth",
   summary:
     "Talking about a real, likely future: if + present simple, will + base verb.",
+  wiki: "english",
+  section: "Sentence building",
   level: 3,
   tags: ["conditionals", "future"],
   related: ["present-perfect"],

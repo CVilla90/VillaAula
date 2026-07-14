@@ -4,6 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { courses } from "@/content/catalog";
 import { resources } from "@/content/resources";
+import { wikis } from "@/content/wikis";
 import { programs, categories } from "@/content/programs";
 import {
   validateCatalog,
@@ -43,9 +44,17 @@ describe("real content", () => {
     expect(missing, JSON.stringify(missing, null, 2)).toEqual([]);
   });
 
-  it("has structurally valid Deep Dives with no dead links", () => {
-    const issues = validateResources(resources);
+  it("has a structurally valid wiki with no dead links (HANDOFF §22)", () => {
+    const issues = validateResources(resources, wikis);
     expect(issues, JSON.stringify(issues, null, 2)).toEqual([]);
+  });
+
+  it("gives every program a wiki its courses can share", () => {
+    // A program may legitimately have no wiki; but if it names one, it must exist.
+    const dangling = programs
+      .filter((p) => p.wiki && !wikis.some((w) => w.slug === p.wiki))
+      .map((p) => `${p.slug} → ${p.wiki}`);
+    expect(dangling, JSON.stringify(dangling)).toEqual([]);
   });
 
   it("has every course Deep-Dive reference resolving to a resource", () => {
@@ -140,6 +149,7 @@ describe("validateResources & validateDeepDiveLinks catch problems", () => {
     slug: "x",
     title: "X",
     summary: "s",
+    wiki: "w",
     body: "b",
     ...over,
   });
@@ -158,7 +168,30 @@ describe("validateResources & validateDeepDiveLinks catch problems", () => {
     const issues = validateResources([
       dive({ body: "see [this](/learn/ghost)" }),
     ]);
-    expect(issues.some((i) => /\/learn\/ghost/.test(i.message))).toBe(true);
+    expect(issues.some((i) => /"ghost", which doesn't exist/.test(i.message))).toBe(true);
+  });
+
+  it("flags a page that belongs to no registered wiki", () => {
+    const issues = validateResources([dive({ wiki: "ghost-wiki" })], [
+      { slug: "w", title: "W", tagline: "t", summary: "s" },
+    ]);
+    expect(issues.some((i) => /not a registered wiki/.test(i.message))).toBe(true);
+  });
+
+  it("flags a page with neither body nor tables", () => {
+    const issues = validateResources([dive({ body: undefined })]);
+    expect(issues.some((i) => /neither a body nor any tables/.test(i.message))).toBe(true);
+  });
+
+  it("flags a ragged table row", () => {
+    const issues = validateResources([
+      dive({
+        tables: [
+          { title: "T", columns: ["a", "b"], rows: [["1", "2"], ["1"]] },
+        ],
+      }),
+    ]);
+    expect(issues.some((i) => /row 2 has 1 cells, expected 2/.test(i.message))).toBe(true);
   });
 
   it("flags a lesson deepDive pointing at a missing resource", () => {

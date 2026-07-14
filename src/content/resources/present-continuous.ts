@@ -6,6 +6,8 @@ export const presentContinuous: Resource = {
   title: "Present continuous, in depth",
   summary:
     "The 'happening now' tense: be + verb-ing, plus the spelling rules that trip people up.",
+  wiki: "english",
+  section: "Tenses",
   level: 2,
   tags: ["tenses", "present"],
   related: ["to-be", "present-perfect"],

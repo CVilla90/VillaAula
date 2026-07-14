@@ -7,6 +7,8 @@ import { level5 } from "@/content/level5";
 import { level6 } from "@/content/level6";
 import { linkedin } from "@/content/linkedin";
 import { englishForArchitects } from "@/content/english-for-architects";
+import { claudeCode } from "@/content/claude-code";
+import { codex } from "@/content/codex";
 import { lessonReferencedSlugs } from "@/content/links";
 import { getResource } from "@/content/resources";
 
@@ -28,6 +30,8 @@ export const courses: Course[] = [
   level6,
   linkedin,
   englishForArchitects,
+  claudeCode,
+  codex,
 ];
 
 const courseBySlug = new Map(courses.map((c) => [c.slug, c]));

@@ -2,6 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { courseDeepDives, getCourse } from "@/content/catalog";
 import { programForCourse } from "@/content/programs";
+import { resourceHref } from "@/content/resources";
+import { getWiki } from "@/content/wikis";
 import Syllabus from "@/components/Syllabus";
 import SaveProgressNudge from "@/components/auth/SaveProgressNudge";
 
@@ -17,6 +19,9 @@ export default async function CoursePage({
   const dives = courseDeepDives(course);
   const program = programForCourse(course.slug);
   const courseNoun = program?.courseNoun ?? "Level";
+  // The wiki this course's universe shares (HANDOFF §22) — the course's own pages are
+  // highlighted, but the whole wiki is one click away from every course that shares it.
+  const wiki = program?.wiki ? getWiki(program.wiki) : undefined;
 
   return (
     <main className="mx-auto max-w-2xl px-5 py-10">
@@ -36,42 +41,71 @@ export default async function CoursePage({
       <SaveProgressNudge />
       <Syllabus course={course} />
 
-      {dives.length > 0 && (
+      {wiki && (
         <section className="mt-12">
           <div className="flex items-baseline justify-between gap-3">
             <h2 className="font-display text-lg font-extrabold text-ink">
-              Deep Dives
+              {wiki.noun ?? "Reference"} wiki
             </h2>
-            <span className="font-mono text-[11px] uppercase tracking-wide text-muted">
-              Go deeper on this level
-            </span>
+            <Link
+              href={`/wiki/${wiki.slug}`}
+              className="font-mono text-[11px] uppercase tracking-wide text-coral transition hover:text-coral-deep"
+            >
+              Browse all →
+            </Link>
           </div>
           <p className="mt-1 text-sm text-muted">
-            In-depth explainers for the topics in this level — read anytime, nothing
-            graded.
+            {dives.length > 0
+              ? `The pages behind this ${courseNoun.toLowerCase()} — plus every table in the wiki, shared across the whole program. Read anytime, nothing graded.`
+              : `${wiki.summary}`}
           </p>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            {dives.map((d) => (
-              <Link
-                key={d.slug}
-                href={`/learn/${d.slug}`}
-                className="group flex flex-col rounded-2xl border border-line bg-paper p-4 transition hover:-translate-y-0.5 hover:border-coral/30 hover:shadow-lg hover:shadow-coral/5"
-              >
-                <h3 className="font-display text-base font-bold text-ink">
-                  {d.title}
-                </h3>
-                <p className="mt-1 text-sm leading-relaxed text-muted">
-                  {d.summary}
-                </p>
-                <span className="mt-3 inline-flex items-center gap-1 text-sm font-bold text-coral">
-                  Read{" "}
-                  <span className="transition-transform group-hover:translate-x-0.5">
-                    →
+
+          {dives.length > 0 && (
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              {dives.map((d) => (
+                <Link
+                  key={d.slug}
+                  href={resourceHref(d.slug)}
+                  className="group flex flex-col rounded-2xl border border-line bg-paper p-4 transition hover:-translate-y-0.5 hover:border-coral/30 hover:shadow-lg hover:shadow-coral/5"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <h3 className="font-display text-base font-bold text-ink">
+                      {d.title}
+                    </h3>
+                    {d.tables && d.tables.length > 0 && (
+                      <span className="mt-0.5 shrink-0 rounded-full bg-teal/10 px-2 py-0.5 font-mono text-[10px] font-bold uppercase text-teal">
+                        Table
+                      </span>
+                    )}
+                  </div>
+                  <p className="mt-1 text-sm leading-relaxed text-muted">{d.summary}</p>
+                  <span className="mt-3 inline-flex items-center gap-1 text-sm font-bold text-coral">
+                    Read{" "}
+                    <span className="transition-transform group-hover:translate-x-0.5">
+                      →
+                    </span>
                   </span>
-                </span>
-              </Link>
-            ))}
-          </div>
+                </Link>
+              ))}
+            </div>
+          )}
+
+          <Link
+            href={`/wiki/${wiki.slug}`}
+            className="mt-4 flex items-center justify-between gap-4 rounded-2xl border border-dashed border-coral/40 bg-coral/5 px-5 py-4 transition hover:border-coral hover:bg-coral/10"
+          >
+            <span>
+              <span className="font-display text-base font-bold text-ink">
+                {wiki.title}
+              </span>
+              <span className="mt-0.5 block text-sm text-muted">
+                {wiki.tagline} Verb forms, pronouns, tenses — every table in one place.
+              </span>
+            </span>
+            <span aria-hidden className="text-lg font-bold text-coral">
+              →
+            </span>
+          </Link>
         </section>
       )}
     </main>

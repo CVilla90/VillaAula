@@ -6,6 +6,8 @@ export const presentPerfect: Resource = {
   title: "Present perfect, in depth",
   summary:
     "The tense that links the past to now — experiences, results, and how it differs from the simple past.",
+  wiki: "english",
+  section: "Tenses",
   level: 3,
   tags: ["tenses", "past"],
   related: ["present-continuous", "first-conditional"],

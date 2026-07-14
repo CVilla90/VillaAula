@@ -12,6 +12,8 @@ interface AnalyzeResult {
   transcription: string;
   correct: boolean;
   feedback: string;
+  /** Nothing intelligible was heard — a mic problem, not a wrong answer. */
+  silent?: boolean;
 }
 
 function mmss(total: number): string {
@@ -71,6 +73,13 @@ export default function SpeakingQuestion({
       }
       if (!res.ok) throw new Error("analyze failed");
       const data = (await res.json()) as AnalyzeResult;
+      // A silent clip is a microphone problem, not a wrong answer — don't grade it.
+      if (data.silent) {
+        setError("We couldn’t hear anything — check your microphone and record again.");
+        setPhase("ready");
+        reset();
+        return;
+      }
       setResult(data);
       setPhase("result");
       report(data.correct);

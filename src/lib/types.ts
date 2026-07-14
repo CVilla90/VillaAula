@@ -159,26 +159,76 @@ export interface Lesson {
 }
 
 /**
- * A Deep Dive — a standalone, reusable topic explainer (HANDOFF §18.J). Lives in
- * `src/content/resources/`, surfaced at `/learn` and `/learn/[slug]`, and linked
- * from courses via a lesson's `deepDives` or inline `[label](/learn/slug)` links.
- * Guest-readable reference (not graded), so no login gate. §9 copyright applies:
- * original wording, no copied book content.
+ * A reference table — the "just show me the forms" artifact learners keep asking for
+ * (verb forms, pronouns, tenses…). Deliberately plain data, not markdown, so it can be
+ * rendered as a real, scrollable, accessible `<table>` instead of ASCII art. Cell text
+ * goes through the same inline formatter as everything else, so **bold** / `code` work.
+ */
+export interface GrammarTable {
+  title: string;
+  /** One line of context above the table. */
+  caption?: string;
+  columns: string[];
+  /** Each row must have exactly `columns.length` cells (the validator enforces it). */
+  rows: string[][];
+  /** A short "watch out" note under the table. */
+  note?: string;
+}
+
+/**
+ * A wiki page — a standalone, reusable reference article (HANDOFF §18.J "Deep Dives",
+ * generalized in §22 into the shared **Wiki**). Lives in `src/content/resources/`,
+ * surfaced at `/wiki/[wiki]` and `/wiki/[wiki]/[slug]`, and linked from courses via a
+ * lesson's `deepDives` or inline `[label](/learn/slug)` links. Guest-readable reference
+ * (not graded), so no login gate. §9 copyright applies: original wording only.
+ *
+ * A page carries prose (`body`), tables (`tables`), or both — an explainer, a cheat
+ * sheet, or an explainer *with* the cheat sheet at the end.
  */
 export interface Resource {
   /** Globally unique, stable, kebab-case (e.g. "present-perfect"). The URL slug. */
   slug: string;
   title: string;
-  /** One-line teaser shown on the /learn index and link previews. */
+  /** One-line teaser shown on the wiki index and link previews. */
   summary: string;
+  /**
+   * Which wiki this page belongs to (`Wiki.slug`) — the universe of related courses
+   * that share it. Every course in a program with the same `wiki` links to these pages.
+   */
+  wiki: string;
+  /** Section heading within the wiki index, e.g. "Verbs" or "Pronouns & determiners". */
+  section?: string;
   /** Rich markdown body (longer than a grammarNote). May use [label](/learn/slug) links. */
-  body: string;
-  /** Roughly which level the topic belongs to, for grouping on the index. */
+  body?: string;
+  /** Reference tables, rendered after the body. */
+  tables?: GrammarTable[];
+  /** Roughly which course level the topic belongs to, for ordering within a section. */
   level?: number;
   /** Free-form topic tags for grouping/filtering. */
   tags?: string[];
-  /** Slugs of related dives, shown as "Related" links. */
+  /** Slugs of related pages, shown as "Related" links. */
   related?: string[];
+}
+
+/**
+ * A **Wiki** — one shared reference space for a *universe* of related courses (HANDOFF
+ * §22). The English ladder (Levels 1–6) and English for Architects are different courses
+ * in different programs, but they teach the same language, so they share one grammar
+ * wiki: a page written once is reachable from every course that touches the topic.
+ *
+ * A `Program` points at a wiki by slug; several programs may point at the same one.
+ */
+export interface Wiki {
+  /** Stable kebab slug — the `/wiki/[slug]` route. */
+  slug: string;
+  title: string;
+  /** The subject-line, e.g. "Every rule, in one place." */
+  tagline: string;
+  summary: string;
+  /** Section order on the index. Sections not listed here fall to the end, alphabetically. */
+  sections?: string[];
+  /** How the wiki calls its pages ("Grammar", "Reference"). Default "Reference". */
+  noun?: string;
 }
 
 /* ----------------------- programs & credentials (HANDOFF §19) ----------------------- */
@@ -257,6 +307,12 @@ export interface Program {
   courses: ProgramCourseRef[];
   /** How this program dresses up the generic "Course", e.g. ESL → "Level". Default "Course". */
   courseNoun?: string;
+  /**
+   * The `Wiki.slug` this program's courses share (HANDOFF §22). Programs that teach the
+   * same subject point at the same wiki — that's what makes a "universe" of related
+   * courses: English A1→C2 and English for Architects both read from the `english` wiki.
+   */
+  wiki?: string;
   /** Hand-authored certificates (milestones + capstone). Course badges are derived. */
   certificates?: Credential[];
 }

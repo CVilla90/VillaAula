@@ -20,6 +20,8 @@ export const englishProgram: Program = {
   kind: "ladder",
   category: "languages",
   courseNoun: "Level",
+  // Shared with English for Architects — same language, same grammar wiki (§22).
+  wiki: "english",
   courses: [
     { slug: "1", status: "active", band: "A1", focus: "be · routines · comparisons · can" },
     { slug: "2", status: "active", band: "A2", focus: "habits · can · going to · quantity · past" },

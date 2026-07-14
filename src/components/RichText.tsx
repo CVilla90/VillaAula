@@ -3,14 +3,24 @@ import Link from "next/link";
 
 type Variant = "default" | "prompt";
 
-const LINK_RE = /^\[([^\]]+)\]\((\/learn\/[a-z0-9-]+)\)$/;
+/**
+ * Internal wiki links come in two shapes (HANDOFF §22):
+ *   [label](/learn/slug)        — the short, wiki-agnostic form the English content
+ *                                 already uses; 308-redirects to the english wiki.
+ *   [label](/wiki/ai-coding/x)  — an explicit page in a named wiki.
+ * Both render as an in-app <Link>; anything else is left as plain text (no injection).
+ */
+const INTERNAL_LINK = String.raw`\[[^\]]+\]\((?:\/learn\/[a-z0-9-]+|\/wiki\/[a-z0-9-]+\/[a-z0-9-]+)\)`;
+const LINK_RE = new RegExp(
+  String.raw`^\[([^\]]+)\]\((\/(?:learn|wiki)\/[a-z0-9-/]+)\)$`,
+);
 
 /**
  * Minimal, dependency-free inline formatter: **bold**, *italic*, `code`, `___`
- * fill-in blanks, and internal [label](/learn/slug) Deep-Dive links (HANDOFF
- * §18.J). In the "prompt" variant a **studied term** renders as a highlighted
- * chip and a blank renders as an underlined gap, so the word being taught never
- * reads as an ordinary sentence word (and the gap reads as a gap).
+ * fill-in blanks, and internal [label](/learn/slug) wiki links (HANDOFF §18.J/§22).
+ * In the "prompt" variant a **studied term** renders as a highlighted chip and a blank
+ * renders as an underlined gap, so the word being taught never reads as an ordinary
+ * sentence word (and the gap reads as a gap).
  */
 function renderInline(
   text: string,
@@ -18,8 +28,10 @@ function renderInline(
   variant: Variant = "default",
 ): React.ReactNode[] {
   const nodes: React.ReactNode[] = [];
-  const regex =
-    /(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`|\[[^\]]+\]\(\/learn\/[a-z0-9-]+\)|_{2,})/g;
+  const regex = new RegExp(
+    String.raw`(\*\*[^*]+\*\*|\*[^*]+\*|` + "`[^`]+`" + `|${INTERNAL_LINK}|_{2,})`,
+    "g",
+  );
   let last = 0;
   let m: RegExpExecArray | null;
   let i = 0;

@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import type { Course, Unit, Lesson } from "@/lib/types";
 import { lessonKey } from "@/lib/progress";
-import { getResource } from "@/content/resources";
+import { getResource, resourceHref } from "@/content/resources";
 import { useProgress } from "@/components/progress/ProgressProvider";
 import { ContentLangToggle } from "@/components/i18n/ContentLang";
 import GrammarNote from "./GrammarNote";
@@ -98,7 +98,7 @@ export default function LessonPlayer({
             return (
               <Link
                 key={slug}
-                href={`/learn/${slug}`}
+                href={resourceHref(slug)}
                 className="inline-flex items-center gap-1 rounded-full border border-coral/30 bg-coral/5 px-3 py-1 text-xs font-semibold text-coral-deep transition hover:bg-coral/10"
               >
                 {dive.title}

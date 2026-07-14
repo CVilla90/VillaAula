@@ -19,6 +19,9 @@ export const englishForArchitectsProgram: Program = {
   kind: "collection",
   category: "professional-english",
   courseNoun: "Course",
+  // The same grammar wiki as the English ladder — that's the point of a shared wiki
+  // (§22): an architect checking the past participle reads the page written for Level 2.
+  wiki: "english",
   courses: [
     {
       slug: "architects",

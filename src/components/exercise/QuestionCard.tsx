@@ -7,7 +7,12 @@ import type {
   MultipleChoiceConfig,
   MatchConfig,
 } from "@/lib/types";
-import { gradeQuestion, type QuestionResponse } from "@/lib/grading";
+import {
+  gradeQuestion,
+  isMatchOptionLocked,
+  matchOptions,
+  type QuestionResponse,
+} from "@/lib/grading";
 import { RichText } from "@/components/RichText";
 import { t, type Lang } from "@/lib/i18n";
 import { useContentLang } from "@/components/i18n/ContentLang";
@@ -337,9 +342,7 @@ function MatchInput({
     left: t(p.left, lang),
     right: t(p.right, lang),
   }));
-  // Sort the choices so they don't line up with the prompts (no positional
-  // giveaway); the sort is deterministic, so it's stable across SSR/hydration.
-  const rights = [...new Set(pairs.map((p) => p.right))].sort();
+  const rights = matchOptions(config, lang);
 
   return (
     <div className="grid gap-2">
@@ -360,18 +363,15 @@ function MatchInput({
             <option value="" disabled>
               Choose…
             </option>
-            {rights.map((r) => {
-              // Each answer can pair with only one prompt: disable a choice once
-              // another row has taken it, so a learner can't reuse it.
-              const takenElsewhere = Object.entries(value).some(
-                ([left, chosen]) => left !== p.left && chosen === r,
-              );
-              return (
-                <option key={r} value={r} disabled={takenElsewhere}>
-                  {r}
-                </option>
-              );
-            })}
+            {rights.map((r) => (
+              <option
+                key={r}
+                value={r}
+                disabled={isMatchOptionLocked(config, value, p.left, r, lang)}
+              >
+                {r}
+              </option>
+            ))}
           </select>
         </div>
       ))}

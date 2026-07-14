@@ -59,6 +59,47 @@ export function gradeMatch(
   return config.pairs.every((p) => answer[t(p.left, lang)] === t(p.right, lang));
 }
 
+/**
+ * Two shapes of match question live in the same type:
+ *
+ * - **one-to-one** (`I→me`, `he→him`) — every right label is used exactly once, so an
+ *   answer may only be chosen by one row, and locking a taken choice is a helpful hint.
+ * - **classification** (`apple→countable`, `rice→uncountable`, `sandwich→countable`) —
+ *   several rows legitimately share a right label.
+ *
+ * Telling them apart matters: locking taken choices in a classification question makes
+ * it **unanswerable** (3 rows, 2 distinct labels → a row that can never be filled), which
+ * is exactly what stranded the Level 2 countable/uncountable lesson.
+ */
+export function isOneToOneMatch(config: MatchConfig, lang: Lang = "en"): boolean {
+  const rights = config.pairs.map((p) => t(p.right, lang));
+  return new Set(rights).size === rights.length;
+}
+
+/** The distinct answers offered in each row's dropdown, sorted so they don't line up
+ *  with the prompts (and deterministically, so SSR and hydration agree). */
+export function matchOptions(config: MatchConfig, lang: Lang = "en"): string[] {
+  return [...new Set(config.pairs.map((p) => t(p.right, lang)))].sort();
+}
+
+/**
+ * Should `option` be greyed out for the row `left`, given the answers so far? Only in a
+ * one-to-one question, where another row has already claimed it. In a classification
+ * question every option stays available to every row — see `isOneToOneMatch`.
+ */
+export function isMatchOptionLocked(
+  config: MatchConfig,
+  answer: Record<string, string>,
+  left: string,
+  option: string,
+  lang: Lang = "en",
+): boolean {
+  if (!isOneToOneMatch(config, lang)) return false;
+  return Object.entries(answer).some(
+    ([otherLeft, chosen]) => otherLeft !== left && chosen === option,
+  );
+}
+
 export type QuestionResponse =
   | string // open
   | string[] // multiple_choice
